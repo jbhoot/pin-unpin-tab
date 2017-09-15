@@ -1,0 +1,8 @@
+- add keyboard command in manifest.json to run in firefox's own tabs too.
+- comment the code in content_script for now.
+- git commit
+- add readme etc
+- push and publish.
+- add options ui to customize keyboard shortcut
+- add storage api to enable actual customization
+- add double click on tab to pin
