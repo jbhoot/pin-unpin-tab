@@ -7,7 +7,7 @@ Currently, the add-on provides the following methods:
 
 ## Planned Enhancements
 
-This section lists the enhancements I have in mind. Though I am not sure if the WebExtension API supports the required capability. We will see as we go.
+This section lists the enhancements I have in mind. Though I am not sure if the WebExtension API possesses the required capabilities. We will see as we go.
 
 - Customizable keyboard shortcut. An options page to make this happen
 - Double-click on a tab (active or not) to toggle the pinned status
