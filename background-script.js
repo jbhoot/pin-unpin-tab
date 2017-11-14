@@ -16,9 +16,9 @@ function queryingActiveTabSucceeded(tabs) {
         console.log('Tabs array was somehow empty. This should not happen. There should always be one active tab. File a bug.')
         return;
     }
-  const activeTab = tabs[0];
-  var togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
-  togglingActiveTab.then(toggleSucceeded, toggleFailed)
+    const activeTab = tabs[0];
+    var togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
+    togglingActiveTab.then(toggleSucceeded, toggleFailed)
 }
 
 function queryingActiveTabFailed(error) {
