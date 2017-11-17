@@ -1,0 +1,25 @@
+{
+  "name": "pin-unpin-tab",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/jayesh-bhoot/pin-unpin-tab",
+  "author": "Fotis Koutoupas <fotis.koutoupas@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "start": "web-ext run -s dist/",
+    "start-dev-edition": "web-ext run -s dist/ -f /usr/local/Caskroom/firefoxdeveloperedition/latest/FirefoxDeveloperEdition.app/Contents/MacOS/firefox-bin"
+  },
+  "devDependencies": {
+    "babel-core": "6.20.0",
+    "babel-loader": "6.2.9",
+    "babel-plugin-transform-class-properties": "6.19.0",
+    "babel-plugin-transform-object-rest-spread": "6.20.2",
+    "babel-preset-es2015": "6.18.0",
+    "babel-preset-react": "6.16.0",
+    "babel-preset-stage-2": "6.18.0",
+    "copy-webpack-plugin": "^4.2.1",
+    "web-ext": "^2.2.2",
+    "webpack": "^3.8.1"
+  }
+}
