@@ -1,59 +1,37 @@
-const preferencesForm = document.querySelector('#preferences');
-const shortcutInput = document.querySelector('#shortcut');
-const restoreDefaultShortcutButton = document.querySelector('#restore-default-shortcut')
+import {defaultHotkey, getHotkey, serializeHotkey, setHotkey, validateHotkey} from '../hotkey'
 
-const defaultShortcut = browser.runtime.getManifest()
-    .commands.toggle_pinned_status.suggested_key.default;
+const form = document.querySelector('#options');
+const hotkeyInput = document.querySelector('#hotkey');
+const restoreDefaulthotkeyButton = document.querySelector('#restore-default-hotkey')
 
-browser.storage.local.get()
-    .then(
-        storage => {
-            shortcutInput.value = storage.shortcut || defaultShortcut;
-        },
-        console.error
-    );
+getHotkey()
+    .then(hotkey => hotkeyInput.value = hotkey)
+    .catch(console.error);
 
-shortcutInput.addEventListener('focus', event => event.target.select());
-shortcutInput.addEventListener('click', event => event.target.select());
+hotkeyInput.addEventListener('focus', event => event.target.select());
+hotkeyInput.addEventListener('click', event => event.target.select());
 
-const letterCodes = 'qwertyuiopasdfghjklzxcvbnm'.split('')
-    .map(letter => `Key${letter.toUpperCase()}`);
-const validateHotkey = event => (event.altKey || event.ctrlKey)
-    && letterCodes.some(code => code === event.code)
 
-shortcutInput.addEventListener('keydown', event => {
+hotkeyInput.addEventListener('keydown', event => {
     if (event.key === 'Tab') return;
 
     event.preventDefault();
 
     if (validateHotkey(event)) {
-        const ctrl = event.ctrlKey
-            ? 'Ctrl+'
-            : '';
-        const alt = event.altKey
-            ? 'Alt+'
-            : '';
-        event.target.value = ctrl + alt + event.code.slice(-1);
+        event.target.value = serializeHotkey(event)
     }
 });
 
-// save shortcut
-preferencesForm.addEventListener('submit', event => {
+// save hotkey
+form.addEventListener('submit', event => {
     event.preventDefault();
-    setShortcut(shortcutInput.value);
+    setHotkey(hotkeyInput.value);
 });
 
-// reset shortcut
-restoreDefaultShortcutButton.addEventListener('click', event => {
+// reset hotkey
+restoreDefaulthotkeyButton.addEventListener('click', event => {
     event.preventDefault();
-    setShortcut(defaultShortcut);
-    shortcutInput.value = defaultShortcut;
+    setHotkey(defaultHotkey);
+    hotkeyInput.value = defaultHotkey;
 })
 
-function setShortcut(shortcut) {
-    try {
-        browser.storage.local.set({shortcut});
-    } catch(e) {
-        console.error(e);
-    }
-}

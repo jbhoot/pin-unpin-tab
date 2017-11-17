@@ -35,6 +35,7 @@ browser.browserAction.onClicked.addListener(initiatePinToggle);
 
 // Event handler to listen to the keyboard shortcut configured in manifest.json.
 // This shortcut works even on Firefox Pages.
+// FIX: Find a way to listen for custom hotkey when in Firefox Pages.
 browser.commands.onCommand.addListener(function(command) {
     if (command == "toggle_pinned_status") {
         initiatePinToggle();
