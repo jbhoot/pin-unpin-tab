@@ -1,7 +1,7 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Pin Unpin Tab",
-    "version": "2.0",
+    "version": "3.0",
     "description": "Toggles pinned status of a tab through a customizable keyboard shortcut",
     "browser_action": {
         "default_icon": {
@@ -29,7 +29,7 @@
         }
     },
     "options_ui": {
-        "page": "options.html",
+        "page": "options/options.html",
         "browser_style": true
     },
     "permissions": ["storage"]

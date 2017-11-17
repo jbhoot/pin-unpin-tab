@@ -6,6 +6,8 @@ window.addEventListener("keydown", function (event) {
         return; // Do nothing if the event was already processed
     }
 
+    // TODO: read this guide to see how to migrate to webpack https://github.com/mdn/webextensions-examples/blob/master/react-es6-popup/README.md
+    // TODO: after migrating to webpack, get shortcut and compare it to string converted event code with modifiers
     if (event.key.toLowerCase() === "x" && event.altKey) {
         browser.runtime.sendMessage({toggle: true});
 

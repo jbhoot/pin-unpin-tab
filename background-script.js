@@ -41,9 +41,8 @@ browser.commands.onCommand.addListener(function(command) {
     }
 });
 
-// This listener will come in action when the custom shortcut feature is added.
-// browser.runtime.onMessage.addListener(function(event) {
-//     if (event.toggle) {
-//         initiatePinToggle();
-//     }    
-// });
+browser.runtime.onMessage.addListener(function(event) {
+    if (event.toggle) {
+        initiatePinToggle();
+    }
+});
