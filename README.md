@@ -36,6 +36,7 @@ yarn
 ```
 
 ### Develop
+To activate the `webpack` file watcher and `web-ext`, run:
 ```
 yarn dev
 ```
