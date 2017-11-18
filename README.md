@@ -44,6 +44,8 @@ yarn dev
 Start editing! 👷
 
 ### Build an unsigned release artifact
+*Make sure that you bumped the version number in `src/manifest.json` first.*
+
 ```bash
 yarn build-artifact
 # => ./releases/pin_unpin_tab-X.X-unsigned.xpi
