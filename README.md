@@ -35,11 +35,13 @@ From the directory's root, run:
 yarn
 ```
 
-### Develop
-To activate the `webpack` file watcher and `web-ext`, run:
+### Workflow
+Activate the `webpack` file watcher and `web-ext` with:
 ```
 yarn dev
 ```
+
+Start editing! 👷
 
 ## Planned Enhancements
 
