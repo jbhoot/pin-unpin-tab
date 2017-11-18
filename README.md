@@ -10,6 +10,8 @@ Currently, the add-on provides the following methods:
 ### Installation
 
 #### Firefox
+It's a prerequisite for the `web-ext` tool. [Download from the official website](https://www.mozilla.org/en-US/firefox/new/)
+or `brew cask install firefox` on Mac.
 
 #### node
 [Manually download](https://nodejs.org/en/download/) or install with a package manager such as homebrew:
