@@ -41,13 +41,14 @@ Activate the `webpack` file watcher and `web-ext` with:
 yarn dev
 ```
 
+Start editing! 👷
+
 ### Build an unsigned release artifact
 ```bash
 yarn build-artifact
 # => ./releases/pin_unpin_tab-X.X-unsigned.xpi
 ```
 
-Start editing! 👷
 
 ## Planned Enhancements
 
