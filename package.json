@@ -12,7 +12,7 @@
     "dev": "concurrently --kill-others \"npm run watch\" \"npm run start\"",
     "start-dev-edition": "web-ext run -s dist/ -f /usr/local/Caskroom/firefoxdeveloperedition/latest/FirefoxDeveloperEdition.app/Contents/MacOS/firefox-bin",
     "dev-dev-edition": "concurrently --kill-others \"npm run watch\" \"npm run start-dev-edition\"",
-    "build-artifact": "web-ext build -s dist -a releases && node tools/renameArtifact.js"
+    "build-artifact": "npm run webpack-build && web-ext build -s dist -a releases && node tools/renameArtifact.js"
   },
   "devDependencies": {
     "babel-core": "6.20.0",
