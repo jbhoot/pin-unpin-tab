@@ -17,7 +17,7 @@ function queryingActiveTabSucceeded(tabs) {
         return;
     }
     const activeTab = tabs[0];
-    var togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
+    const togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
     togglingActiveTab.then(toggleSucceeded, toggleFailed)
 }
 
@@ -26,7 +26,7 @@ function queryingActiveTabFailed(error) {
 }
 
 function initiatePinToggle() {
-    var queryingActiveTab = browser.tabs.query({currentWindow: true, active: true});
+    const queryingActiveTab = browser.tabs.query({currentWindow: true, active: true});
     queryingActiveTab.then(queryingActiveTabSucceeded, queryingActiveTabFailed);
 }
 
