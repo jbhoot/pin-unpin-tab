@@ -6,3 +6,4 @@ x git commit
 x add options ui to customize keyboard shortcut
 x add storage api to enable actual customization
 - add double click on tab to pin
+- allow participation of meta key (fe: cmd in osx) in hotkey setting
