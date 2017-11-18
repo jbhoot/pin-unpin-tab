@@ -13,32 +13,38 @@ Currently, the add-on provides the following methods:
 
 #### node
 [Manually download](https://nodejs.org/en/download/) or install with a package manager such as homebrew:
-```
+```bash
 brew install node
 ```
 
 #### yarn
 *If not on a Mac, see the [official installation instructions](https://yarnpkg.com/en/docs/install).*
-```
+```bash
 brew install yarn
 ```
 
 #### Clone repo
-```
+```bash
 git clone https://github.com/jayesh-bhoot/pin-unpin-tab
 cd pin-unpin-tab
 ```
 
 #### Package dependencies
 From the directory's root, run:
-```
+```bash
 yarn
 ```
 
 ### Workflow
 Activate the `webpack` file watcher and `web-ext` with:
-```
+```bash
 yarn dev
+```
+
+### Build an unsigned release artifact
+```bash
+yarn build-artifact
+# => ./releases/pin_unpin_tab-X.X-unsigned.xpi
 ```
 
 Start editing! 👷
