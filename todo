@@ -3,6 +3,7 @@ x comment the code in content_script for now.
 x git commit
 - add readme etc
 - push and publish.
-- add options ui to customize keyboard shortcut
-- add storage api to enable actual customization
+x add options ui to customize keyboard shortcut
+x add storage api to enable actual customization
 - add double click on tab to pin
+- allow participation of meta key (fe: cmd in osx) in hotkey setting

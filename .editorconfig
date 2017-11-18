@@ -1,0 +1,7 @@
+[*.{js,html}]
+indent_style = space
+indent_size = 4
+
+[{package.json}]
+indent_style = space
+indent_size = 4

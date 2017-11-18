@@ -16,9 +16,9 @@ function queryingActiveTabSucceeded(tabs) {
         console.log('Tabs array was somehow empty. This should not happen. There should always be one active tab. File a bug.')
         return;
     }
-  const activeTab = tabs[0];
-  var togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
-  togglingActiveTab.then(toggleSucceeded, toggleFailed)
+    const activeTab = tabs[0];
+    const togglingActiveTab = browser.tabs.update(activeTab.id, {pinned: !activeTab.pinned});
+    togglingActiveTab.then(toggleSucceeded, toggleFailed)
 }
 
 function queryingActiveTabFailed(error) {
@@ -26,7 +26,7 @@ function queryingActiveTabFailed(error) {
 }
 
 function initiatePinToggle() {
-    var queryingActiveTab = browser.tabs.query({currentWindow: true, active: true});
+    const queryingActiveTab = browser.tabs.query({currentWindow: true, active: true});
     queryingActiveTab.then(queryingActiveTabSucceeded, queryingActiveTabFailed);
 }
 
@@ -35,15 +35,15 @@ browser.browserAction.onClicked.addListener(initiatePinToggle);
 
 // Event handler to listen to the keyboard shortcut configured in manifest.json.
 // This shortcut works even on Firefox Pages.
+// FIX: Find a way to listen for custom hotkey when in Firefox Pages.
 browser.commands.onCommand.addListener(function(command) {
     if (command == "toggle_pinned_status") {
         initiatePinToggle();
     }
 });
 
-// This listener will come in action when the custom shortcut feature is added.
-// browser.runtime.onMessage.addListener(function(event) {
-//     if (event.toggle) {
-//         initiatePinToggle();
-//     }    
-// });
+browser.runtime.onMessage.addListener(function(event) {
+    if (event.toggle) {
+        initiatePinToggle();
+    }
+});
