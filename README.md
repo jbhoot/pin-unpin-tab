@@ -2,12 +2,18 @@ Pin Unpin Tab is a Firefox WebExtension that toggles the pinned status of the ac
 
 Currently, the add-on provides the following methods:
 
-- Keyboard shortcut 'Alt-P'
 - A click on the pin icon on browser toolbar
+- Keyboard shortcut 'Alt-P'
+- Long left mouse click
+    - This option can be enabled or disabled on the add-on's preferences page.
+    - The minimum duration to hold down the click can be set.
+    - This approach will not work on [AMO webpages](https://addons.mozilla.org/) and the Firefox pages (eg., about:addons)
+
 
 ## Planned Enhancements
 
 This section lists the enhancements I have in mind. Though I am not sure if the WebExtension API possesses the required capabilities. We will see as we go.
 
-- Customizable keyboard shortcut. An options page to make this happen
-- Double-click on a tab (active or not) to toggle the pinned status
+- Customizable keyboard shortcut.
+- ~~Double-click on a tab (active or not) to toggle the pinned status~~
+    - This is probably never going to be possible due to the limitations of the WebExtensions technology. Look [here](https://bugzilla.mozilla.org/show_bug.cgi?id=1246706) and [here](https://bugzilla.mozilla.org/show_bug.cgi?format=default&id=1356949).
