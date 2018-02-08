@@ -1,11 +1,11 @@
 Pin Unpin Tab is a Firefox WebExtension to pin or unpin a tab by
 
-- a click on the pin icon on browser toolbar
-- a keyboard shortcut 'Alt-P'
 - a long left mouse click anywhere on the webpage (an arguably more efficient alternative to the no longer possible double-click on tab)
     - This option can be enabled or disabled on the add-on's preferences page.
     - The minimum duration to hold down the click can be set.
     - This approach will not work on [AMO webpages](https://addons.mozilla.org/) and the Firefox pages (eg., about:addons)
+- a click on the pin icon on browser toolbar
+- a keyboard shortcut 'Alt-P'
 
 **Note that double-click on a tab (active or not) to pin/unpin is not going to be possible due to the limitations of the WebExtensions technology. Only Mozilla can fix it, not me. Look [here](https://bugzilla.mozilla.org/show_bug.cgi?id=1246706) and [here](https://bugzilla.mozilla.org/show_bug.cgi?format=default&id=1356949) for more details.**
 
