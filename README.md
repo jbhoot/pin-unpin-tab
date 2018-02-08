@@ -17,3 +17,8 @@ This section lists the enhancements I have in mind. Though I am not sure if the 
 - Customizable keyboard shortcut.
 - ~~Double-click on a tab (active or not) to toggle the pinned status~~
     - This is probably never going to be possible due to the limitations of the WebExtensions technology. Look [here](https://bugzilla.mozilla.org/show_bug.cgi?id=1246706) and [here](https://bugzilla.mozilla.org/show_bug.cgi?format=default&id=1356949).
+
+    
+## Credits
+
+Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
