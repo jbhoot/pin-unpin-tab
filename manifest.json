@@ -1,12 +1,23 @@
 {
     "manifest_version": 2,
     "name": "Pin Unpin Tab",
-    "version": "2.0",
-    "description": "Toggles pinned status of a tab through a customizable keyboard shortcut",
+    "version": "3.0",
+    "description": "Pin or unpin a tab through the toolbar icon, or a keyboard shortcut, or a left long-click anywhere on the page.",
     "browser_action": {
         "default_icon": {
-            "48": "icons/pin-48.png"
-        }
+            "48": "icons/pin-dark.svg",
+            "96": "icons/pin-dark.svg"
+        },
+        "theme_icons": [{
+            "light": "icons/pin-light.svg",
+            "dark": "icons/pin-dark.svg",
+            "size": 48
+        },
+        {
+            "light": "icons/pin-light.svg",
+            "dark": "icons/pin-dark.svg",
+            "size": 96
+        }]
     },
     "background": {
         "scripts": ["background-script.js"]
@@ -17,8 +28,14 @@
             "js": ["content-script.js"]
         }
     ],
+    "options_ui": {
+        "page": "preferences.html",
+        "browser_style": true
+    },
+    "permissions": ["storage"],
     "icons": {
-        "48": "icons/pin-48.png"
+        "48": "icons/pin-dark.svg",
+        "96": "icons/pin-dark.svg"
     },
     "commands": {
         "toggle_pinned_status": {

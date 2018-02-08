@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title> Preferences for Pin Unpin Tab </title>
+        <style>
+            #longClickToggleTime {
+                width: 5em;
+            }
+            span {
+                font-size: 1.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            <span> Check the box </span>
+            <input id='longClickToggle' type='checkbox'>
+            <span> to pin/unpin a tab when the mouse's left button is held down for </span>
+            <input id='longClickToggleTime' type='number'>
+            <span> milliseconds or more. The allowed time is between </span>
+            <span id='minLongClickToggleTimeLabel'> </span> 
+            <span> and </span>
+            <span id='maxLongClickToggleTimeLabel'> </span>
+            <span>, both inclusive. Breaching the limit will automatically use the last entered valid value. The recommended value is </span>
+            <span id='defaultLongClickToggleTimeLabel'> </span>
+            <span> . </span>
+        </p>
+        <script src='preferences.js'> </script>
+    </body>
+</html>
