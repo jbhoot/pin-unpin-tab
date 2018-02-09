@@ -17,11 +17,13 @@ function setClickEvents(longClickToggleTime) {
     window.longClickToggleTime = longClickToggleTime;
     window.addEventListener('mousedown', setLongClickTimer, true);
     window.addEventListener('mouseup', unsetLongClickTimer, true);
+    window.addEventListener('mousemove', unsetLongClickTimer, true);
 }
 
 function unsetClickEvents() {
     window.removeEventListener('mousedown', setLongClickTimer, true);
     window.removeEventListener('mouseup', unsetLongClickTimer, true);
+    window.addEventListener('mousemove', unsetLongClickTimer, true);
 }
 
 function setLongClickToggle() {
