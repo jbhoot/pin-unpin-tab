@@ -1,12 +1,33 @@
 var longClickTimer;
 
+function isItLeftClick(event) {    
+    // The event.buttons check is useful to discard simultaneous click of multiple mouse buttons.
+    // But only in the cases where the left button hasn't been clicked first.
+    
+    // There is no point in testing for event.metaKey.
+    // MDN doc (https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/metaKey)
+    // explicitly states that Firefox doesn't see Windows key as meta key.
+    // This makes sense as in Windows OS, that key is controlled by the OS.
+    // So Firefox as a cross-platform browser has to respect that behaviour.
+
+    return event.button == 0 && 
+        event.buttons == 1 &&
+        (!(event.shiftKey || event.ctrlKey || event.altKey));
+}
+
 function setLongClickTimer(event) {
-    longClickTimer = window.setTimeout(function() {
-        browser.runtime.sendMessage({toggle: true});
-    }, event.currentTarget.longClickToggleTime);
+    if (isItLeftClick(event)) {
+        longClickTimer = window.setTimeout(function() {
+            browser.runtime.sendMessage({toggle: true});
+        }, event.currentTarget.longClickToggleTime);
+    }
 }
 
 function unsetLongClickTimer (event) {
+    // Don't bother to check if isItLeftClick() here.
+    // Even if it was another click after the timer has been set,
+    // it means that user intends to carry out some multiple click operation.
+    // So, we have to clear the timeout in that case anyway.
     clearTimeout(longClickTimer);
 }
 
