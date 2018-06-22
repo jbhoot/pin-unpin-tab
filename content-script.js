@@ -1,5 +1,15 @@
 var longClickTimer;
 
+function clickedOnVerticalScrollbar(event) {
+    // solution adopted from https://stackoverflow.com/a/34805113
+    return event.clientX >= document.documentElement.offsetWidth;
+}
+
+function clickedOnHorizontalScrollbar(event) {
+    // solution adopted from https://stackoverflow.com/a/34805113
+    return event.clientY >= document.documentElement.offsetHeight;
+}
+
 function isItLeftClick(event) {    
     // The event.buttons check is useful to discard simultaneous click of multiple mouse buttons.
     // But only in the cases where the left button hasn't been clicked first.
@@ -16,11 +26,13 @@ function isItLeftClick(event) {
 }
 
 function setLongClickTimer(event) {
-    if (isItLeftClick(event)) {
-        longClickTimer = window.setTimeout(function() {
-            browser.runtime.sendMessage({toggle: true});
-        }, event.currentTarget.longClickToggleTime);
-    }
+    if (!isItLeftClick(event)) return;
+    if (clickedOnVerticalScrollbar(event)) return;
+    if (clickedOnHorizontalScrollbar(event)) return;
+    
+    longClickTimer = window.setTimeout(function() {
+        browser.runtime.sendMessage({toggle: true});
+    }, event.currentTarget.longClickToggleTime);
 }
 
 function unsetLongClickTimer (event) {

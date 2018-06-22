@@ -3,10 +3,10 @@ browser.runtime.onInstalled.addListener(function() {
     function setDefaults() {
         const defaultPreferences = {
             defaultLongClickToggle: true,
-            defaultLongClickToggleTime: 500,
+            defaultLongClickToggleTime: 600,
             longClickToggle: true,
-            longClickToggleTime: 500,
-            minLongClickToggleTime: 400,
+            longClickToggleTime: 600,
+            minLongClickToggleTime: 500,
             maxLongClickToggleTime: 1000            
         };
         
