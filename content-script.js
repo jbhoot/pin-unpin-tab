@@ -56,7 +56,7 @@ function setClickEvents(longClickToggleTime) {
 function unsetClickEvents() {
     window.removeEventListener('mousedown', setLongClickTimer, true);
     window.removeEventListener('mouseup', unsetLongClickTimer, true);
-    window.addEventListener('mousemove', unsetLongClickTimer, true);
+    window.removeEventListener('mousemove', unsetLongClickTimer, true);
 }
 
 function setLongClickToggle() {
