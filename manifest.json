@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Pin Unpin Tab",
-    "version": "3.3",
+    "version": "3.4",
     "description": "Pin or unpin a tab through the toolbar icon, or a keyboard shortcut, or a left long-click anywhere on the page.",
     "browser_action": {
         "default_icon": {
