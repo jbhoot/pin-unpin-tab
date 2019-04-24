@@ -2,7 +2,6 @@
 browser.runtime.onInstalled.addListener(function() {
     function setDefaults() {
         const defaultPreferences = {
-            defaultLongClickToggle: true,
             defaultLongClickToggleTime: 600,
             longClickToggle: true,
             longClickToggleTime: 600,
@@ -12,10 +11,12 @@ browser.runtime.onInstalled.addListener(function() {
         
         // The onInstalled event is fired even when an add-on is updated.
         // We wouldn't want to reset user preferences after an update.
-        // So heck for stored preferences first.
-        browser.storage.local.get(defaultPreferences).then(function(prefs) {
-            browser.storage.local.set(prefs);
-        });
+        // So check for stored preferences first.
+        browser.storage.local
+            .get(defaultPreferences)
+            .then(function(prefs) {
+                browser.storage.local.set(prefs);
+            });
     }
     
     setDefaults();
