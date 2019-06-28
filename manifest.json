@@ -45,5 +45,10 @@
                 "default": "Alt+P"
             }
         }
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "pin-unpin-tab@bhoot.sh"
+        }
     }
 }
