@@ -51,4 +51,13 @@ function initiatePinToggle() {
         .catch(failed);
 }
 
+// Toggle pinned status via long left mouse click
+browser.runtime.onMessage.addListener(function(event) {
+    if (event.toggle) {
+        initiatePinToggle();
+    }    
+});
+
+// Toggle pinned status via toolbar icon
+// and keyboard shortcut (which is linked to toolbar icon in manifest.json)
 browser.browserAction.onClicked.addListener(initiatePinToggle);

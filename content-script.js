@@ -1,8 +1,9 @@
 var longClickTimer;
+console.log('loading')
 
 function init() {
     setLongClickToggle();
-    browser.storage.onChanged.addListener(function (changes, areaName) {
+    browser.storage.onChanged.addListener(function (changes) {
         if (changes.longClickToggle || changes.longClickToggleTime) {
             setLongClickToggle();
         }
