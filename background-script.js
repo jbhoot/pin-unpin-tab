@@ -51,20 +51,4 @@ function initiatePinToggle() {
         .catch(failed);
 }
 
-// Toggle pinned status via the add-on icon.
 browser.browserAction.onClicked.addListener(initiatePinToggle);
-
-// Toggle pinned status via the global keyboard shortcut (which also works on Firefox Pages and on AMO).
-browser.commands.onCommand.addListener(function(command) {
-    if (command == "toggle_pinned_status") {
-        initiatePinToggle();
-    }
-});
-
-// Toggle pinned status via custom keyboard shortcut (which don't work on Firefox Pages and on AMO)
-// and via long left mouse click.
-browser.runtime.onMessage.addListener(function(event) {
-    if (event.toggle) {
-        initiatePinToggle();
-    }    
-});
