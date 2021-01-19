@@ -42,7 +42,8 @@
         "_execute_browser_action": {
             "description": "Default shortcut to toggle pinned status of the active tab",
             "suggested_key": {
-                "default": "Alt+P"
+                "default": "Alt+P",
+                "mac": "MacCtrl+Shift+P"
             }
         }
     }

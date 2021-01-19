@@ -33,7 +33,7 @@ let request_toggle after =
       Js.Unsafe.global##.browser##.runtime##sendMessage (Js.string "toggle"))
     after
 
-let cancel_request request_id =
+let cancel_toggle request_id =
   let%lwt () = Lwt.pick [
     (let%lwt _ = Lwt_js_events.mouseup Dom_html.window in
       Lwt.return (Dom_html.clearTimeout request_id));
@@ -47,7 +47,7 @@ let trigger_long_click_mechanism ev _ =
     let _ = let open Promise.Syntax in
     let* prefs = Js.Unsafe.global##.browser##.storage##.local##get Common.prefs_query in
       let request_id = request_toggle prefs##.longClickToggleTime in
-      let _ = cancel_request request_id in
+      let _ = cancel_toggle request_id in
       Promise.resolve ()
     in
     Lwt.return ()
@@ -59,9 +59,9 @@ let _ =
     Lwt.bind
       (Lwt_js_events.mousedowns Dom_html.window trigger_long_click_mechanism)
       (fun () -> Lwt.return ())
-  (* let promise =
-    let%lwt () = Lwt_js_events.mousedowns Dom_html.window trigger_long_click_mechanism in
-    Lwt.return () *)
+    (* let promise =
+      let%lwt () = Lwt_js_events.mousedowns Dom_html.window trigger_long_click_mechanism in
+      Lwt.return () *) 
   in
     Js.Unsafe.global##.browser##.storage##.onChanged##addListener 
       (fun changes ->
@@ -85,5 +85,5 @@ let _ =
       else
         ()
       let request_id = request_toggle prefs##.longClickToggleTime in
-      let _ = cancel_request request_id in
+      let _ = cancel_toggle request_id in
     Promise.resolve () *)
