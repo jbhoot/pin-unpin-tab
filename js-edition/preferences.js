@@ -3,13 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const longClickToggleTimeElement = document.querySelector("#longClickToggleTime");
     
     function updateUI(storedPrefs) {
-        document.querySelector('#minLongClickToggleTimeLabel').textContent =
-            storedPrefs.minLongClickToggleTime + 'ms';
-        document.querySelector('#maxLongClickToggleTimeLabel').textContent =
-            storedPrefs.maxLongClickToggleTime + 'ms';
-        document.querySelector('#defaultLongClickToggleTimeLabel').textContent =   
-            storedPrefs.defaultLongClickToggleTime + 'ms';
-
         longClickToggleElement.checked = storedPrefs.longClickToggle;
             
         longClickToggleTimeElement.min = storedPrefs.minLongClickToggleTime;

@@ -1,3 +1,7 @@
 *.swp
 *-swp
 .idea
+_build
+.merlin
+dune-project
+releases
