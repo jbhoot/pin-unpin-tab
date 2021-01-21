@@ -34,20 +34,22 @@ opam install js_of_ocaml js_of_ocaml-ppx js_of_ocaml-lwt lwt_ppx promise_jsoo
 
 # Build project
 
-1. go to project root where `dune` is located
+1. go to project root where `build.sh` is located
 
 ```sh
 cd pin-unpin-tab
 ```
 
-1. build js files which are built in/as `_build/default/*.bc.js`. The rest of the build artifacts in `_build` dir can be ignored.
+1. To run the extension in dev mode, run the dev script.
 
 ```sh
-dune build --profile=release
+sh run-dev.sh
 ```
 
-1. run the built extension
+1. To build the extension, run the build script.
 
 ```sh
-web-ext run
+sh build.sh
 ```
+
+The built `zip` is generated in `_build/default/web-ext-artifacts` dir. The rest of the build artifacts in `_build` dir can be ignored.
