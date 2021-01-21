@@ -21,12 +21,12 @@
         }]
     },
     "background": {
-        "scripts": ["_build/default/bg.bc.js"]
+        "scripts": ["bg.bc.js"]
     },
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["_build/default/long_click.bc.js"]
+            "js": ["long_click.bc.js"]
         }
     ],
     "options_ui": {

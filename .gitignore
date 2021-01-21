@@ -5,3 +5,5 @@ _build
 .merlin
 dune-project
 releases
+.DS_Store
+*.zip

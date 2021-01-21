@@ -1,0 +1,1 @@
+zip -r src-pkg.zip * -x '*.DS_Store*' '*_build*'
