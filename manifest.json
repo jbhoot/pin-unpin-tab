@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Pin Unpin Tab",
-    "version": "4.0",
+    "version": "4.1",
     "description": "Pin or unpin a tab through the toolbar icon, or a keyboard shortcut, or a left long-click anywhere on the page.",
     "homepage_url": "https://github.com/jayesh-bhoot/pin-unpin-tab",
     "browser_action": {
