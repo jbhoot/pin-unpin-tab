@@ -13,5 +13,9 @@ pkgs.mkShell {
     ocamlPackages.js_of_ocaml-ppx
     ocamlPackages.js_of_ocaml-lwt
     ocamlPackages.lwt_ppx
+    ocamlPackages.promise_jsoo
+
+    nodejs
+    nodePackages.web-ext
   ];
 }
