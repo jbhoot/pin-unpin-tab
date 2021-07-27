@@ -14,16 +14,18 @@ let clicked_only_left_button ev =
   && ev##.altKey = Js._false
 
 let clicked_on_passive_ele ev =
-  (* checks whether the clicked element is a <select> element or not.
-     <select> (at least) on macOS does not generate mouseup,
-     thus unintentionally triggering long-click.*)
+  (* checks whether the clicked element is a <select> element or not. <select>
+     (at least) on macOS does not generate mouseup, thus unintentionally
+     triggering long-click.*)
   let ele = Dom_html.eventTarget ev in
-  match Js.to_string ele##.tagName with "SELECT" -> false | _ -> true
+  match Js.to_string ele##.tagName with
+  | "SELECT" -> false
+  | _ -> true
 
 let clicked_on_passive_role ev =
   (* checks whether an ancestor of the clicked element has an 'option' role.
-     elements with listbox/option roles tend to trigger long-click because
-     they don't trigger mouseup. *)
+     elements with listbox/option roles tend to trigger long-click because they
+     don't trigger mouseup. *)
   let ele = Dom_html.eventTarget ev in
   let ancestorWithActiveRole = ele##closest (Js.string "[role='option']") in
   not (Js.Opt.test ancestorWithActiveRole)
@@ -76,12 +78,11 @@ let (_ : unit Lwt.t) =
             if is_valid_click ev then
               let%lwt waited =
                 Lwt.pick
-                  [
-                    wait_until_timeout (config##.longClickToggleTime /. 1000.);
-                    wait_until_mouse_up ();
-                    wait_until_mouse_move ();
-                    wait_until_document_scroll ();
-                    wait_until_element_scroll ev;
+                  [ wait_until_timeout (config##.longClickToggleTime /. 1000.)
+                  ; wait_until_mouse_up ()
+                  ; wait_until_mouse_move ()
+                  ; wait_until_document_scroll ()
+                  ; wait_until_element_scroll ev
                   ]
               in
               match waited with
@@ -90,12 +91,14 @@ let (_ : unit Lwt.t) =
               | WaitUntilDocumentScroll -> Lwt.return ()
               | WaitUntilElementScroll -> Lwt.return ()
               | WaitUntilTimeout ->
-                  let _ = browser##.runtime##sendMessage (Js.string "toggle") in
-                  Lwt.return ()
-            else Lwt.return ())
+                let _ = browser##.runtime##sendMessage (Js.string "toggle") in
+                Lwt.return ()
+            else
+              Lwt.return ())
       in
       Lwt.return ()
-    else Lwt.return ()
+    else
+      Lwt.return ()
   in
 
   let restart () =
