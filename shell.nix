@@ -8,6 +8,7 @@ pkgs.mkShell {
     ocamlPackages.ocaml-lsp
     ocamlformat
     ocamlPackages.utop
+    fswatch
 
     ocamlPackages.js_of_ocaml
     ocamlPackages.js_of_ocaml-ppx

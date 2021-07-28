@@ -13,26 +13,33 @@ let clicked_only_left_button ev =
   && ev##.ctrlKey = Js._false
   && ev##.altKey = Js._false
 
-let clicked_on_passive_ele ev =
-  (* checks whether the clicked element is a <select> element or not. <select>
-     (at least) on macOS does not generate mouseup, thus unintentionally
-     triggering long-click.*)
-  let ele = Dom_html.eventTarget ev in
-  match Js.to_string ele##.tagName with
-  | "SELECT" -> false
-  | _ -> true
-
-let clicked_on_passive_role ev =
-  (* checks whether an ancestor of the clicked element has an 'option' role.
-     elements with listbox/option roles tend to trigger long-click because they
-     don't trigger mouseup. *)
-  let ele = Dom_html.eventTarget ev in
-  let ancestorWithActiveRole = ele##closest (Js.string "[role='option']") in
-  not (Js.Opt.test ancestorWithActiveRole)
-
-let is_valid_click ev =
-  clicked_only_left_button ev
-  && clicked_on_passive_ele ev && clicked_on_passive_role ev
+let clicked_on_passive_ele ele =
+  let selectors =
+    [ "input"
+    ; "button"
+    ; "a"
+    ; "textarea"
+    ; "select"
+    ; "datalist"
+    ; "option"
+    ; "summary"
+    ; "video"
+    ; "audio"
+    ; "area"
+    ; "map"
+    ; "[role='button]"
+    ; "[role='checkbox]"
+    ; "[role='textbox']"
+    ; "[role='listbox']"
+    ; "[role='option']"
+    ; "[role='combobox']"
+    ; "[role='tab']"
+    ; "[role='switch']"
+    ]
+  in
+  List.for_all
+    (fun selector -> not (Js.Opt.test (ele##closest (Js.string selector))))
+    selectors
 
 type wait =
   | WaitUntilTimeout
@@ -75,7 +82,10 @@ let (_ : unit Lwt.t) =
     if config##.longClickToggle then
       let%lwt () =
         Lwt_js_events.mousedowns Dom_html.window (fun ev _ ->
-            if is_valid_click ev then
+            if
+              clicked_only_left_button ev
+              && clicked_on_passive_ele (Dom_html.eventTarget ev)
+            then
               let%lwt waited =
                 Lwt.pick
                   [ wait_until_timeout (config##.longClickToggleTime /. 1000.)
