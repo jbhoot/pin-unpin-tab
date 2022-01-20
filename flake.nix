@@ -11,26 +11,26 @@
       system = "x86_64-darwin";
       pkgs = import nixpkgs { inherit system; };
     in
-      {
-        devShell.${system} = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            ocaml
-            ocamlPackages.findlib
-            dune_2
-            ocamlPackages.ocaml-lsp
-            ocamlformat
-            ocamlPackages.utop
-            fswatch
+    {
+      devShell.${system} = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          ocaml
+          ocamlPackages.findlib
+          dune_2
+          ocamlPackages.ocaml-lsp
+          ocamlformat
+          ocamlPackages.utop
+          fswatch
 
-            ocamlPackages.js_of_ocaml
-            ocamlPackages.js_of_ocaml-ppx
-            ocamlPackages.js_of_ocaml-lwt
-            ocamlPackages.lwt_ppx
-            mypkgs.packages.${system}.promise_jsoo
+          ocamlPackages.js_of_ocaml
+          ocamlPackages.js_of_ocaml-ppx
+          ocamlPackages.js_of_ocaml-lwt
+          ocamlPackages.lwt_ppx
+          mypkgs.packages.${system}.promise_jsoo
 
-            nodejs
-            nodePackages.web-ext
-          ];
-        };
+          nodejs
+          nodePackages.web-ext
+        ];
       };
+    };
 }
