@@ -2,9 +2,7 @@ open Js_of_ocaml
 open Js_of_ocaml_lwt
 
 let browser = Js.Unsafe.global##.browser
-
 let storage_all = Js.Unsafe.global##.browser##.storage
-
 let storage_local = Js.Unsafe.global##.browser##.storage##.local
 
 let clicked_only_left_button ev =
@@ -37,78 +35,67 @@ let clicked_on_passive_ele ele =
     ; "[role='switch']"
     ]
   in
-  List.for_all
-    (fun selector -> not (Js.Opt.test (ele##closest (Js.string selector))))
-    selectors
+  selectors
+  |> List.for_all (fun selector ->
+         ele##closest (selector |> Js.string) |> Js.Opt.test |> not)
 
 type wait =
   | WaitUntilTimeout
   | WaitUntilMouseUp
   | WaitUntilMouseMove
-  | WaitUntilDocumentScroll
   | WaitUntilElementScroll
 
 let wait_until_timeout time =
   let%lwt () = Lwt_js.sleep time in
   Lwt.return WaitUntilTimeout
 
-let wait_until_mouse_up () =
-  let%lwt (_ : Dom_html.mouseEvent Js.t) =
-    Lwt_js_events.mouseup Dom_html.window
-  in
+let wait_until_mouse_up target =
+  let%lwt _ = Lwt_js_events.mouseup target in
   Lwt.return WaitUntilMouseUp
 
-let wait_until_mouse_move () =
-  let%lwt (_ : Dom_html.mouseEvent Js.t) =
-    Lwt_js_events.mousemove Dom_html.window
-  in
+let wait_until_mouse_move target =
+  let%lwt _ = Lwt_js_events.mousemove target in
   Lwt.return WaitUntilMouseMove
 
-let wait_until_document_scroll () =
-  let%lwt (_ : Dom_html.event Js.t) = Lwt_js_events.scroll Dom_html.window in
-  Lwt.return WaitUntilDocumentScroll
+let wait_until_element_scroll target =
+  let%lwt _ = Lwt_js_events.scroll target in
+  Lwt.return WaitUntilElementScroll
 
-let wait_until_element_scroll ev =
-  let%lwt (_ : Dom_html.event Js.t) =
-    Lwt_js_events.scroll (Dom_html.eventTarget ev)
-  in
-  Lwt.return WaitUntilDocumentScroll
-
-let (_ : unit Lwt.t) =
+let _ =
   let%lwt () = Lwt_js_events.domContentLoaded () in
   let listener_handle = ref (Lwt.return ()) in
 
   let init config =
-    if config##.longClickToggle then
+    match config##.longClickToggle with
+    | true ->
       let%lwt () =
         Lwt_js_events.mousedowns Dom_html.window (fun ev _ ->
-            if
-              clicked_only_left_button ev
-              && clicked_on_passive_ele (Dom_html.eventTarget ev)
-            then
+            match
+              ev |> clicked_only_left_button
+              && ev |> Dom_html.eventTarget |> clicked_on_passive_ele
+            with
+            | true -> (
               let%lwt waited =
                 Lwt.pick
-                  [ wait_until_timeout (config##.longClickToggleTime /. 1000.)
-                  ; wait_until_mouse_up ()
-                  ; wait_until_mouse_move ()
-                  ; wait_until_document_scroll ()
-                  ; wait_until_element_scroll ev
+                  [ config##.longClickToggleTime /. 1000. |> wait_until_timeout
+                  ; ev |> Dom_html.eventTarget |> wait_until_mouse_up
+                  ; ev |> Dom_html.eventTarget |> wait_until_mouse_move
+                  ; ev |> Dom_html.eventTarget |> wait_until_element_scroll
+                  ; Dom_html.window |> wait_until_element_scroll
                   ]
               in
               match waited with
-              | WaitUntilMouseUp -> Lwt.return ()
-              | WaitUntilMouseMove -> Lwt.return ()
-              | WaitUntilDocumentScroll -> Lwt.return ()
-              | WaitUntilElementScroll -> Lwt.return ()
+              | WaitUntilMouseUp
+              | WaitUntilMouseMove
+              | WaitUntilElementScroll ->
+                Lwt.return ()
               | WaitUntilTimeout ->
                 let _ = browser##.runtime##sendMessage (Js.string "toggle") in
-                Lwt.return ()
-            else
-              Lwt.return ())
+                Lwt.return ())
+            | false -> Lwt.return ())
       in
       Lwt.return ()
-    else
-      Lwt.return ()
+    | false -> Lwt.return ()
   in
 
   let restart () =
