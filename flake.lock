@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "ocamlVdomChan": {
+      "locked": {
+        "lastModified": 1661017241,
+        "narHash": "sha256-sQjFNnecLqmsEkihbJ7LO89FnAl04v/mBHxmiYesRsU=",
+        "owner": "jayesh-bhoot",
+        "repo": "nixpkgs",
+        "rev": "12d39d0a7b72e238252803617dcb37c0c4a217bf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "jayesh-bhoot",
+        "ref": "ocaml-vdom",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "promiseJsooChan": {
       "locked": {
         "lastModified": 1661023287,
@@ -35,6 +51,7 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
+        "ocamlVdomChan": "ocamlVdomChan",
         "promiseJsooChan": "promiseJsooChan"
       }
     }

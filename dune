@@ -1,7 +1,7 @@
 (executables
  (names bg long_click prefs)
  (modes js)
- (libraries js_of_ocaml js_of_ocaml-lwt promise_jsoo)
+ (libraries js_of_ocaml js_of_ocaml-lwt promise_jsoo ocaml-vdom)
  (preprocess (pps lwt_ppx js_of_ocaml-ppx)))
 
 (alias

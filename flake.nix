@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     promiseJsooChan.url = "github:jayesh-bhoot/nixpkgs/promise_jsoo";
+    ocamlVdomChan.url = "github:jayesh-bhoot/nixpkgs/ocaml-vdom";
   };
 
-  outputs = { self, nixpkgs, promiseJsooChan }:
+  outputs = { self, nixpkgs, promiseJsooChan, ocamlVdomChan }:
     let
       systems = [ "x86_64-darwin" "aarch64-darwin" "x86_64-linux" ];
       createDevShell = system:
@@ -15,6 +16,7 @@
         in
         let
           promiseJsooChanPkgs = import promiseJsooChan { inherit system; };
+          ocamlVdomChanPkgs = import ocamlVdomChan { inherit system; };
         in
         pkgs.mkShell {
           buildInputs = with pkgs; [
@@ -32,6 +34,7 @@
             ocamlPackages.lwt_ppx
             ocamlPackages.gen_js_api
             promiseJsooChanPkgs.ocamlPackages.promise_jsoo
+            ocamlVdomChanPkgs.ocamlPackages.ocaml-vdom
 
             nodejs
             nodePackages.web-ext
