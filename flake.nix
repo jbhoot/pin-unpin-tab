@@ -30,6 +30,7 @@
             ocamlPackages.js_of_ocaml-ppx
             ocamlPackages.js_of_ocaml-lwt
             ocamlPackages.lwt_ppx
+            ocamlPackages.gen_js_api
             promiseJsooChanPkgs.ocamlPackages.promise_jsoo
 
             nodejs

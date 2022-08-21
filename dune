@@ -7,6 +7,9 @@
 (alias
   (name default)
   (deps 
+    bg.bc.js
+    long_click.bc.js
+    prefs.bc.js
     manifest.json 
     preferences.html 
     (source_tree icons)
