@@ -3,3 +3,12 @@
  (modes js)
  (libraries js_of_ocaml js_of_ocaml-lwt promise_jsoo)
  (preprocess (pps lwt_ppx js_of_ocaml-ppx)))
+
+(alias
+  (name default)
+  (deps 
+    manifest.json 
+    preferences.html 
+    (source_tree icons)
+    (glob_files *.sh)
+    (glob_files *.md)))
