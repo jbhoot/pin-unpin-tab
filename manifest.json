@@ -6,37 +6,47 @@
     "homepage_url": "https://github.com/jayesh-bhoot/pin-unpin-tab",
     "browser_action": {
         "default_icon": {
-            "48": "icons/pin-dark.svg",
-            "96": "icons/pin-dark.svg"
+            "48": "./icons/pin-dark.svg",
+            "96": "./icons/pin-dark.svg"
         },
-        "theme_icons": [{
-            "light": "icons/pin-light.svg",
-            "dark": "icons/pin-dark.svg",
-            "size": 48
-        },
-        {
-            "light": "icons/pin-light.svg",
-            "dark": "icons/pin-dark.svg",
-            "size": 96
-        }]
+        "theme_icons": [
+            {
+                "light": "./icons/pin-light.svg",
+                "dark": "./icons/pin-dark.svg",
+                "size": 48
+            },
+            {
+                "light": "./icons/pin-light.svg",
+                "dark": "./icons/pin-dark.svg",
+                "size": 96
+            }
+        ]
     },
     "background": {
-        "scripts": ["bg.bc.js"]
+        "scripts": [
+            "./js/bg.bc.js"
+        ]
     },
     "content_scripts": [
         {
-            "matches": ["<all_urls>"],
-            "js": ["long_click.bc.js"]
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "./js/long_click.bc.js"
+            ]
         }
     ],
     "options_ui": {
-        "page": "preferences.html",
+        "page": "./preferences.html",
         "browser_style": true
     },
-    "permissions": ["storage"],
+    "permissions": [
+        "storage"
+    ],
     "icons": {
-        "48": "icons/pin-dark.svg",
-        "96": "icons/pin-dark.svg"
+        "48": "./icons/pin-dark.svg",
+        "96": "./icons/pin-dark.svg"
     },
     "commands": {
         "_execute_browser_action": {

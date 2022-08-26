@@ -5,13 +5,20 @@
  (preprocess (pps lwt_ppx js_of_ocaml-ppx)))
 
 (alias
-  (name default)
-  (deps 
-    bg.bc.js
-    long_click.bc.js
-    prefs.bc.js
-    manifest.json 
-    preferences.html 
-    (source_tree icons)
-    (glob_files *.sh)
-    (glob_files *.md)))
+ (name dev))
+
+(subdir
+ output
+ (copy_files
+  (alias dev)
+  (files %{project_root}/{manifest.json,preferences.html}))
+ (subdir
+  js
+  (copy_files
+   (alias dev)
+   (files %{project_root}/*.bc.js)))
+ (subdir
+  icons
+  (copy_files
+   (alias dev)
+   (files %{project_root}/icons/*))))
