@@ -1,5 +1,6 @@
-type 'msg Vdom.Cmd.t += Empty
+let () = Ff_webext_api.Console.log_string Ff_webext_api.console "Hello hello hello"
 
+type 'msg Vdom.Cmd.t += Empty
 let cmd_handler _ = function
   | Empty -> true
   | _ -> false
