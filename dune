@@ -12,6 +12,13 @@
  (action
   (run %{bin:gen_js_api} %{deps})))
 
+(rule
+ (alias default)
+ (deps lib.mli)
+ (target lib.ml)
+ (action
+  (run %{bin:gen_js_api} %{deps})))
+
 (alias
  (name default)
  (deps

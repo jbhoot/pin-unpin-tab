@@ -1,6 +1,15 @@
-let () = Ff_webext_api.Console.log_string Ff_webext_api.console "Hello hello hello"
+let _ =
+  let open Ff_webext_api in
+  let open Promise.Syntax in
+  let local_storage = browser |> Browser.storage |> Storage.local in
+  let prefs = Lib.Query.make ~longClickToggle:true ~longClickToggleTime:600 in
+  Storage.Local.set local_storage prefs >>| fun _ ->
+  (* Local.get_some_with_defaults local query >>| fun res -> *)
+  Storage.Local.get_all local_storage () >>| fun res ->
+  Js_browser.Console.log Js_browser.console res
 
 type 'msg Vdom.Cmd.t += Empty
+
 let cmd_handler _ = function
   | Empty -> true
   | _ -> false
