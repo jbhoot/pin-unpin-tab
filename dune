@@ -2,11 +2,25 @@
  (names bg long_click prefs)
  (modes js)
  (libraries js_of_ocaml js_of_ocaml-lwt promise_jsoo ocaml-vdom)
- (preprocess (pps lwt_ppx js_of_ocaml-ppx)))
+ (preprocess
+  (pps lwt_ppx js_of_ocaml-ppx)))
+
+(rule
+ (alias default)
+ (deps ff_webext_api.mli)
+ (target ff_webext_api.ml)
+ (action
+  (run %{bin:gen_js_api} %{deps})))
+
+(rule
+ (alias default)
+ (deps lib.mli)
+ (target lib.ml)
+ (action
+  (run %{bin:gen_js_api} %{deps})))
 
 (alias
  (name dev))
-
 (subdir
  output
  (copy_files
@@ -22,3 +36,15 @@
   (copy_files
    (alias dev)
    (files %{project_root}/icons/*))))
+
+; (alias
+;  (name default)
+;  (deps
+;   bg.bc.js
+;   long_click.bc.js
+;   prefs.bc.js
+;   manifest.json
+;   preferences.html
+;   (source_tree icons)
+;   (glob_files *.sh)
+;   (glob_files *.md)))

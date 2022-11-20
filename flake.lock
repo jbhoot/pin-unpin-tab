@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1661008273,
-        "narHash": "sha256-UpDqsGzUswIHG7FwzeIewjWlElF17UVLNbI2pwlbcBY=",
+        "lastModified": 1662096612,
+        "narHash": "sha256-R+Q8l5JuyJryRPdiIaYpO5O3A55rT+/pItBrKcy7LM4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0cc6444e74cd21e8da8d81ef4cd778492e10f843",
+        "rev": "21de2b973f9fee595a7a1ac4693efff791245c34",
         "type": "github"
       },
       "original": {
@@ -16,43 +16,9 @@
         "type": "github"
       }
     },
-    "ocamlVdomChan": {
-      "locked": {
-        "lastModified": 1661017241,
-        "narHash": "sha256-sQjFNnecLqmsEkihbJ7LO89FnAl04v/mBHxmiYesRsU=",
-        "owner": "jayesh-bhoot",
-        "repo": "nixpkgs",
-        "rev": "12d39d0a7b72e238252803617dcb37c0c4a217bf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jayesh-bhoot",
-        "ref": "ocaml-vdom",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "promiseJsooChan": {
-      "locked": {
-        "lastModified": 1661023287,
-        "narHash": "sha256-z6KC2sjvYS/YnWfXPYTo6m+tOZc7ph29UBlcWyf1rpg=",
-        "owner": "jayesh-bhoot",
-        "repo": "nixpkgs",
-        "rev": "ec05d4be35f8bd8690885cec8ad15d15e23e3df0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jayesh-bhoot",
-        "ref": "promise_jsoo",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs",
-        "ocamlVdomChan": "ocamlVdomChan",
-        "promiseJsooChan": "promiseJsooChan"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
