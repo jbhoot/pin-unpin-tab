@@ -1,0 +1,13 @@
+{
+  "name": "pin-unpin-tab",
+  "version": "4.3",
+  "description": "Pin or unpin a tab through the toolbar icon, or a keyboard shortcut, or a left long-click anywhere on the page.",
+  "main": "src/index.js",
+  "repository": "https://github.com/jayeshbhoot/pin-unpin-tab",
+  "author": "Jayesh Bhoot",
+  "license": "MIT",
+  "dependencies": {
+    "bucklescript-tea": "^0.15.0",
+    "reason-promise": "^1.1.5"
+  }
+}

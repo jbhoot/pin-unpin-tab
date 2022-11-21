@@ -1,24 +1,5 @@
-(executables
- (names bg long_click prefs)
- (modes js)
- (libraries js_of_ocaml js_of_ocaml-lwt promise_jsoo)
- (preprocess (pps lwt_ppx js_of_ocaml-ppx)))
+;;;;{BSB GENERATED: NO EDIT
 
-(alias
- (name dev))
+(include dune.mel)
 
-(subdir
- output
- (copy_files
-  (alias dev)
-  (files %{project_root}/{manifest.json,preferences.html}))
- (subdir
-  js
-  (copy_files
-   (alias dev)
-   (files %{project_root}/*.bc.js)))
- (subdir
-  icons
-  (copy_files
-   (alias dev)
-   (files %{project_root}/icons/*))))
+;;;;BSB GENERATED: NO EDIT}

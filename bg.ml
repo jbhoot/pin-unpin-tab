@@ -1,23 +1,18 @@
-open Js_of_ocaml
-open Js_of_ocaml_lwt
+open Dom_api
+open Ffext
 
-let browser = Js.Unsafe.global##.browser
+let calc_new_pinned_state is_pinned = { Browser.Tabs.pinned = not is_pinned }
 
-let calc_new_pinned_state is_pinned =
-  object%js
-    val pinned = Js.bool (not (Js.to_bool is_pinned))
-  end
+let pin_unpin (tab : Browser.tab) =
+  Browser.Tabs.update tab.id (calc_new_pinned_state tab.pinned)
 
-let pin_unpin tab =
-  browser##.tabs##update tab##.id (calc_new_pinned_state tab##.pinned)
+let init () =
+  window
+  |. Window.add_event_listener "DOMContentLoaded" (fun _ ->
+         Browser.Browser_action.On_clicked.add_listener (fun tab ->
+             tab |> pin_unpin |> ignore);
 
-let (_ : unit Lwt.t) =
-  let%lwt () = Lwt_js_events.domContentLoaded () in
-  let () = browser##.browserAction##.onClicked##addListener pin_unpin in
-  let () =
-    browser##.runtime##.onMessage##addListener (fun _msg sender ->
-        (* onMessage handler does not verify that the incoming message is 'toggle' *)
-        (* because 'toggle' is the only message passed around in this add-on. *)
-        pin_unpin sender##.tab)
-  in
-  Lwt.return ()
+         Browser.Runtime.On_message.add_listener_async (fun _ sender ->
+             pin_unpin sender.tab))
+
+let () = init ()

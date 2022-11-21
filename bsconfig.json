@@ -1,0 +1,19 @@
+{
+    "$schema": "https://raw.githubusercontent.com/rescript-lang/rescript-compiler/master/docs/docson/build-schema.json",
+    "name": "melange-basic-project",
+    "version": "0.0.1",
+    "sources": {
+      "dir" : "."
+    },
+    "package-specs": {
+      "module": "commonjs"
+    },
+    "suffix": ".bs.js",
+    "bs-dependencies": [
+      "reason-promise",
+      "bucklescript-tea"
+    ],
+    "warnings": {
+      "error" : "+101"
+    }
+  }

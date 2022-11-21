@@ -3,42 +3,44 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    promiseJsooChan.url = "github:jayesh-bhoot/nixpkgs/promise_jsoo";
+    melange.url = "github:melange-re/melange";
   };
 
-  outputs = { self, nixpkgs, promiseJsooChan }:
+  outputs = { self, ... }@inputs:
     let
       systems = [ "x86_64-darwin" "aarch64-darwin" "x86_64-linux" ];
       createDevShell = system:
         let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        let
-          promiseJsooChanPkgs = import promiseJsooChan { inherit system; };
+          pkgs = 
+            inputs.nixpkgs.legacyPackages.${system}.extend
+              inputs.melange.overlays.default;
         in
         pkgs.mkShell {
-          buildInputs = with pkgs; [
+          buildInputs = with pkgs.ocamlPackages; [
             ocaml
-            ocamlPackages.findlib
+            reason
+            findlib
             dune_3
-            ocamlPackages.ocaml-lsp
-            ocamlformat
-            ocamlPackages.ocamlformat-rpc-lib
-            ocamlPackages.utop
+            merlin
+            dot-merlin-reader
+            ocaml-lsp
+            pkgs.ocamlformat
+            ocamlformat-rpc-lib
+            melange
+            mel
+            utop
 
-            ocamlPackages.js_of_ocaml
-            ocamlPackages.js_of_ocaml-ppx
-            ocamlPackages.js_of_ocaml-lwt
-            ocamlPackages.lwt_ppx
-            ocamlPackages.gen_js_api
-            promiseJsooChanPkgs.ocamlPackages.promise_jsoo
-
-            nodejs
-            nodePackages.web-ext
+            pkgs.nodejs
+            pkgs.nodePackages.web-ext
+            pkgs.yarn
           ];
+
+          shellHook = ''
+            ln -sfn ${pkgs.ocamlPackages.melange}/lib/melange/runtime node_modules/melange
+          '';
         };
     in
     {
-      devShell = nixpkgs.lib.genAttrs systems createDevShell;
+      devShell = inputs.nixpkgs.lib.genAttrs systems createDevShell;
     };
 }

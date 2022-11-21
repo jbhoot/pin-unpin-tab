@@ -1,10 +1,8 @@
-open Js_of_ocaml
+let empty_object = [%raw "{}"]
 
-let empty_object = object%js end
+type pref_query =
+  { longClickToggle : bool
+  ; longClickToggleTime : int
+  }
 
-let prefs_query =
-  object%js
-    val longClickToggle = Js._true
-
-    val longClickToggleTime = 600
-  end
+let prefs_query = { longClickToggle = true; longClickToggleTime = 600 }
