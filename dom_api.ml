@@ -2,31 +2,55 @@ module AbortSignal = struct
   type t
 end
 
-module Window = struct
+module EventTarget : sig
+  type ('t, 'e) name = string
+  type ('t, 'e) mouse = 'e Dom.mouseEvent_like
+
+  external addEventListener :
+       ('a Dom.eventTarget_like as 't)
+    -> ('t, 'e) name
+    -> (('e -> unit)[@bs])
+    -> unit = "addEventListener"
+    [@@bs.send]
+
+  val click : (('a Dom.element_like as 't), ('t, 'e) mouse) name
+    [@@bs.inline "click"]
+
+  external asEventTargetLike : 't -> 't Dom.eventTarget_like = "%identity"
+end = struct
+  type ('t, 'e) name = string
+  type ('t, 'e) mouse = 'e Dom.mouseEvent_like
+
+  external addEventListener :
+       ('a Dom.eventTarget_like as 't)
+    -> ('t, 'e) name
+    -> (('e -> unit)[@bs])
+    -> unit = "addEventListener"
+    [@@bs.send]
+
+  let click = "click" [@@bs.inline]
+
+  external asEventTargetLike : 't -> 't Dom.eventTarget_like = "%identity"
+end
+
+module Document = struct
   type event_listener_options =
     { capture : bool option
     ; once : bool option
     ; passive : bool option
-    ; signal : AbortSignal.t
+    ; signal : AbortSignal.t option
     }
 
-  (* todo: turn event type (string) into a polymorphic variant *)
   external add_event_listener :
-    Dom.window -> string -> (Dom.event -> unit) -> unit = "addEventListener"
-    [@@bs.send]
-
-  external add_event_listener_2 :
-    Dom.window -> string -> (Dom.event -> unit) -> bool -> unit
-    = "addEventListener"
-    [@@bs.send]
-
-  external add_event_listener_3 :
-       Dom.window
+       Dom.document
     -> string
     -> (Dom.event -> unit)
-    -> event_listener_options
+    -> event_listener_options option
     -> unit = "addEventListener"
     [@@bs.send]
+
+  let add_domContentLoaded_listener w handler opts =
+    add_event_listener w "DOMContentLoaded" handler opts
 end
 
-external window : Dom.window = "window" [@@bs.val]
+external document : Dom.document = "document" [@@bs.val]
