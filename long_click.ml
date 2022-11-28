@@ -1,15 +1,6 @@
-module MouseEvent = struct
-  type t =
-    { button : int
-    ; shiftKey : bool
-    ; altKey : bool
-    ; ctrlKey : bool
-    }
-end
-
 let clicked_only_left_button ev =
   (* todo: represent button as a polymorphic variant *)
-  ev.button = 1 && (not ev.shiftKey) && (not ev.ctrlKey) && not ev.altKey
+  ev.MouseEvent.button = 1 && (not ev.shiftKey) && (not ev.ctrlKey) && not ev.altKey
 
 module Element = struct
   external closest : Dom.element -> string -> Dom.element option = "closest"

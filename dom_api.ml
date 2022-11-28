@@ -2,15 +2,40 @@ module AbortSignal = struct
   type t
 end
 
+module MouseEvent = struct
+  type ('t, 'ct) t =
+    { target : 't
+    ; currentTarget : 'ct
+    ; button : int
+    ; shiftKey : bool
+    ; altKey : bool
+    ; ctrlKey : bool
+    }
+end
+
+module Events = struct
+  type event_listener_options =
+    { capture : bool option
+    ; once : bool option
+    ; passive : bool option
+    ; signal : AbortSignal.t option
+    }
+end
+
+external addEventListener :
+     'ct
+  -> string
+  -> (('t, 'ct) mouseEvent -> unit)
+  -> event_listener_options
+  -> unit = "addEventListener"
+  [@@bs.send]
+
 module EventTarget : sig
   type ('t, 'e) name = string
   type ('t, 'e) mouse = 'e Dom.mouseEvent_like
 
-  external addEventListener :
-       ('a Dom.eventTarget_like as 't)
-    -> ('t, 'e) name
-    -> (('e -> unit)[@bs])
-    -> unit = "addEventListener"
+  external addEventListener : 'ct -> string -> (('t, 'ct) ev -> unit) -> unit
+    = "addEventListener"
     [@@bs.send]
 
   val click : (('a Dom.element_like as 't), ('t, 'e) mouse) name
