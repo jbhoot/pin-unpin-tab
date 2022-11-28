@@ -1,51 +1,63 @@
-let _ =
+type 'msg Vdom.Cmd.t +=
+  | GetStoredState of
+      { default_app_state : Lib.app_state
+      ; on_success : Lib.app_state -> 'msg
+      }
+
+let run_hydrate default_app_state on_done =
   let open Ff_webext_api in
   let open Promise.Syntax in
   let local_storage = browser |> Browser.storage |> Storage.local in
-  let prefs = Lib.Query.make ~longClickToggle:true ~longClickToggleTime:600 in
-  Storage.Local.set local_storage prefs >>| fun _ ->
-  (* Local.get_some_with_defaults local query >>| fun res -> *)
-  Storage.Local.get_all local_storage () >>| fun res ->
-  Js_browser.Console.log Js_browser.console res
+  let query =
+    Lib.(
+      Query.make ~long_click_toggle:default_app_state.long_click_toggle
+        ~long_click_toggle_time:default_app_state.long_click_toggle_time)
+  in
+  let _ =
+    query |> Storage.Local.get_some_with_defaults local_storage >>| fun res ->
+    res |> Lib.cast_to_app_state |> on_done
+  in
+  ()
 
-type 'msg Vdom.Cmd.t += Empty
-
-let cmd_handler _ = function
-  | Empty -> true
+let cmd_handler ctx msg =
+  match msg with
+  | GetStoredState { default_app_state; on_success } ->
+    run_hydrate default_app_state (fun state ->
+        Vdom_blit.Cmd.send_msg ctx (on_success state));
+    true
   | _ -> false
 
-let () = Vdom_blit.register (Vdom_blit.cmd { f = cmd_handler })
+let () = { f = cmd_handler } |> Vdom_blit.cmd |> Vdom_blit.register
 
-type model = { stamp : float }
+let update _ msg =
+  match msg with
+  | `GotStoredState stored_state -> Vdom.return stored_state
 
-let update _ = function
-  | `Click -> Vdom.return { stamp = Js_browser.Date.now () } ~c:[ Empty ]
+let default_app_state =
+  Lib.{ long_click_toggle = true; long_click_toggle_time = 600 }
 
-let init = Vdom.return { stamp = 0. } ~c:[ Empty ]
+let init =
+  Vdom.return default_app_state
+    ~c:
+      [ GetStoredState
+          { default_app_state
+          ; on_success = (fun app_state -> `GotStoredState app_state)
+          }
+      ]
 
 let view model =
   let open Vdom in
-  let t = Js_browser.Date.new_date model.stamp in
-  div
+  let open Vdom2 in
+  let open Lib in
+  Form.ele
     [ div
         [ text
-            (Printf.sprintf "protocol: %S"
-               (Js_browser.Location.protocol
-                  (Js_browser.Window.location Js_browser.window)))
-        ]
-    ; div [ text (Printf.sprintf "Number of milliseconds: %f" model.stamp) ]
-    ; div
-        [ text
-            (Printf.sprintf "ToDateString: %s"
-               (Js_browser.Date.to_date_string t))
+            (Printf.sprintf "Long click toggle time: %d"
+               model.long_click_toggle_time)
+        ; Label.ele "" [ Input.Radio.ele "On"; text "Radio input" ]
         ]
     ; div
-        [ text
-            (Printf.sprintf "ToLocaleString: %s"
-               (Js_browser.Date.to_locale_string t))
-        ]
-    ; div
-        [ input [] ~a:[ onclick (fun _ -> `Click); type_button; value "Update" ]
+        [ text (Printf.sprintf "Long click toggle?: %B" model.long_click_toggle)
         ]
     ]
 

@@ -13,6 +13,10 @@
           pkgs = import nixpkgs { inherit system; };
         in
         pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
+            bashInteractive
+          ];
+
           buildInputs = with pkgs; [
             ocaml
             ocamlPackages.findlib
