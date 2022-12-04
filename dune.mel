@@ -726,6 +726,24 @@
   (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o bg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
+(targets  test.ast)
+ (deps (:inputs  test.ml)  .melange.eobjs/.bsbuild)
+(action
+ (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  test.d)
+ (deps (:inputs  test.ast) )
+(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  test.cmj test.cmi test.cmt test.bs.js)
+ (alias mel)
+ (deps (:inputs  test.ast)  (include test.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+(action
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o test.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
 (targets  ffext.ast)
  (deps (:inputs  ffext.ml)  .melange.eobjs/.bsbuild)
 (action
@@ -831,7 +849,7 @@
  )
 
 (subdir .melange.eobjs
-(rule (write-file .bsbuild NgpCZwpGZmV4dApQcmVmcwpDb21tb24KRG9tX2FwaQpMb25nX2NsaWNrCi4JCjEAAAAAAAAKMAo=))
+(rule (write-file .bsbuild NwpCZwpUZXN0CkZmZXh0ClByZWZzCkNvbW1vbgpEb21fYXBpCkxvbmdfY2xpY2sKLgkKMQAAAAAAAAAKMAo=))
 (rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/home/jayesh/projects/pin-unpin-tab\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
 )
 
@@ -845,6 +863,8 @@
 (run cp %{sources-0} .) (system "rm -f ./*.{ast,cm*,d}")
  (run rm -f bg.bs.js)
  (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../bg.cmj -o bg.bs.js)
+ (run rm -f test.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../test.cmj -o test.bs.js)
  (run rm -f ffext.bs.js)
  (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../ffext.cmj -o ffext.bs.js)
  (run rm -f prefs.bs.js)

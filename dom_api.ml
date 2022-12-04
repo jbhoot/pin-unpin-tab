@@ -1,56 +1,72 @@
+module FileReader = struct
+  type t
+
+  external make : unit -> t = "FileReader" [@@bs.new]
+end
+
 module AbortSignal = struct
   type t
+
+  external make : unit -> t = "AbortSignal" [@@bs.new]
 end
 
-module EventTarget : sig
-  type ('t, 'e) name = string
-  type ('t, 'e) mouse = 'e Dom.mouseEvent_like
+module AbortController = struct
+  type t
 
-  external addEventListener :
-       ('a Dom.eventTarget_like as 't)
-    -> ('t, 'e) name
-    -> (('e -> unit)[@bs])
-    -> unit = "addEventListener"
-    [@@bs.send]
-
-  val click : (('a Dom.element_like as 't), ('t, 'e) mouse) name
-    [@@bs.inline "click"]
-
-  external asEventTargetLike : 't -> 't Dom.eventTarget_like = "%identity"
-end = struct
-  type ('t, 'e) name = string
-  type ('t, 'e) mouse = 'e Dom.mouseEvent_like
-
-  external addEventListener :
-       ('a Dom.eventTarget_like as 't)
-    -> ('t, 'e) name
-    -> (('e -> unit)[@bs])
-    -> unit = "addEventListener"
-    [@@bs.send]
-
-  let click = "click" [@@bs.inline]
-
-  external asEventTargetLike : 't -> 't Dom.eventTarget_like = "%identity"
+  external make : unit -> t = "AbortController" [@@bs.new]
+  external signal : t -> AbortSignal.t = "signal" [@@bs.get]
+  external abort : t -> 'reason option -> unit = "abort" [@@bs.send]
 end
 
-module Document = struct
-  type event_listener_options =
+module Element = struct
+  external closest : Dom.element -> string -> Dom.element option = "closest"
+    [@@bs.send] [@@bs.return nullable]
+end
+
+module Ev = struct
+  type opts =
     { capture : bool option
     ; once : bool option
     ; passive : bool option
     ; signal : AbortSignal.t option
     }
 
-  external add_event_listener :
-       Dom.document
-    -> string
-    -> (Dom.event -> unit)
-    -> event_listener_options option
+  type ('t, 'ct) generic_ev =
+    { target : 't
+    ; currentTarget : 'ct
+    }
+
+  type ('t, 'ct) mouse_ev =
+    { target : 't
+    ; currentTarget : 'ct
+    ; button : int (* todo: represent ev.button as a polymorphic variant *)
+    ; shiftKey : bool
+    ; altKey : bool
+    ; ctrlKey : bool
+    }
+
+  external listen :
+       'ct
+    -> ([ `DOMContentLoaded of ('t, 'ct) generic_ev -> unit
+        | `click of ('t, 'ct) mouse_ev -> unit
+        | `dblclick of ('t, 'ct) mouse_ev -> unit
+        | `mouseup of ('t, 'ct) mouse_ev -> unit
+        | `mousedown of ('t, 'ct) mouse_ev -> unit
+        | `mousemove of ('t, 'ct) mouse_ev -> unit
+        | `scroll of ('t, 'ct) generic_ev -> unit
+        | `abort_abortsignal of
+          (AbortSignal.t, AbortSignal.t) generic_ev -> unit
+          [@as "abort"]
+        | `abort_filereader of (FileReader.t, FileReader.t) generic_ev -> unit
+          [@as "abort"]
+        ]
+       [@string])
+    -> opts option
     -> unit = "addEventListener"
     [@@bs.send]
-
-  let add_domContentLoaded_listener w handler opts =
-    add_event_listener w "DOMContentLoaded" handler opts
 end
 
+external set_timeout : (unit -> unit) -> float -> int = "setTimeout" [@@bs.val]
+external clear_timeout : int -> unit = "clearTimeout" [@@bs.val]
 external document : Dom.document = "document" [@@bs.val]
+external window : Dom.window = "window" [@@bs.val]
