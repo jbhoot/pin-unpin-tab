@@ -9,14 +9,13 @@ let set_abortable_timeout callback time abort_signal =
         callback ())
       time
   in
-  Ev.listen abort_signal
+  Ev.listen_with_opts abort_signal
     (`abort_abortsignal (fun _ -> timer_id |> clear_timeout))
-    (Some
-       { signal = Some (signal_aborter |> AbortController.signal)
-       ; once = Some true
-       ; capture = None
-       ; passive = None
-       })
+    { signal = Some (signal_aborter |> AbortController.signal)
+    ; once = Some true
+    ; capture = None
+    ; passive = None
+    }
 
 let clicked_only_left_button ev =
   ev |> Mouse_ev.button = 1
@@ -63,14 +62,13 @@ let () =
           | true ->
             let abort_controller = AbortController.make () in
             let opts =
-              Some
-                { Ev.signal = Some (abort_controller |> AbortController.signal)
-                ; once = Some true
-                ; capture = None
-                ; passive = None
-                }
+              { Ev.signal = Some (abort_controller |> AbortController.signal)
+              ; once = Some true
+              ; capture = None
+              ; passive = None
+              }
             in
-            Ev.listen document
+            Ev.listen_with_opts document
               (`mousedown
                 (fun ev ->
                   match
@@ -80,13 +78,12 @@ let () =
                   | true ->
                     let abort_controller = AbortController.make () in
                     let opts =
-                      Some
-                        { Ev.signal =
-                            Some (abort_controller |> AbortController.signal)
-                        ; once = Some true
-                        ; capture = None
-                        ; passive = None
-                        }
+                      { Ev.signal =
+                          Some (abort_controller |> AbortController.signal)
+                      ; once = Some true
+                      ; capture = None
+                      ; passive = None
+                      }
                     in
                     let abort_long_click _ =
                       AbortController.abort abort_controller None
@@ -95,11 +92,13 @@ let () =
                       Ffext.Browser.Runtime.send_message_internally "toggle"
                       |> ignore
                     in
-                    Ev.listen document (`mouseup abort_long_click) opts;
-                    Ev.listen document (`mousemove abort_long_click) opts;
-                    Ev.listen document (`scroll abort_long_click) opts;
-                    Ev.listen (ev |> Mouse_ev.target) (`scroll abort_long_click)
+                    Ev.listen_with_opts document (`mouseup abort_long_click)
                       opts;
+                    Ev.listen_with_opts document (`mousemove abort_long_click)
+                      opts;
+                    Ev.listen_with_opts document (`scroll abort_long_click) opts;
+                    Ev.listen_with_opts (ev |> Mouse_ev.target)
+                      (`scroll abort_long_click) opts;
                     set_abortable_timeout trigger_long_click 1000.
                       (abort_controller |> AbortController.signal)
                   | false -> ()))
@@ -117,7 +116,6 @@ let () =
         in
         Ffext.Browser.Storage.On_changed.add_listener (fun _ _ -> restart ());
         restart ()))
-    None
 
 (* type wait = *)
 (*   | WaitUntilTimeout *)

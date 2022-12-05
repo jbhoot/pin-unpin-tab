@@ -91,7 +91,26 @@ module Ev = struct
           [@as "abort"]
         ]
        [@string])
-    -> opts option
+    -> unit = "addEventListener"
+    [@@bs.send]
+
+  external listen_with_opts :
+       'ct
+    -> ([ `DOMContentLoaded of ('t, 'ct) Generic_ev.t -> unit
+        | `click of ('t, 'ct) Mouse_ev.t -> unit
+        | `dblclick of ('t, 'ct) Mouse_ev.t -> unit
+        | `mouseup of ('t, 'ct) Mouse_ev.t -> unit
+        | `mousedown of ('t, 'ct) Mouse_ev.t -> unit
+        | `mousemove of ('t, 'ct) Mouse_ev.t -> unit
+        | `scroll of ('t, 'ct) Generic_ev.t -> unit
+        | `abort_abortsignal of
+          (AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
+          [@as "abort"]
+        | `abort_filereader of (FileReader.t, FileReader.t) Generic_ev.t -> unit
+          [@as "abort"]
+        ]
+       [@string])
+    -> opts
     -> unit = "addEventListener"
     [@@bs.send]
 end

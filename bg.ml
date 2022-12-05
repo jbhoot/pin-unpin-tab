@@ -13,6 +13,5 @@ let init () =
 
         Browser.Runtime.On_message.add_listener_async (fun _ sender ->
             sender.tab |> toggle_pin)))
-    None
 
 let () = init ()
