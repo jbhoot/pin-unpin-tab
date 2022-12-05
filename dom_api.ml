@@ -28,9 +28,11 @@ end
 module Document = struct
   type t
 
-  external get_element_by_id : t -> string -> Element.t option
+  external get_optional_element_by_id : t -> string -> 't option
     = "getElementById"
     [@@bs.send]
+
+  external get_element_by_id : t -> string -> 't = "getElementById" [@@bs.send]
 end
 
 module Window = struct
