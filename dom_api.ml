@@ -19,14 +19,22 @@ module AbortController = struct
 end
 
 module Element = struct
-  external closest : Dom.element -> string -> Dom.element option = "closest"
+  type t
+
+  external closest : t -> string -> t option = "closest"
     [@@bs.send] [@@bs.return nullable]
 end
 
 module Document = struct
-  external get_element_by_id : Dom.document -> string -> Dom.element option
+  type t
+
+  external get_element_by_id : t -> string -> Element.t option
     = "getElementById"
     [@@bs.send]
+end
+
+module Window = struct
+  type t
 end
 
 module Generic_ev = struct
@@ -82,5 +90,5 @@ end
 
 external set_timeout : (unit -> unit) -> float -> int = "setTimeout" [@@bs.val]
 external clear_timeout : int -> unit = "clearTimeout" [@@bs.val]
-external document : Dom.document = "document" [@@bs.val]
-external window : Dom.window = "window" [@@bs.val]
+external document : Document.t = "document" [@@bs.val]
+external window : Window.t = "window" [@@bs.val]
