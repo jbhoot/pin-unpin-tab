@@ -823,28 +823,15 @@
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  long_click.d)
- (deps (:inputs  long_click.ast long_click.iast) )
+ (deps (:inputs  long_click.ast) )
 (action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
-(targets  long_click.iast)
- (deps (:inputs  long_click.mli) )
-(action
- (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  long_click.cmi long_click.cmti)
+(targets  long_click.cmj long_click.cmi long_click.cmt long_click.bs.js)
  (alias mel)
- (deps (:inputs  long_click.iast)  (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (deps (:inputs  long_click.ast)  (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -o long_click.cmi %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  long_click.cmj long_click.cmt long_click.bs.js)
- (alias mel)
- (deps (:inputs  long_click.ast)  long_click.cmi (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
-(action
-  (run melc -bs-read-cmi -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o long_click.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o long_click.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 

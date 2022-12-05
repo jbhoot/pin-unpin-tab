@@ -52,45 +52,69 @@ let clicked_on_passive_ele ele =
          | None -> true)
 
 let () =
-  let abort_controller = AbortController.make () in
-  let opts =
-    Some
-      { Ev.signal = Some (abort_controller |> AbortController.signal)
-      ; once = Some true
-      ; capture = None
-      ; passive = None
-      }
-  in
   Ev.listen document
-    (`mousedown
-      (fun ev ->
-        match
-          ev |> clicked_only_left_button && ev.target |> clicked_on_passive_ele
-        with
-        | true ->
-          let abort_controller = AbortController.make () in
-          let opts =
-            Some
-              { Ev.signal = Some (abort_controller |> AbortController.signal)
-              ; once = Some true
-              ; capture = None
-              ; passive = None
-              }
-          in
-          let abort_long_click _ =
-            AbortController.abort abort_controller None
-          in
-          let trigger_long_click () =
-            Ffext.Browser.Runtime.send_message_internally "toggle" |> ignore
-          in
-          Ev.listen document (`mouseup abort_long_click) opts;
-          Ev.listen document (`mousemove abort_long_click) opts;
-          Ev.listen document (`scroll abort_long_click) opts;
-          Ev.listen ev.target (`scroll abort_long_click) opts;
-          set_abortable_timeout trigger_long_click 1000.
-            (abort_controller |> AbortController.signal)
-        | false -> ()))
-    opts
+    (`DOMContentLoaded
+      (fun _ ->
+        let abortController = ref None in
+        let init prefs =
+          match prefs.Common.longClickToggle with
+          | true ->
+            let abort_controller = AbortController.make () in
+            let opts =
+              Some
+                { Ev.signal = Some (abort_controller |> AbortController.signal)
+                ; once = Some true
+                ; capture = None
+                ; passive = None
+                }
+            in
+            Ev.listen document
+              (`mousedown
+                (fun ev ->
+                  match
+                    ev |> clicked_only_left_button
+                    && ev.target |> clicked_on_passive_ele
+                  with
+                  | true ->
+                    let abort_controller = AbortController.make () in
+                    let opts =
+                      Some
+                        { Ev.signal =
+                            Some (abort_controller |> AbortController.signal)
+                        ; once = Some true
+                        ; capture = None
+                        ; passive = None
+                        }
+                    in
+                    let abort_long_click _ =
+                      AbortController.abort abort_controller None
+                    in
+                    let trigger_long_click () =
+                      Ffext.Browser.Runtime.send_message_internally "toggle"
+                      |> ignore
+                    in
+                    Ev.listen document (`mouseup abort_long_click) opts;
+                    Ev.listen document (`mousemove abort_long_click) opts;
+                    Ev.listen document (`scroll abort_long_click) opts;
+                    Ev.listen ev.target (`scroll abort_long_click) opts;
+                    set_abortable_timeout trigger_long_click 1000.
+                      (abort_controller |> AbortController.signal)
+                  | false -> ()))
+              opts;
+            Some abort_controller
+          | false -> None
+        in
+        let restart () =
+          match !abortController with
+          | Some ac -> AbortController.abort ac None
+          | None ->
+            ();
+            Promise.get (Ffext.Browser.Storage.Local.get Common.prefs_query)
+              (fun prefs -> abortController := init prefs)
+        in
+        Ffext.Browser.Storage.On_changed.add_listener (fun _ _ -> restart ());
+        restart ()))
+    None
 
 (* type wait = *)
 (*   | WaitUntilTimeout *)
