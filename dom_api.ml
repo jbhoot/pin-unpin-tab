@@ -23,6 +23,34 @@ module Element = struct
     [@@bs.send] [@@bs.return nullable]
 end
 
+module Document = struct
+  external get_element_by_id : Dom.document -> string -> Dom.element option
+    = "getElementById"
+    [@@bs.send]
+end
+
+module Generic_ev = struct
+  type ('t, 'ct) t
+
+  external target : ('t, 'ct) t -> 't = "target" [@@bs.get]
+  external current_target : ('t, 'ct) t -> 'ct = "currentTarget" [@@bs.get]
+end
+
+module Mouse_ev = struct
+  (* include Generic_ev *)
+
+  type ('t, 'ct) t
+
+  external target : ('t, 'ct) t -> 't = "target" [@@bs.get]
+  external current_target : ('t, 'ct) t -> 'ct = "currentTarget" [@@bs.get]
+
+  (* todo: represent ev.button as a polymorphic variant *)
+  external button : ('t, 'ct) t -> int = "button" [@@bs.get]
+  external shift_key : ('t, 'ct) t -> bool = "shiftKey" [@@bs.get]
+  external alt_key : ('t, 'ct) t -> bool = "altKey" [@@bs.get]
+  external ctrl_key : ('t, 'ct) t -> bool = "ctrlKey" [@@bs.get]
+end
+
 module Ev = struct
   type opts =
     { capture : bool option
@@ -31,33 +59,19 @@ module Ev = struct
     ; signal : AbortSignal.t option
     }
 
-  type ('t, 'ct) generic_ev =
-    { target : 't
-    ; currentTarget : 'ct
-    }
-
-  type ('t, 'ct) mouse_ev =
-    { target : 't
-    ; currentTarget : 'ct
-    ; button : int (* todo: represent ev.button as a polymorphic variant *)
-    ; shiftKey : bool
-    ; altKey : bool
-    ; ctrlKey : bool
-    }
-
   external listen :
        'ct
-    -> ([ `DOMContentLoaded of ('t, 'ct) generic_ev -> unit
-        | `click of ('t, 'ct) mouse_ev -> unit
-        | `dblclick of ('t, 'ct) mouse_ev -> unit
-        | `mouseup of ('t, 'ct) mouse_ev -> unit
-        | `mousedown of ('t, 'ct) mouse_ev -> unit
-        | `mousemove of ('t, 'ct) mouse_ev -> unit
-        | `scroll of ('t, 'ct) generic_ev -> unit
+    -> ([ `DOMContentLoaded of ('t, 'ct) Generic_ev.t -> unit
+        | `click of ('t, 'ct) Mouse_ev.t -> unit
+        | `dblclick of ('t, 'ct) Mouse_ev.t -> unit
+        | `mouseup of ('t, 'ct) Mouse_ev.t -> unit
+        | `mousedown of ('t, 'ct) Mouse_ev.t -> unit
+        | `mousemove of ('t, 'ct) Mouse_ev.t -> unit
+        | `scroll of ('t, 'ct) Generic_ev.t -> unit
         | `abort_abortsignal of
-          (AbortSignal.t, AbortSignal.t) generic_ev -> unit
+          (AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
           [@as "abort"]
-        | `abort_filereader of (FileReader.t, FileReader.t) generic_ev -> unit
+        | `abort_filereader of (FileReader.t, FileReader.t) Generic_ev.t -> unit
           [@as "abort"]
         ]
        [@string])

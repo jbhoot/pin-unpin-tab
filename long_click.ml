@@ -19,7 +19,9 @@ let set_abortable_timeout callback time abort_signal =
        })
 
 let clicked_only_left_button ev =
-  ev.Ev.button = 1 && (not ev.shiftKey) && (not ev.ctrlKey) && not ev.altKey
+  ev |> Mouse_ev.button = 1
+  && ev |> Mouse_ev.shift_key |> not
+  && ev |> Mouse_ev.alt_key |> not
 
 let clicked_on_passive_ele ele =
   let selectors =
@@ -73,7 +75,7 @@ let () =
                 (fun ev ->
                   match
                     ev |> clicked_only_left_button
-                    && ev.target |> clicked_on_passive_ele
+                    && ev |> Mouse_ev.target |> clicked_on_passive_ele
                   with
                   | true ->
                     let abort_controller = AbortController.make () in
@@ -96,7 +98,8 @@ let () =
                     Ev.listen document (`mouseup abort_long_click) opts;
                     Ev.listen document (`mousemove abort_long_click) opts;
                     Ev.listen document (`scroll abort_long_click) opts;
-                    Ev.listen ev.target (`scroll abort_long_click) opts;
+                    Ev.listen (ev |> Mouse_ev.target) (`scroll abort_long_click)
+                      opts;
                     set_abortable_timeout trigger_long_click 1000.
                       (abort_controller |> AbortController.signal)
                   | false -> ()))
