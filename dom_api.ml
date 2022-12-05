@@ -37,20 +37,28 @@ module Window = struct
   type t
 end
 
+module Base_ev (T : sig
+  type ('t, 'ct) t
+end) =
+struct
+  external target : ('t, 'ct) T.t -> 't = "target" [@@bs.get]
+  external current_target : ('t, 'ct) T.t -> 'ct = "currentTarget" [@@bs.get]
+end
+
 module Generic_ev = struct
   type ('t, 'ct) t
 
-  external target : ('t, 'ct) t -> 't = "target" [@@bs.get]
-  external current_target : ('t, 'ct) t -> 'ct = "currentTarget" [@@bs.get]
+  include Base_ev (struct
+    type nonrec ('t, 'ct) t = ('t, 'ct) t
+  end)
 end
 
 module Mouse_ev = struct
-  (* include Generic_ev *)
-
   type ('t, 'ct) t
 
-  external target : ('t, 'ct) t -> 't = "target" [@@bs.get]
-  external current_target : ('t, 'ct) t -> 'ct = "currentTarget" [@@bs.get]
+  include Base_ev (struct
+    type nonrec ('t, 'ct) t = ('t, 'ct) t
+  end)
 
   (* todo: represent ev.button as a polymorphic variant *)
   external button : ('t, 'ct) t -> int = "button" [@@bs.get]
