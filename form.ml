@@ -1,25 +1,25 @@
 open Tea.Html2
 module A = Tea.Html2.Attributes
 
-module type InitArgs = sig
+module type Init_args = sig
   val id : string
 
   type field
 
-  val fieldId : field -> string
+  val field_id : field -> string
 
   type input
   type output
 
   type problem =
-    | FieldError of field * string
-    | FormError of string
+    | Field_error of field * string
+    | Form_error of string
 
   val parse : input -> (output, problem list) result
-  val initInput : input option -> input
+  val init_input : input option -> input
 end
 
-module Make (Args : InitArgs) = struct
+module Make (Args : Init_args) = struct
   let id = Args.id
 
   type state =
@@ -33,10 +33,10 @@ module Make (Args : InitArgs) = struct
   module Field = struct
     type t = Args.field
 
-    let toId = Args.fieldId
-    let toErrorDescriptionId t = "Error-" ^ (t |> toId)
-    let toNormalDescriptionId t = "Desc-" ^ (t |> toId)
-    let toAttentionDescriptionId t = "Attention-" ^ (t |> toId)
+    let to_id = Args.field_id
+    let to_error_description_id t = "Error-" ^ (t |> to_id)
+    let to_normal_description_id t = "Desc-" ^ (t |> to_id)
+    let to_attention_description_id t = "Attention-" ^ (t |> to_id)
   end
 
   type problem = Args.problem
@@ -49,60 +49,60 @@ module Make (Args : InitArgs) = struct
     ; problems : problem list
     }
 
-  let updateFormWithInput form input =
+  let update_form_with_input t ~input =
     let problems =
       match input |> parse with
       | Ok _ -> []
       | Error problems -> problems
     in
-    { form with input; problems }
+    { t with input; problems }
 
-  let fieldHasErrors field t =
+  let field_has_errors t ~field =
     match t.state with
     | Filling -> false
     | Submitting -> false
     | Fixing ->
       t.problems
-      |> List.exists (fun p ->
+      |> List.exists (fun (p : problem) ->
              match p with
-             | FieldError (invalidField, _) -> field = invalidField
-             | FormError _ -> false)
+             | Field_error (invalid_field, _) -> field = invalid_field
+             | Form_error _ -> false)
 
-  let filterFieldErrors field (problems : problem list) =
+  let filter_field_errors (problems : problem list) ~field =
     problems
     |. Belt.List.reduce [] (fun acc problem ->
            match problem with
-           | FieldError (problemField, error) -> (
-             match problemField = field with
+           | Field_error (problem_field, error) -> (
+             match problem_field = field with
              | true -> error :: acc
              | false -> acc)
-           | FormError _ -> acc)
+           | Form_error _ -> acc)
 
-  let filterFormErrors (problems : problem list) =
+  let filter_form_errors (problems : problem list) =
     problems
     |. Belt.List.reduce [] (fun acc problem ->
            match problem with
-           | FieldError _ -> acc
-           | FormError error -> error :: acc)
+           | Field_error _ -> acc
+           | Form_error error -> error :: acc)
 
-  let viewFieldErrors field form =
-    match form.state with
+  let view_field_errors t ~field =
+    match t.state with
     | Filling -> noNode
     | Submitting -> noNode
     | Fixing -> (
-      match filterFieldErrors field form.problems with
+      match filter_field_errors t.problems ~field with
       | [] -> noNode
       | errors ->
         ul
-          [ field |> Field.toErrorDescriptionId |> A.id ]
+          [ field |> Field.to_error_description_id |> A.id ]
           (errors |. Belt.List.map (fun e -> li [] [ e |> text ])))
 
-  let viewFormErrors form =
-    match form.state with
+  let view_form_errors t =
+    match t.state with
     | Filling -> noNode
     | Submitting -> noNode
     | Fixing -> (
-      match form.problems |> filterFormErrors with
+      match t.problems |> filter_form_errors with
       | [] -> noNode
       | errors ->
         ul
@@ -110,10 +110,10 @@ module Make (Args : InitArgs) = struct
           (errors |. Belt.List.map (fun e -> li [] [ e |> text ])))
 
   let init input =
-    { state = Filling; input = input |> Args.initInput; problems = [] }
+    { state = Filling; input = input |> Args.init_input; problems = [] }
 end
 
-let resultToProblems result =
+let extract_problems result =
   match result with
   | Ok _ -> []
   | Error problems -> problems

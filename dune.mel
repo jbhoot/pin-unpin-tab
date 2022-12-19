@@ -726,6 +726,24 @@
   (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o bg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
+(targets  form.ast)
+ (deps (:inputs  form.ml)  .melange.eobjs/.bsbuild)
+(action
+ (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  form.d)
+ (deps (:inputs  form.ast) )
+(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  form.cmj form.cmi form.cmt form.bs.js)
+ (alias mel)
+ (deps (:inputs  form.ast)  (include form.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+(action
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o form.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
 (targets  test.ast)
  (deps (:inputs  test.ml)  .melange.eobjs/.bsbuild)
 (action
@@ -861,7 +879,7 @@
  )
 
 (subdir .melange.eobjs
-(rule (write-file .bsbuild OApCZwpUZXN0CkZmZXh0ClByZWZzClRlc3QyCkNvbW1vbgpEb21fYXBpCkxvbmdfY2xpY2sKLgkKMQAAAAAAAAAACjAK))
+(rule (write-file .bsbuild OQpCZwpGb3JtClRlc3QKRmZleHQKUHJlZnMKVGVzdDIKQ29tbW9uCkRvbV9hcGkKTG9uZ19jbGljawouCQoxAAAAAAAAAAAACjAK))
 (rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/home/jayesh/projects/pin-unpin-tab\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
 )
 
@@ -875,6 +893,8 @@
 (run cp %{sources-0} .) (system "rm -f ./*.{ast,cm*,d}")
  (run rm -f bg.bs.js)
  (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../bg.cmj -o bg.bs.js)
+ (run rm -f form.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../form.cmj -o form.bs.js)
  (run rm -f test.bs.js)
  (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../test.cmj -o test.bs.js)
  (run rm -f ffext.bs.js)

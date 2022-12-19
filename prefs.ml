@@ -2,125 +2,125 @@ open Tea.Html2
 module A = Tea.Html2.Attributes
 module E = Tea.Html2.Events
 
-type state =
-  | Filling
-  | Fixing
+module F_args = struct
+  let id = "PreferenceForm"
 
-type input =
-  { long_click_toggle : bool
-  ; long_click_toggle_time : string
-  }
-
-type output =
-  | Toggle_with_long_click of int
-  | Dont_toggle_with_long_click
-
-module Field = struct
-  type t =
+  type field =
     | Long_click_toggle
     | Long_click_toggle_time
 
-  let to_id t =
-    match t with
-    | Long_click_toggle -> "LongClickToggle"
-    | Long_click_toggle_time -> "LongClickToggleTime"
+  let field_id field =
+    match field with
+    | Long_click_toggle -> "Long_click_toggle"
+    | Long_click_toggle_time -> "Long_click_toggle_time"
 
-  let to_error_description_id t = "Error-" ^ (t |> to_id)
-  let to_normal_description_id t = "Desc-" ^ (t |> to_id)
-  let to_attention_description_id t = "Attention-" ^ (t |> to_id)
+  type input =
+    { long_click_toggle : bool
+    ; long_click_toggle_time : string
+    }
 
-  let parse_long_click_toggle input =
-    match input with
-    | true -> Ok true
-    | false -> Ok false
+  type output =
+    | Toggle_with_long_click of int
+    | Dont_toggle_with_long_click
 
-  let parse_long_click_toggle_time input =
-    match input |> Belt.Int.fromString with
-    | Some v -> Ok v
+  type problem =
+    | Field_error of field * string
+    | Form_error of string
+
+  let parse input =
+    let parse_long_click_toggle value =
+      match value with
+      | true -> Ok true
+      | false -> Ok false
+    in
+    let parse_long_click_toggle_time value =
+      match value |> Belt.Int.fromString with
+      | Some v -> Ok v
+      | None ->
+        Error
+          [ Field_error
+              (Long_click_toggle_time, "Enter the time in milliseconds")
+          ]
+    in
+    match
+      ( input.long_click_toggle |> parse_long_click_toggle
+      , input.long_click_toggle_time |> parse_long_click_toggle_time )
+    with
+    | Ok long_click_toggle, Ok long_click_toggle_time -> (
+      match long_click_toggle with
+      | true -> Ok (Toggle_with_long_click long_click_toggle_time)
+      | false -> Ok Dont_toggle_with_long_click)
+    | long_click_toggle_res, long_click_toggle_time_res ->
+      Error
+        ((long_click_toggle_res |> Form.extract_problems)
+        @ (long_click_toggle_time_res |> Form.extract_problems))
+
+  let init_input init =
+    match init with
+    | Some init -> init
     | None ->
-      Error (Long_click_toggle_time, [ "Enter the time in milliseconds" ])
+      { long_click_toggle = Common.prefs_query.longClickToggle
+      ; long_click_toggle_time =
+          Common.prefs_query.longClickToggleTime |> string_of_int
+      }
 end
 
-module Problem = struct
-  type t = Invalid_input of Field.t * string
+module F = Form.Make (F_args)
 
-  let from_result parsed_input =
-    match parsed_input with
-    | Error (field, problems) ->
-      Belt.List.map problems (fun p -> Invalid_input (field, p))
-    | _ -> []
-
-  let pick_problems_relevant_to_field field problems =
-    Belt.List.keep problems (fun p ->
-        match p with
-        | Invalid_input (problem_field, _) -> problem_field = field)
-end
-
-let parse input =
-  match
-    ( input.long_click_toggle |> Field.parse_long_click_toggle
-    , input.long_click_toggle_time |> Field.parse_long_click_toggle_time )
-  with
-  | Ok long_click_toggle, Ok long_click_toggle_time -> (
-    match long_click_toggle with
-    | true -> Ok (Toggle_with_long_click long_click_toggle_time)
-    | false -> Ok Dont_toggle_with_long_click)
-  | long_click_toggle_res, long_click_toggle_time_res ->
-    Error
-      (Belt.List.concat
-         (long_click_toggle_res |> Problem.from_result)
-         (long_click_toggle_time_res |> Problem.from_result))
-
-type model =
-  { state : state
-  ; input : input
-  ; problems : Problem.t list
-  }
-
-let init () =
-  { state = Filling
-  ; input = { long_click_toggle = false; long_click_toggle_time = "" }
-  ; problems = []
-  }
+type model = F.t
 
 type msg =
-  | Filled_toggle_long_click of bool
-  | Filled_toggle_long_click_time of string
+  | Filled_long_click_toggle of bool
+  | Filled_long_click_toggle_time of string
 
-let field_has_errors field form =
-  match form.state with
-  | Filling -> false
-  | Fixing -> (
-    match form.problems |> Problem.pick_problems_relevant_to_field field with
-    | [] -> false
-    | _ -> true)
-
-let view_field_errors form field =
-  match form.state with
-  | Filling -> noNode
-  | Fixing -> (
-    match form.problems |> Problem.pick_problems_relevant_to_field field with
-    | [] -> noNode
-    | relevant_problems ->
-      ul
-        [ field |> Field.to_error_description_id |> A.id ]
-        (Belt.List.map relevant_problems (fun problem ->
-             match problem with
-             | Invalid_input (_, e) -> li [] [ e |> text ])))
+let view (m : model) =
+  form
+    [ A.name F.id; A.novalidate true ]
+    [ h1 [] [ text "Preferences" ]
+    ; div []
+        [ input'
+            [ A.type' "checkbox"
+            ; A.id (F.Field.to_id Long_click_toggle)
+            ; A.name (F.Field.to_id Long_click_toggle)
+            ; A.value (F.Field.to_id Long_click_toggle)
+            ; A.checked m.input.long_click_toggle
+            ; E.onCheck (fun v -> Filled_long_click_toggle v)
+            ]
+            []
+        ; label
+            [ A.for' (F.Field.to_id Long_click_toggle) ]
+            [ text "Pin / unpin on holding left click" ]
+        ]
+    ; div []
+        [ input'
+            [ A.type' "text"
+            ; A.id (F.Field.to_id Long_click_toggle_time)
+            ; A.name (F.Field.to_id Long_click_toggle_time)
+            ; A.value m.input.long_click_toggle_time
+            ; E.onChange (fun v -> Filled_long_click_toggle_time v)
+            ]
+            []
+        ; label
+            [ A.for' (F.Field.to_id Long_click_toggle_time) ]
+            [ text "Hold left click for milliseconds" ]
+        ]
+    ]
 
 let update m msg =
   match msg with
-  | Filled_toggle_long_click v ->
-          {
-              state:  q
-          }
-  | Filled_toggle_long_click_time v -> (m, Tea.Cmd.none)
+  | Filled_long_click_toggle v ->
+    let input = { m.F.input with long_click_toggle = v } in
+    m |> F.update_form_with_input ~input
+  | Filled_long_click_toggle_time v ->
+    let input = { m.input with long_click_toggle_time = v } in
+    m |> F.update_form_with_input ~input
 
-let view m = span [] []
+let init = 
+    (F.init (), Tea.Cmd.none)
 
 let main =
   Tea.App.standardProgram
-    { init = (fun () -> (init (), Tea.Cmd.none))
+    { init = init ();
     ; subscriptions = (fun _ -> Tea.Sub.none)
     ; update
     ; view
