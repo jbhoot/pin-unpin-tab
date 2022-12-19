@@ -33,6 +33,7 @@
             pkgs.nodejs
             pkgs.nodePackages.web-ext
             pkgs.yarn
+            pkgs.entr
           ];
 
           shellHook = ''

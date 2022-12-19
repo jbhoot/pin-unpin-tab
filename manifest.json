@@ -24,7 +24,7 @@
     },
     "background": {
         "scripts": [
-            "./js/bg.bc.js"
+            "./bg.prod.js"
         ]
     },
     "content_scripts": [
@@ -33,8 +33,9 @@
                 "<all_urls>"
             ],
             "js": [
-                "./js/long_click.bc.js"
-            ]
+                "./long_click.prod.js"
+            ],
+            "run_at": "document_start"
         }
     ],
     "options_ui": {

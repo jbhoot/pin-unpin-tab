@@ -10,5 +10,10 @@
     "bucklescript-tea": "^0.15.0",
     "esbuild": "^0.16.9",
     "reason-promise": "^1.1.5"
+  },
+  "scripts": {
+    "build": "mel build && esbuild bg.bs.js --bundle --outfile=bg.prod.js && esbuild long_click.bs.js --bundle --outfile=long_click.prod.js && esbuild prefs.bs.js --bundle --outfile=prefs.prod.js",
+    "start": "ls *.ml | entr -csr 'yarn build'",
+    "test": "yarn build && web-ext run --browser-console --url 'https://jayeshbhoot.com' --reload"
   }
 }
