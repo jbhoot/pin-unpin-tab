@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "bucklescript-tea": "^0.15.0",
+    "esbuild": "^0.16.9",
     "reason-promise": "^1.1.5"
   }
 }
