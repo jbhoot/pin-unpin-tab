@@ -41,9 +41,9 @@
  (rule
 (targets  promise.cmj promise.cmt promise.bs.js)
  (alias mel)
- (deps (:inputs  promise.ast)  promise.cmi (include promise.d) ../../bsconfig.json)
+ (mode (promote (until-clean) (only promise.bs.js)))(deps (:inputs  promise.ast)  promise.cmi (include promise.d) ../../bsconfig.json)
 (action
-  (run melc -bs-read-cmi -I .    -w a -bs-package-name reason-promise -bs-package-output commonjs:./src/js:.bs.js -o promise.cmj %{inputs}))
+  (run melc -bs-read-cmi -I .    -w a -bs-package-name reason-promise -bs-package-output es6:./src/js:.bs.js -o promise.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -66,9 +66,9 @@
  (rule
 (targets  tea.cmj tea.cmi tea.cmt tea.bs.js)
  (alias mel)
- (deps (:inputs  tea.ast)  (include tea.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea.bs.js)))(deps (:inputs  tea.ast)  (include tea.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web.ast)
@@ -84,9 +84,9 @@
  (rule
 (targets  web.cmj web.cmi web.cmt web.bs.js)
  (alias mel)
- (deps (:inputs  web.ast)  (include web.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web.bs.js)))(deps (:inputs  web.ast)  (include web.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  vdom.ast)
@@ -102,9 +102,9 @@
  (rule
 (targets  vdom.cmj vdom.cmi vdom.cmt vdom.bs.js)
  (alias mel)
- (deps (:inputs  vdom.ast)  (include vdom.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only vdom.bs.js)))(deps (:inputs  vdom.ast)  (include vdom.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o vdom.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o vdom.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_ex.ast)
@@ -120,9 +120,9 @@
  (rule
 (targets  tea_ex.cmj tea_ex.cmi tea_ex.cmt tea_ex.bs.js)
  (alias mel)
- (deps (:inputs  tea_ex.ast)  (include tea_ex.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_ex.bs.js)))(deps (:inputs  tea_ex.ast)  (include tea_ex.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_ex.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_ex.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_app.ast)
@@ -138,9 +138,9 @@
  (rule
 (targets  tea_app.cmj tea_app.cmi tea_app.cmt tea_app.bs.js)
  (alias mel)
- (deps (:inputs  tea_app.ast)  (include tea_app.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_app.bs.js)))(deps (:inputs  tea_app.ast)  (include tea_app.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_app.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_app.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_cmd.ast)
@@ -156,9 +156,9 @@
  (rule
 (targets  tea_cmd.cmj tea_cmd.cmi tea_cmd.cmt tea_cmd.bs.js)
  (alias mel)
- (deps (:inputs  tea_cmd.ast)  (include tea_cmd.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_cmd.bs.js)))(deps (:inputs  tea_cmd.ast)  (include tea_cmd.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_cmd.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_cmd.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_sub.ast)
@@ -174,9 +174,9 @@
  (rule
 (targets  tea_sub.cmj tea_sub.cmi tea_sub.cmt tea_sub.bs.js)
  (alias mel)
- (deps (:inputs  tea_sub.ast)  (include tea_sub.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_sub.bs.js)))(deps (:inputs  tea_sub.ast)  (include tea_sub.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_sub.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_sub.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_svg.ast)
@@ -192,9 +192,9 @@
  (rule
 (targets  tea_svg.cmj tea_svg.cmi tea_svg.cmt tea_svg.bs.js)
  (alias mel)
- (deps (:inputs  tea_svg.ast)  (include tea_svg.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_svg.bs.js)))(deps (:inputs  tea_svg.ast)  (include tea_svg.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_svg.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_svg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_html.ast)
@@ -210,9 +210,9 @@
  (rule
 (targets  tea_html.cmj tea_html.cmi tea_html.cmt tea_html.bs.js)
  (alias mel)
- (deps (:inputs  tea_html.ast)  (include tea_html.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_html.bs.js)))(deps (:inputs  tea_html.ast)  (include tea_html.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_html.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_html.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_http.ast)
@@ -228,9 +228,9 @@
  (rule
 (targets  tea_http.cmj tea_http.cmi tea_http.cmt tea_http.bs.js)
  (alias mel)
- (deps (:inputs  tea_http.ast)  (include tea_http.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_http.bs.js)))(deps (:inputs  tea_http.ast)  (include tea_http.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_http.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_http.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_json.ast)
@@ -246,9 +246,9 @@
  (rule
 (targets  tea_json.cmj tea_json.cmi tea_json.cmt tea_json.bs.js)
  (alias mel)
- (deps (:inputs  tea_json.ast)  (include tea_json.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_json.bs.js)))(deps (:inputs  tea_json.ast)  (include tea_json.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_json.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_json.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_task.ast)
@@ -264,9 +264,9 @@
  (rule
 (targets  tea_task.cmj tea_task.cmi tea_task.cmt tea_task.bs.js)
  (alias mel)
- (deps (:inputs  tea_task.ast)  (include tea_task.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_task.bs.js)))(deps (:inputs  tea_task.ast)  (include tea_task.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_task.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_task.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_time.ast)
@@ -282,9 +282,9 @@
  (rule
 (targets  tea_time.cmj tea_time.cmi tea_time.cmt tea_time.bs.js)
  (alias mel)
- (deps (:inputs  tea_time.ast)  (include tea_time.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_time.bs.js)))(deps (:inputs  tea_time.ast)  (include tea_time.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_time.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_time.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_date.ast)
@@ -300,9 +300,9 @@
  (rule
 (targets  web_date.cmj web_date.cmi web_date.cmt web_date.bs.js)
  (alias mel)
- (deps (:inputs  web_date.ast)  (include web_date.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_date.bs.js)))(deps (:inputs  web_date.ast)  (include web_date.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_date.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_date.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_json.ast)
@@ -318,9 +318,9 @@
  (rule
 (targets  web_json.cmj web_json.cmi web_json.cmt web_json.bs.js)
  (alias mel)
- (deps (:inputs  web_json.ast)  (include web_json.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_json.bs.js)))(deps (:inputs  web_json.ast)  (include web_json.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_json.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_json.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_node.ast)
@@ -336,9 +336,9 @@
  (rule
 (targets  web_node.cmj web_node.cmi web_node.cmt web_node.bs.js)
  (alias mel)
- (deps (:inputs  web_node.ast)  (include web_node.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_node.bs.js)))(deps (:inputs  web_node.ast)  (include web_node.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_node.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_node.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_debug.ast)
@@ -354,9 +354,9 @@
  (rule
 (targets  tea_debug.cmj tea_debug.cmi tea_debug.cmt tea_debug.bs.js)
  (alias mel)
- (deps (:inputs  tea_debug.ast)  (include tea_debug.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_debug.bs.js)))(deps (:inputs  tea_debug.ast)  (include tea_debug.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_debug.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_debug.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_html2.ast)
@@ -372,9 +372,9 @@
  (rule
 (targets  tea_html2.cmj tea_html2.cmi tea_html2.cmt tea_html2.bs.js)
  (alias mel)
- (deps (:inputs  tea_html2.ast)  (include tea_html2.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_html2.bs.js)))(deps (:inputs  tea_html2.ast)  (include tea_html2.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_html2.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_html2.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_mouse.ast)
@@ -390,9 +390,9 @@
  (rule
 (targets  tea_mouse.cmj tea_mouse.cmi tea_mouse.cmt tea_mouse.bs.js)
  (alias mel)
- (deps (:inputs  tea_mouse.ast)  (include tea_mouse.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_mouse.bs.js)))(deps (:inputs  tea_mouse.ast)  (include tea_mouse.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_mouse.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_mouse.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_event.ast)
@@ -408,9 +408,9 @@
  (rule
 (targets  web_event.cmj web_event.cmi web_event.cmt web_event.bs.js)
  (alias mel)
- (deps (:inputs  web_event.ast)  (include web_event.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_event.bs.js)))(deps (:inputs  web_event.ast)  (include web_event.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_event.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_event.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_random.ast)
@@ -426,9 +426,9 @@
  (rule
 (targets  tea_random.cmj tea_random.cmi tea_random.cmt tea_random.bs.js)
  (alias mel)
- (deps (:inputs  tea_random.ast)  (include tea_random.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_random.bs.js)))(deps (:inputs  tea_random.ast)  (include tea_random.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_random.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_random.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_result.ast)
@@ -444,9 +444,9 @@
  (rule
 (targets  tea_result.cmj tea_result.cmi tea_result.cmt tea_result.bs.js)
  (alias mel)
- (deps (:inputs  tea_result.ast)  (include tea_result.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_result.bs.js)))(deps (:inputs  tea_result.ast)  (include tea_result.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_result.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_result.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_window.ast)
@@ -462,9 +462,9 @@
  (rule
 (targets  web_window.cmj web_window.cmi web_window.cmt web_window.bs.js)
  (alias mel)
- (deps (:inputs  web_window.ast)  (include web_window.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_window.bs.js)))(deps (:inputs  web_window.ast)  (include web_window.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_window.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_window.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_program.ast)
@@ -480,9 +480,9 @@
  (rule
 (targets  tea_program.cmj tea_program.cmi tea_program.cmt tea_program.bs.js)
  (alias mel)
- (deps (:inputs  tea_program.ast)  (include tea_program.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_program.bs.js)))(deps (:inputs  tea_program.ast)  (include tea_program.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_program.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_program.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_promise.ast)
@@ -498,9 +498,9 @@
  (rule
 (targets  tea_promise.cmj tea_promise.cmi tea_promise.cmt tea_promise.bs.js)
  (alias mel)
- (deps (:inputs  tea_promise.ast)  (include tea_promise.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_promise.bs.js)))(deps (:inputs  tea_promise.ast)  (include tea_promise.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_promise.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_promise.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_document.ast)
@@ -516,9 +516,9 @@
  (rule
 (targets  web_document.cmj web_document.cmi web_document.cmt web_document.bs.js)
  (alias mel)
- (deps (:inputs  web_document.ast)  (include web_document.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_document.bs.js)))(deps (:inputs  web_document.ast)  (include web_document.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_document.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_document.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_formdata.ast)
@@ -534,9 +534,9 @@
  (rule
 (targets  web_formdata.cmj web_formdata.cmi web_formdata.cmt web_formdata.bs.js)
  (alias mel)
- (deps (:inputs  web_formdata.ast)  (include web_formdata.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_formdata.bs.js)))(deps (:inputs  web_formdata.ast)  (include web_formdata.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_formdata.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_formdata.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_location.ast)
@@ -552,9 +552,9 @@
  (rule
 (targets  web_location.cmj web_location.cmi web_location.cmt web_location.bs.js)
  (alias mel)
- (deps (:inputs  web_location.ast)  (include web_location.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_location.bs.js)))(deps (:inputs  web_location.ast)  (include web_location.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_location.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_location.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_html_cmds.ast)
@@ -570,9 +570,9 @@
  (rule
 (targets  tea_html_cmds.cmj tea_html_cmds.cmi tea_html_cmds.cmt tea_html_cmds.bs.js)
  (alias mel)
- (deps (:inputs  tea_html_cmds.ast)  (include tea_html_cmds.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_html_cmds.bs.js)))(deps (:inputs  tea_html_cmds.ast)  (include tea_html_cmds.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_html_cmds.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_html_cmds.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_navigation.ast)
@@ -588,9 +588,9 @@
  (rule
 (targets  tea_navigation.cmj tea_navigation.cmi tea_navigation.cmt tea_navigation.bs.js)
  (alias mel)
- (deps (:inputs  tea_navigation.ast)  (include tea_navigation.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_navigation.bs.js)))(deps (:inputs  tea_navigation.ast)  (include tea_navigation.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_navigation.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_navigation.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_svg_events.ast)
@@ -606,9 +606,9 @@
  (rule
 (targets  tea_svg_events.cmj tea_svg_events.cmi tea_svg_events.cmt tea_svg_events.bs.js)
  (alias mel)
- (deps (:inputs  tea_svg_events.ast)  (include tea_svg_events.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_svg_events.bs.js)))(deps (:inputs  tea_svg_events.ast)  (include tea_svg_events.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_svg_events.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_svg_events.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_animationframe.ast)
@@ -624,9 +624,9 @@
  (rule
 (targets  tea_animationframe.cmj tea_animationframe.cmi tea_animationframe.cmt tea_animationframe.bs.js)
  (alias mel)
- (deps (:inputs  tea_animationframe.ast)  (include tea_animationframe.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_animationframe.bs.js)))(deps (:inputs  tea_animationframe.ast)  (include tea_animationframe.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_animationframe.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_animationframe.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  tea_svg_attributes.ast)
@@ -642,9 +642,9 @@
  (rule
 (targets  tea_svg_attributes.cmj tea_svg_attributes.cmi tea_svg_attributes.cmt tea_svg_attributes.bs.js)
  (alias mel)
- (deps (:inputs  tea_svg_attributes.ast)  (include tea_svg_attributes.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only tea_svg_attributes.bs.js)))(deps (:inputs  tea_svg_attributes.ast)  (include tea_svg_attributes.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o tea_svg_attributes.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o tea_svg_attributes.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_window_history.ast)
@@ -660,9 +660,9 @@
  (rule
 (targets  web_window_history.cmj web_window_history.cmi web_window_history.cmt web_window_history.bs.js)
  (alias mel)
- (deps (:inputs  web_window_history.ast)  (include web_window_history.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_window_history.bs.js)))(deps (:inputs  web_window_history.ast)  (include web_window_history.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_window_history.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_window_history.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_xmlhttprequest.ast)
@@ -678,9 +678,9 @@
  (rule
 (targets  web_xmlhttprequest.cmj web_xmlhttprequest.cmi web_xmlhttprequest.cmt web_xmlhttprequest.bs.js)
  (alias mel)
- (deps (:inputs  web_xmlhttprequest.ast)  (include web_xmlhttprequest.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_xmlhttprequest.bs.js)))(deps (:inputs  web_xmlhttprequest.ast)  (include web_xmlhttprequest.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_xmlhttprequest.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_xmlhttprequest.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  web_window_localstorage.ast)
@@ -696,9 +696,9 @@
  (rule
 (targets  web_window_localstorage.cmj web_window_localstorage.cmi web_window_localstorage.cmt web_window_localstorage.bs.js)
  (alias mel)
- (deps (:inputs  web_window_localstorage.ast)  (include web_window_localstorage.d) ../bsconfig.json)
+ (mode (promote (until-clean) (only web_window_localstorage.bs.js)))(deps (:inputs  web_window_localstorage.ast)  (include web_window_localstorage.d) ../bsconfig.json)
 (action
-  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output commonjs:./src-ocaml:.bs.js -o web_window_localstorage.cmj %{inputs}))
+  (run melc -I .  -bs-cross-module-opt  -w a -bs-package-name bucklescript-tea -bs-package-output es6:./src-ocaml:.bs.js -o web_window_localstorage.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
@@ -721,9 +721,9 @@
  (rule
 (targets  bg.cmj bg.cmi bg.cmt bg.bs.js)
  (alias mel)
- (deps (:inputs  bg.ast)  (include bg.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only bg.bs.js)))(deps (:inputs  bg.ast)  (include bg.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o bg.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o bg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  form.ast)
@@ -739,9 +739,9 @@
  (rule
 (targets  form.cmj form.cmi form.cmt form.bs.js)
  (alias mel)
- (deps (:inputs  form.ast)  (include form.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only form.bs.js)))(deps (:inputs  form.ast)  (include form.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o form.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o form.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  test.ast)
@@ -757,9 +757,9 @@
  (rule
 (targets  test.cmj test.cmi test.cmt test.bs.js)
  (alias mel)
- (deps (:inputs  test.ast)  (include test.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only test.bs.js)))(deps (:inputs  test.ast)  (include test.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o test.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o test.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ffext.ast)
@@ -775,9 +775,9 @@
  (rule
 (targets  ffext.cmj ffext.cmi ffext.cmt ffext.bs.js)
  (alias mel)
- (deps (:inputs  ffext.ast)  (include ffext.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only ffext.bs.js)))(deps (:inputs  ffext.ast)  (include ffext.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o ffext.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o ffext.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  prefs.ast)
@@ -793,34 +793,9 @@
  (rule
 (targets  prefs.cmj prefs.cmi prefs.cmt prefs.bs.js)
  (alias mel)
- (deps (:inputs  prefs.ast)  (include prefs.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only prefs.bs.js)))(deps (:inputs  prefs.ast)  (include prefs.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o prefs.cmj %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  test2.res.pp.ml)
- (deps (:inputs  test2.res) )
-(action
-  (with-stdout-to %{targets}
-   (run rescript_syntax -print=binary %{inputs})))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  test2.ast)
- (deps (:inputs  test2.res.pp.ml)  .melange.eobjs/.bsbuild)
-(action
- (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  test2.d)
- (deps (:inputs  test2.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
-(enabled_if %{bin-available:melc}) )
- (rule
-(targets  test2.cmj test2.cmi test2.cmt test2.bs.js)
- (alias mel)
- (deps (:inputs  test2.ast)  (include test2.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
-(action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o test2.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o prefs.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  common.ast)
@@ -836,9 +811,9 @@
  (rule
 (targets  common.cmj common.cmi common.cmt common.bs.js)
  (alias mel)
- (deps (:inputs  common.ast)  (include common.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only common.bs.js)))(deps (:inputs  common.ast)  (include common.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o common.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o common.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_api.ast)
@@ -854,9 +829,9 @@
  (rule
 (targets  dom_api.cmj dom_api.cmi dom_api.cmt dom_api.bs.js)
  (alias mel)
- (deps (:inputs  dom_api.ast)  (include dom_api.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only dom_api.bs.js)))(deps (:inputs  dom_api.ast)  (include dom_api.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o dom_api.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o dom_api.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  long_click.ast)
@@ -872,121 +847,146 @@
  (rule
 (targets  long_click.cmj long_click.cmi long_click.cmt long_click.bs.js)
  (alias mel)
- (deps (:inputs  long_click.ast)  (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only long_click.bs.js)))(deps (:inputs  long_click.ast)  (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output commonjs:.:.bs.js -o long_click.cmj %{inputs}))
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o long_click.cmj %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  event_handling_experiments.res.pp.ml)
+ (deps (:inputs  event_handling_experiments.res) )
+(action
+  (with-stdout-to %{targets}
+   (run rescript_syntax -print=binary %{inputs})))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  event_handling_experiments.ast)
+ (deps (:inputs  event_handling_experiments.res.pp.ml)  .melange.eobjs/.bsbuild)
+(action
+ (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  event_handling_experiments.d)
+ (deps (:inputs  event_handling_experiments.ast) )
+(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+(enabled_if %{bin-available:melc}) )
+ (rule
+(targets  event_handling_experiments.cmj event_handling_experiments.cmi event_handling_experiments.cmt event_handling_experiments.bs.js)
+ (alias mel)
+ (mode (promote (until-clean) (only event_handling_experiments.bs.js)))(deps (:inputs  event_handling_experiments.ast)  (include event_handling_experiments.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+(action
+  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o event_handling_experiments.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
 (subdir .melange.eobjs
-(rule (write-file .bsbuild OQpCZwpGb3JtClRlc3QKRmZleHQKUHJlZnMKVGVzdDIKQ29tbW9uCkRvbV9hcGkKTG9uZ19jbGljawouCQoxAAAAAAAAAAAACjAK))
-(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/home/jayesh/projects/pin-unpin-tab\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/home/jayesh/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
+(rule (write-file .bsbuild OQpCZwpGb3JtClRlc3QKRmZleHQKUHJlZnMKQ29tbW9uCkRvbV9hcGkKTG9uZ19jbGljawpFdmVudF9oYW5kbGluZ19leHBlcmltZW50cwouCQoxAAAAAAAAAAAACjAK))
+(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/Users/jayesh/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/Users/jayesh/projects/pin-unpin-tab\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
 )
 
 (data_only_dirs node_modules  .melange.eobjs)
 (alias (name mel) (deps .melange.eobjs/.sourcedirs.json (alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel)))
 
-(rule (targets (dir melange.commonjs))
+(rule (targets (dir melange.es6))
  (alias UNSTABLE_mel)
 (action (chdir %{targets} (progn 
 (run mkdir -p .)
 (run cp %{sources-0} .) (system "rm -f ./*.{ast,cm*,d}")
  (run rm -f bg.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../bg.cmj -o bg.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../bg.cmj -o bg.bs.js)
  (run rm -f form.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../form.cmj -o form.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../form.cmj -o form.bs.js)
  (run rm -f test.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../test.cmj -o test.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../test.cmj -o test.bs.js)
  (run rm -f ffext.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../ffext.cmj -o ffext.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../ffext.cmj -o ffext.bs.js)
  (run rm -f prefs.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../prefs.cmj -o prefs.bs.js)
- (run rm -f test2.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../test2.cmj -o test2.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../prefs.cmj -o prefs.bs.js)
  (run rm -f common.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../common.cmj -o common.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../common.cmj -o common.bs.js)
  (run rm -f dom_api.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../dom_api.cmj -o dom_api.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../dom_api.cmj -o dom_api.bs.js)
  (run rm -f long_click.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type commonjs ../long_click.cmj -o long_click.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../long_click.cmj -o long_click.bs.js)
+ (run rm -f event_handling_experiments.bs.js)
+ (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../event_handling_experiments.cmj -o event_handling_experiments.bs.js)
 (run mkdir -p node_modules/bucklescript-tea/src-ocaml)
 (run cp %{sources-1} node_modules/bucklescript-tea/src-ocaml) (system "rm -f node_modules/bucklescript-tea/src-ocaml/*.{ast,cm*,d}")
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea.cmj -o node_modules/bucklescript-tea/src-ocaml/tea.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea.cmj -o node_modules/bucklescript-tea/src-ocaml/tea.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web.cmj -o node_modules/bucklescript-tea/src-ocaml/web.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web.cmj -o node_modules/bucklescript-tea/src-ocaml/web.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/vdom.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/vdom.cmj -o node_modules/bucklescript-tea/src-ocaml/vdom.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/vdom.cmj -o node_modules/bucklescript-tea/src-ocaml/vdom.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_ex.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_ex.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_ex.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_ex.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_ex.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_app.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_app.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_app.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_app.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_app.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_cmd.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_cmd.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_cmd.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_cmd.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_cmd.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_sub.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_sub.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_sub.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_sub.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_sub.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_svg.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_svg.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_svg.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_html.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_html.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_html.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_http.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_http.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_http.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_http.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_http.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_json.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_json.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_json.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_json.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_json.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_task.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_task.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_task.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_task.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_task.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_time.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_time.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_time.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_time.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_time.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_date.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_date.cmj -o node_modules/bucklescript-tea/src-ocaml/web_date.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_date.cmj -o node_modules/bucklescript-tea/src-ocaml/web_date.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_json.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_json.cmj -o node_modules/bucklescript-tea/src-ocaml/web_json.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_json.cmj -o node_modules/bucklescript-tea/src-ocaml/web_json.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_node.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_node.cmj -o node_modules/bucklescript-tea/src-ocaml/web_node.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_node.cmj -o node_modules/bucklescript-tea/src-ocaml/web_node.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_debug.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_debug.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_debug.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_debug.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_debug.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_html2.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_html2.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html2.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_html2.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html2.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_mouse.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_mouse.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_mouse.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_mouse.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_mouse.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_event.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_event.cmj -o node_modules/bucklescript-tea/src-ocaml/web_event.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_event.cmj -o node_modules/bucklescript-tea/src-ocaml/web_event.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_random.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_random.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_random.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_random.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_random.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_result.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_result.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_result.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_result.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_result.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_window.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_window.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_window.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_program.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_program.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_program.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_program.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_program.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_promise.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_promise.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_promise.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_promise.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_promise.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_document.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_document.cmj -o node_modules/bucklescript-tea/src-ocaml/web_document.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_document.cmj -o node_modules/bucklescript-tea/src-ocaml/web_document.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_formdata.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_formdata.cmj -o node_modules/bucklescript-tea/src-ocaml/web_formdata.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_formdata.cmj -o node_modules/bucklescript-tea/src-ocaml/web_formdata.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_location.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_location.cmj -o node_modules/bucklescript-tea/src-ocaml/web_location.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_location.cmj -o node_modules/bucklescript-tea/src-ocaml/web_location.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_html_cmds.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_html_cmds.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html_cmds.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_html_cmds.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_html_cmds.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_navigation.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_navigation.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_navigation.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_navigation.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_navigation.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_svg_events.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_svg_events.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg_events.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_svg_events.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg_events.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_animationframe.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_animationframe.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_animationframe.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_animationframe.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_animationframe.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea_svg_attributes.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/tea_svg_attributes.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg_attributes.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/tea_svg_attributes.cmj -o node_modules/bucklescript-tea/src-ocaml/tea_svg_attributes.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_window_history.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_window_history.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window_history.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_window_history.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window_history.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_xmlhttprequest.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_xmlhttprequest.cmj -o node_modules/bucklescript-tea/src-ocaml/web_xmlhttprequest.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_xmlhttprequest.cmj -o node_modules/bucklescript-tea/src-ocaml/web_xmlhttprequest.bs.js)
  (run rm -f node_modules/bucklescript-tea/src-ocaml/web_window_localstorage.bs.js)
- (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type commonjs ../node_modules/bucklescript-tea/src-ocaml/web_window_localstorage.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window_localstorage.bs.js)
+ (run melc -I ../node_modules/bucklescript-tea/src-ocaml  -bs-package-name bucklescript-tea -bs-module-type es6 ../node_modules/bucklescript-tea/src-ocaml/web_window_localstorage.cmj -o node_modules/bucklescript-tea/src-ocaml/web_window_localstorage.bs.js)
 (run mkdir -p node_modules/reason-promise/src/js)
 (run cp %{sources-2} node_modules/reason-promise/src/js) (system "rm -f node_modules/reason-promise/src/js/*.{ast,cm*,d}")
  (run rm -f node_modules/reason-promise/src/js/promise.bs.js)
- (run melc -I ../node_modules/reason-promise/src/js  -bs-package-name reason-promise -bs-module-type commonjs ../node_modules/reason-promise/src/js/promise.cmj -o node_modules/reason-promise/src/js/promise.bs.js)
+ (run melc -I ../node_modules/reason-promise/src/js  -bs-package-name reason-promise -bs-module-type es6 ../node_modules/reason-promise/src/js/promise.cmj -o node_modules/reason-promise/src/js/promise.bs.js)
 (run cp -f ../bsconfig.json .) ))) (deps (:sources-0 (glob_files ./*))
 (:sources-1 (glob_files node_modules/bucklescript-tea/src-ocaml/*))
 (:sources-2 (glob_files node_modules/reason-promise/src/js/*))))
