@@ -6,3 +6,4 @@ _build
 releases
 .DS_Store
 *.zip
+*.bs.js
