@@ -1,55 +1,42 @@
-Instructions are for macOS, tested on Big Sur.
+Instructions are for macOS.
 
-# Set up OCaml environment
+## Pre-requisites
 
-1. install `opam` - OCaml package manager, which itself can be used to install OCaml
+- nodejs
+- yarn
+- web-ext
+
+## Steps
 
 ```sh
-brew install opam
+# 1. Install opam
+# src: https://opam.ocaml.org/doc/Install.html
+bash -c "sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
+
+# 2. Init opam, which will also install a default OCaml compiler (which we don't need)
 opam init
-eval `opam env`
-```
 
-1. install ocaml compiler version 4.11.1
+# 3. Install OCaml compiler v4.14.0
+opam switch create 4.14.0
 
-```sh
-opam switch create 4.11.1
-eval `opam env`
-```
+# 4. Bring the current shell env in sync with opam's env
+eval $(opam env)
 
-1. install ocaml's build system `dune`
+# 5. Install a build dependency - melange
+opam install mel
 
-```sh
-opam install dune
-```
-
-# Set up project's dependencies
-
-1. install project dependencies
-
-```sh
-opam install js_of_ocaml js_of_ocaml-ppx js_of_ocaml-lwt lwt_ppx promise_jsoo
-```
-
-
-# Build project
-
-1. go to project root where `build.sh` is located
-
-```sh
+# 6. Go to project's folder
 cd pin-unpin-tab
+
+# 7. Install dependencies
+yarn install
+
+# 8. Link melange runtime libs into our project's node_modules
+ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
+
+# 9a. Load the extension in dev mode
+yarn test
+
+# 9b. Build the extension
+yarn build:ext
 ```
-
-1. To run the extension in dev mode, run the dev script.
-
-```sh
-sh run-dev.sh
-```
-
-1. To build the extension, run the build script.
-
-```sh
-sh build.sh
-```
-
-The built `zip` is generated in `_build/default/web-ext-artifacts` dir. The rest of the build artifacts in `_build` dir can be ignored.
