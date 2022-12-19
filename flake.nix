@@ -11,7 +11,7 @@
       systems = [ "x86_64-darwin" "aarch64-darwin" "x86_64-linux" ];
       createDevShell = system:
         let
-          pkgs = 
+          pkgs =
             inputs.nixpkgs.legacyPackages.${system}.extend
               inputs.melange.overlays.default;
         in
@@ -30,10 +30,9 @@
             mel
             utop
 
-            pkgs.nodejs
-            pkgs.nodePackages.web-ext
-            pkgs.yarn
             pkgs.entr
+            pkgs.nodejs
+            pkgs.yarn
           ];
 
           shellHook = ''
