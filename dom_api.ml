@@ -117,7 +117,7 @@ module Ev = struct
     [@@bs.send]
 end
 
-external set_timeout : (unit -> unit) -> float -> int = "setTimeout" [@@bs.val]
+external set_timeout : (unit -> unit) -> int -> int = "setTimeout" [@@bs.val]
 external clear_timeout : int -> unit = "clearTimeout" [@@bs.val]
 external document : Document.t = "document" [@@bs.val]
 external window : Window.t = "window" [@@bs.val]

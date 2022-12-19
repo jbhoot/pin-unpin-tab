@@ -11,7 +11,7 @@ let init () =
         Browser.Browser_action.On_clicked.add_listener (fun tab ->
             tab |> toggle_pin |> ignore);
 
-        Browser.Runtime.On_message.add_listener_async (fun _ sender ->
+        Browser.Runtime.On_message.add_listener (fun _ sender ->
             sender.tab |> toggle_pin)))
 
 let () = init ()

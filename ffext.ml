@@ -1,3 +1,15 @@
+module type Storage_args = sig
+  (* todo: 't can only be an object / record *)
+  type t
+
+  type 'v change =
+    { old_value : 'v option [@bs.as "oldValue"]
+    ; new_value : 'v option [@bs.as "newValue"]
+    }
+
+  type changes
+end
+
 module Browser = struct
   type tab_id
 
@@ -14,25 +26,21 @@ module Browser = struct
   end
 
   module Runtime = struct
+    (* todo: turn this into a functor *)
+
     type message_sender =
       { tab : tab
       ; id : string
       }
 
-    external send_message_internally : 'msg -> 'resp_msg Promise.t
+    external send_message_internally : 'msg -> ('resp_msg, string) Promise.Js.t
       = "sendMessage"
       [@@bs.val] [@@bs.scope "browser", "runtime"]
 
     module On_message = struct
-      type 'msg send_response = 'msg -> unit
-
-      external add_listener_sync :
-        ('msg -> message_sender -> 'resp_msg send_response -> unit) -> unit
+      external add_listener :
+        ('msg -> message_sender -> ('resp_msg, string) Promise.Js.t) -> unit
         = "addListener"
-        [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
-
-      external add_listener_async :
-        ('msg -> message_sender -> 'resp_msg Promise.t) -> unit = "addListener"
         [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
     end
   end
@@ -40,36 +48,31 @@ module Browser = struct
   module Tabs = struct
     type update_properties = { pinned : bool }
 
-    external update : tab_id -> update_properties -> tab Promise.t = "update"
+    external update : tab_id -> update_properties -> (tab, string) Promise.Js.t
+      = "update"
       [@@bs.val] [@@bs.scope "browser", "tabs"]
   end
 
-  module Storage = struct
+  module Storage (Args : Storage_args) = struct
+    type t = Args.t
+    type changes = Args.changes
+
     type area_name =
       [ `sync
       | `local
       | `managed
       ]
 
-    type ('o, 'n) storage_change =
-      { (* todo: does old_value aotmatically translate to oldValue? *)
-        old_value : 'o option
-      ; new_value : 'n option
-      }
-
     module Local = struct
-      (* todo: 't can only be an object / record *)
-      external get_all : unit -> 't Promise.t = "get"
+      external get : t -> (t, string) Promise.Js.t = "get"
         [@@bs.val] [@@bs.scope "browser", "storage", "local"]
 
-      (* todo: 't can only be an object / record *)
-      external get : 't -> 't Promise.t = "get"
+      external set : t -> (unit, string) Promise.Js.t = "set"
         [@@bs.val] [@@bs.scope "browser", "storage", "local"]
     end
 
     module On_changed = struct
-      external add_listener :
-        (('o, 'n) storage_change Js.Dict.t -> area_name -> unit) -> unit
+      external add_listener : (Args.changes -> area_name -> unit) -> unit
         = "addListener"
         [@@bs.val] [@@bs.scope "browser", "storage", "onChanged"]
     end
