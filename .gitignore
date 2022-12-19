@@ -7,3 +7,4 @@ releases
 .DS_Store
 *.zip
 *.bs.js
+*.prod.js
