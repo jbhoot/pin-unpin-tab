@@ -3,6 +3,8 @@ open Tea.Html2
 module A = Tea.Html2.Attributes
 module E = Tea.Html2.Events
 
+let minimum_toggle_time = 800
+
 module F_args = struct
   let id = "PreferenceForm"
 
@@ -35,12 +37,29 @@ module F_args = struct
       | false -> Ok false
     in
     let parse_long_click_toggle_time value =
-      match value |> Belt.Int.fromString with
-      | Some v -> Ok v
-      | None ->
+      let v = Js.String2.trim value in
+      match Js.String2.length v > 0 with
+      | true -> (
+        match Js_api.Int.parse v with
+        | Some v ->
+          if v > minimum_toggle_time then
+            Ok v
+          else
+            Error
+              [ Field_error
+                  ( Long_click_toggle_time
+                  , "Trigger time should be greater than "
+                    ^ Js.Int.toString minimum_toggle_time
+                    ^ " ms" )
+              ]
+        | None ->
+          Error
+            [ Field_error
+                (Long_click_toggle_time, "Trigger time should be an integer")
+            ])
+      | false ->
         Error
-          [ Field_error
-              (Long_click_toggle_time, "Enter the time in milliseconds")
+          [ Field_error (Long_click_toggle_time, "Trigger time cannot be empty")
           ]
     in
     match
@@ -74,9 +93,10 @@ type msg =
 
 let view (m : model) =
   form
-    [ A.name F.id; A.novalidate true ]
+    [ A.name F.id; A.novalidate true; A.class' "stack" ]
     [ h1 [] [ text "Preferences" ]
-    ; div []
+    ; div
+        [ A.class' "cluster" ]
         [ input'
             [ A.type' "checkbox"
             ; A.id (F.Field.to_id Long_click_toggle)
@@ -88,21 +108,36 @@ let view (m : model) =
             []
         ; label
             [ A.for' (F.Field.to_id Long_click_toggle) ]
-            [ text "Pin / unpin on holding left click" ]
-        ]
-    ; div []
-        [ label
-            [ A.for' (F.Field.to_id Long_click_toggle_time) ]
-            [ text "Hold left click for milliseconds" ]
-        ; input'
-            [ A.type' "text"
-            ; A.id (F.Field.to_id Long_click_toggle_time)
-            ; A.name (F.Field.to_id Long_click_toggle_time)
-            ; A.value m.input.long_click_toggle_time
-            ; E.onChange (fun v -> Filled_long_click_toggle_time v)
+            [ span [] [ text "Hold down the left click to pin/unpin a tab" ]
+            ; span []
+                [ text
+                    "You can hold down the left click anywhere on the page, \
+                     except on the interactive components, such as a textbox, \
+                     scrollbar, etc."
+                ]
             ]
-            []
         ]
+    ; (match m.input.long_click_toggle with
+      | true ->
+        div
+          [ A.class' "stack-small indented" ]
+          [ label
+              [ A.for' (F.Field.to_id Long_click_toggle_time) ]
+              [ span [] [ text "Hold-down time in milliseconds" ]
+              ; span [] [ text "Minimum: 800 ms" ]
+              ; span [] [ text "Recommended: 1000 ms" ]
+              ; span [] [ text "An invalid value will set the time to 1000 ms" ]
+              ]
+          ; input'
+              [ A.type' "text"
+              ; A.id (F.Field.to_id Long_click_toggle_time)
+              ; A.name (F.Field.to_id Long_click_toggle_time)
+              ; A.value m.input.long_click_toggle_time
+              ; E.onChange (fun v -> Filled_long_click_toggle_time v)
+              ]
+              []
+          ]
+      | false -> noNode)
     ]
 
 let save_prefs prefs =
@@ -131,18 +166,18 @@ let update m msg =
     )
   | Filled_long_click_toggle v ->
     let input = { m.F.input with long_click_toggle = v } in
-    ( m |> F.update_form_with_input ~input
-    , { longClickToggle = input.long_click_toggle
-      ; longClickToggleTime = input.long_click_toggle_time |> int_of_string
-      }
-      |> save_prefs )
+    ( F.update_form_with_input m ~input
+    , save_prefs
+        { longClickToggle = input.long_click_toggle
+        ; longClickToggleTime = input.long_click_toggle_time |> int_of_string
+        } )
   | Filled_long_click_toggle_time v ->
     let input = { m.input with long_click_toggle_time = v } in
-    ( m |> F.update_form_with_input ~input
-    , { longClickToggle = input.long_click_toggle
-      ; longClickToggleTime = input.long_click_toggle_time |> int_of_string
-      }
-      |> save_prefs )
+    ( F.update_form_with_input m ~input
+    , save_prefs
+        { longClickToggle = input.long_click_toggle
+        ; longClickToggleTime = input.long_click_toggle_time |> int_of_string
+        } )
   | Saved_prefs res -> (
     match res with
     | Ok () -> (m, Tea.Cmd.none)
@@ -168,7 +203,6 @@ let () =
   Ev.listen document
     (`DOMContentLoaded
       (fun _ ->
-        Js.Console.log "DOMContentLoaded in prefs";
         match
           Dom_api.Document.get_optional_element_by_id Dom_api.document "root"
         with

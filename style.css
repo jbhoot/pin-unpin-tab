@@ -1,0 +1,124 @@
+/* Reset
+ * https://piccalil.li/blog/a-modern-css-reset
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Global styles */
+
+:root {
+    --base-size: 1rem;
+    --ratio: 1.250;
+    --s-5: calc(var(--s-4) / var(--ratio));
+    --s-4: calc(var(--s-3) / var(--ratio));
+    --s-3: calc(var(--s-2) / var(--ratio));
+    --s-2: calc(var(--s-1) / var(--ratio));
+    --s-1: calc(var(--s0) / var(--ratio));
+    --s0: var(--base-size);
+    --s1: calc(var(--s0) * var(--ratio));
+    --s2: calc(var(--s1) * var(--ratio));
+    --s3: calc(var(--s2) * var(--ratio));
+    line-height: var(--ratio);
+}
+
+body {
+    background-color: #f3eee4;
+}
+
+h1 {
+    font-size: var(--s3);
+}
+
+label {
+    font-size: var(--s1);
+    display: flex;
+    flex-direction: column;
+}
+
+label > span:not(:first-child) {
+    font-size: var(--s0);
+}
+
+input[type='text'] {
+    font-size: 1.5em;
+    border: 2px solid #222;
+    padding-left: 0.25rem;
+}
+
+button[type='submit'] {
+    background-color: green;
+    color: white;
+    padding: var(--s-2);
+    font-size: var(--s2);
+    border: 1px solid green;
+}
+
+/* Layouts */
+.box {
+    padding: var(--s1);
+    border: 2px solid;
+}
+
+.stack,
+.stack-small {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+}
+
+.stack > *,
+.stack-small > * {
+    margin-block: 0;
+}
+
+.stack > * + * {
+    margin-block-start: var(--s1, 1rem);
+}
+
+.stack-small > * + * {
+    margin-block-start: var(--s-4, 1rem);
+}
+
+.cluster {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.indented {
+    margin-left: var(--s3);
+}
+
+/* Specific */
+input[name='Long_click_toggle_time'] {
+    width: 5ch;
+}
