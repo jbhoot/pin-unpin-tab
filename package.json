@@ -11,11 +11,13 @@
     "reason-promise": "^1.1.5"
   },
   "scripts": {
-    "build": "mel build && esbuild bg.bs.js --bundle --outfile=bg.prod.js && esbuild long_click.bs.js --bundle --outfile=long_click.prod.js && esbuild prefs.bs.js --bundle --outfile=prefs.prod.js",
-    "start": "ls *.ml | entr -csr 'npm run build'",
+    "build": "mel build && esbuild src/bg.bs.js --bundle --outfile=src/bg.prod.js && esbuild src/long_click.bs.js --bundle --outfile=src/long_click.prod.js && esbuild src/prefs.bs.js --bundle --outfile=src/prefs.prod.js",
+    "@comment: alternative find command which traverses everything unnecessarily": "find . -path './src/*' -not -name '*.bs.js' -not -name '*.prod.js' -o -path './bsconfig.json' -o -path './manifest.json'",
+    "@comment:dev": "double backslashes are needed escape the backslash itself to satisfy json parsing. bash should need only a single backslash, to escape the parentheses.",
+    "dev": "find . -regextype posix-extended -regex './(.idea|_build|node_modules|_opam|.git|.direnv)' -prune -o \\( -path './src/*' -not -name '*.bs.js' -not -name '*.prod.js' -o -path './bsconfig.json' -o -path './manifest.json' \\) -print | entr -s 'npm run build'",
     "test": "npm run build && web-ext run --browser-console --url 'https://jayeshbhoot.com' --reload",
-    "build:ext": "npm run build && web-ext build --ignore-files='*.ml' '*.sh' '*.md' dune dune-project '*.zip' '*.bs.js' flake.nix flake.lock package-lock.json dune.mel _build _opam",
-    "build:src-zip": "zip -r src-pkg.zip.tmp *.md *.bs.js manifest.json *.html package.json && rm -rf src-pkg.zip && mv src-pkg.zip.tmp src-pkg.zip"
+    "build:ext": "npm run build && web-ext build --ignore-files=_build _opam .idea node_modules web-ext-artifacts .envrc .gitignore .merlin .ocamlformat bsconfig.json dune dune-project dune.mel flake.* package*.json src/*.ml",
+    "build:src-zip": "zip -r src-pkg.zip.tmp src/*.bs.js src/*.html src/*.css *.md manifest.json package.json && rm -rf src-pkg.zip && mv src-pkg.zip.tmp src-pkg.zip"
   },
   "devDependencies": {
     "esbuild": "^0.16.9",

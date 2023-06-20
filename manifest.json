@@ -6,25 +6,25 @@
     "homepage_url": "https://github.com/jayesh-bhoot/pin-unpin-tab",
     "browser_action": {
         "default_icon": {
-            "48": "./icons/pin-dark.svg",
-            "96": "./icons/pin-dark.svg"
+            "48": "./src/icons/pin-dark.svg",
+            "96": "./src/icons/pin-dark.svg"
         },
         "theme_icons": [
             {
-                "light": "./icons/pin-light.svg",
-                "dark": "./icons/pin-dark.svg",
+                "light": "./src/icons/pin-light.svg",
+                "dark": "./src/icons/pin-dark.svg",
                 "size": 48
             },
             {
-                "light": "./icons/pin-light.svg",
-                "dark": "./icons/pin-dark.svg",
+                "light": "./src/icons/pin-light.svg",
+                "dark": "./src/icons/pin-dark.svg",
                 "size": 96
             }
         ]
     },
     "background": {
         "scripts": [
-            "./bg.prod.js"
+            "./src/bg.prod.js"
         ]
     },
     "content_scripts": [
@@ -33,21 +33,21 @@
                 "<all_urls>"
             ],
             "js": [
-                "./long_click.prod.js"
+                "./src/long_click.prod.js"
             ],
             "run_at": "document_start"
         }
     ],
     "options_ui": {
-        "page": "./preferences.html",
+        "page": "./src/preferences.html",
         "browser_style": true
     },
     "permissions": [
         "storage"
     ],
     "icons": {
-        "48": "./icons/pin-dark.svg",
-        "96": "./icons/pin-dark.svg"
+        "48": "./src/icons/pin-dark.svg",
+        "96": "./src/icons/pin-dark.svg"
     },
     "commands": {
         "_execute_browser_action": {

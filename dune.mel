@@ -706,156 +706,156 @@
 (rule (write-file .bsbuild MzYKVGVhCldlYgpWZG9tClRlYV9leApUZWFfYXBwClRlYV9jbWQKVGVhX3N1YgpUZWFfc3ZnClRlYV9odG1sClRlYV9odHRwClRlYV9qc29uClRlYV90YXNrClRlYV90aW1lCldlYl9kYXRlCldlYl9qc29uCldlYl9ub2RlClRlYV9kZWJ1ZwpUZWFfaHRtbDIKVGVhX21vdXNlCldlYl9ldmVudApUZWFfcmFuZG9tClRlYV9yZXN1bHQKV2ViX3dpbmRvdwpUZWFfcHJvZ3JhbQpUZWFfcHJvbWlzZQpXZWJfZG9jdW1lbnQKV2ViX2Zvcm1kYXRhCldlYl9sb2NhdGlvbgpUZWFfaHRtbF9jbWRzClRlYV9uYXZpZ2F0aW9uClRlYV9zdmdfZXZlbnRzClRlYV9hbmltYXRpb25mcmFtZQpUZWFfc3ZnX2F0dHJpYnV0ZXMKV2ViX3dpbmRvd19oaXN0b3J5CldlYl94bWxodHRwcmVxdWVzdApXZWJfd2luZG93X2xvY2Fsc3RvcmFnZQouL3NyYy1vY2FtbAkKMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAowCg==))
 )
 
-(subdir .
+(subdir src
 (rule
 (targets  bg.ast)
- (deps (:inputs  bg.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  bg.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bg.d)
- (deps (:inputs  bg.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/bg.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  bg.cmj bg.cmi bg.cmt bg.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only bg.bs.js)))(deps (:inputs  bg.ast)  (include bg.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only bg.bs.js)))(deps (:inputs  bg.ast)  (include bg.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o bg.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o bg.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  form.ast)
- (deps (:inputs  form.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  form.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  form.d)
- (deps (:inputs  form.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/form.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  form.cmj form.cmi form.cmt form.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only form.bs.js)))(deps (:inputs  form.ast)  (include form.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only form.bs.js)))(deps (:inputs  form.ast)  (include form.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o form.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o form.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ffext.ast)
- (deps (:inputs  ffext.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  ffext.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ffext.d)
- (deps (:inputs  ffext.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/ffext.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  ffext.cmj ffext.cmi ffext.cmt ffext.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only ffext.bs.js)))(deps (:inputs  ffext.ast)  (include ffext.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only ffext.bs.js)))(deps (:inputs  ffext.ast)  (include ffext.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o ffext.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o ffext.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  prefs.ast)
- (deps (:inputs  prefs.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  prefs.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  prefs.d)
- (deps (:inputs  prefs.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/prefs.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  prefs.cmj prefs.cmi prefs.cmt prefs.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only prefs.bs.js)))(deps (:inputs  prefs.ast)  (include prefs.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only prefs.bs.js)))(deps (:inputs  prefs.ast)  (include prefs.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o prefs.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o prefs.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  common.ast)
- (deps (:inputs  common.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  common.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  common.d)
- (deps (:inputs  common.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/common.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  common.cmj common.cmi common.cmt common.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only common.bs.js)))(deps (:inputs  common.ast)  (include common.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only common.bs.js)))(deps (:inputs  common.ast)  (include common.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o common.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o common.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_api.ast)
- (deps (:inputs  js_api.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  js_api.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_api.d)
- (deps (:inputs  js_api.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/js_api.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  js_api.cmj js_api.cmi js_api.cmt js_api.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only js_api.bs.js)))(deps (:inputs  js_api.ast)  (include js_api.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only js_api.bs.js)))(deps (:inputs  js_api.ast)  (include js_api.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o js_api.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o js_api.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_api.ast)
- (deps (:inputs  dom_api.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  dom_api.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_api.d)
- (deps (:inputs  dom_api.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/dom_api.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  dom_api.cmj dom_api.cmi dom_api.cmt dom_api.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only dom_api.bs.js)))(deps (:inputs  dom_api.ast)  (include dom_api.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only dom_api.bs.js)))(deps (:inputs  dom_api.ast)  (include dom_api.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o dom_api.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o dom_api.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  long_click.ast)
- (deps (:inputs  long_click.ml)  .melange.eobjs/.bsbuild)
+ (deps (:inputs  long_click.ml)  ../.melange.eobjs/.bsbuild)
 (action
  (run melc  -warn-error +101  -absname -bs-ast -o %{targets} %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  long_click.d)
- (deps (:inputs  long_click.ast) )
-(action (run meldep  -root-dir . -p melange-basic-project -proj-dir .  %{inputs}))
+ (deps (:inputs  .././src/long_click.ast) )
+(action (run meldep  -root-dir .. -p melange-basic-project -proj-dir ..  %{inputs}))
 (enabled_if %{bin-available:melc}) )
  (rule
 (targets  long_click.cmj long_click.cmi long_click.cmt long_click.bs.js)
  (alias mel)
- (mode (promote (until-clean) (only long_click.bs.js)))(deps (:inputs  long_click.ast)  (include long_click.d) bsconfig.json(alias node_modules/reason-promise/src/js/mel)(alias node_modules/bucklescript-tea/src-ocaml/mel))
+ (mode (promote (until-clean) (only long_click.bs.js)))(deps (:inputs  long_click.ast)  (include long_click.d) ../bsconfig.json(alias ../node_modules/reason-promise/src/js/mel)(alias ../node_modules/bucklescript-tea/src-ocaml/mel))
 (action
-  (run melc -I . -I node_modules/reason-promise/src/js -I node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:.:.bs.js -o long_click.cmj %{inputs}))
+  (run melc -I . -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml   -warn-error +101 -bs-package-name melange-basic-project -bs-package-output es6:./src:.bs.js -o long_click.cmj %{inputs}))
 (enabled_if %{bin-available:melc}) )
  )
 
 (subdir .melange.eobjs
-(rule (write-file .bsbuild OApCZwpGb3JtCkZmZXh0ClByZWZzCkNvbW1vbgpKc19hcGkKRG9tX2FwaQpMb25nX2NsaWNrCi4JCjEAAAAAAAAAAAowCg==))
-(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/Users/jayesh/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/Users/jayesh/projects/pin-unpin-tab\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/Users/jayesh/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
+(rule (write-file .bsbuild OApCZwpGb3JtCkZmZXh0ClByZWZzCkNvbW1vbgpKc19hcGkKRG9tX2FwaQpMb25nX2NsaWNrCi4vc3JjCQoxAAAAAAAAAAAKMAo=))
+(rule (write-file .sourcedirs.json "{ \"dirs\" : [ \"/Users/jb/projects/pin-unpin-tab/node_modules/reason-promise/./src/js\" , \"/Users/jb/projects/pin-unpin-tab/node_modules/bucklescript-tea/./src-ocaml\" , \"/Users/jb/projects/pin-unpin-tab/./src\" ] , \"pkgs\" : [ [ \"bucklescript-tea\" , \"/Users/jb/projects/pin-unpin-tab/node_modules/bucklescript-tea\" ] , [ \"reason-promise\" , \"/Users/jb/projects/pin-unpin-tab/node_modules/reason-promise\" ] ] , \"generated\" : [] }")) 
 )
 
 (data_only_dirs node_modules  .melange.eobjs)
@@ -864,24 +864,24 @@
 (rule (targets (dir melange.es6))
  (alias UNSTABLE_mel)
 (action (chdir %{targets} (progn 
-(run mkdir -p .)
-(run cp %{sources-0} .) (system "rm -f ./*.{ast,cm*,d}")
- (run rm -f bg.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../bg.cmj -o bg.bs.js)
- (run rm -f form.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../form.cmj -o form.bs.js)
- (run rm -f ffext.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../ffext.cmj -o ffext.bs.js)
- (run rm -f prefs.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../prefs.cmj -o prefs.bs.js)
- (run rm -f common.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../common.cmj -o common.bs.js)
- (run rm -f js_api.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../js_api.cmj -o js_api.bs.js)
- (run rm -f dom_api.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../dom_api.cmj -o dom_api.bs.js)
- (run rm -f long_click.bs.js)
- (run melc -I .. -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../long_click.cmj -o long_click.bs.js)
+(run mkdir -p src)
+(run cp %{sources-0} src) (system "rm -f src/*.{ast,cm*,d}")
+ (run rm -f src/bg.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/bg.cmj -o src/bg.bs.js)
+ (run rm -f src/form.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/form.cmj -o src/form.bs.js)
+ (run rm -f src/ffext.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/ffext.cmj -o src/ffext.bs.js)
+ (run rm -f src/prefs.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/prefs.cmj -o src/prefs.bs.js)
+ (run rm -f src/common.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/common.cmj -o src/common.bs.js)
+ (run rm -f src/js_api.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/js_api.cmj -o src/js_api.bs.js)
+ (run rm -f src/dom_api.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/dom_api.cmj -o src/dom_api.bs.js)
+ (run rm -f src/long_click.bs.js)
+ (run melc -I ../src -I ../node_modules/reason-promise/src/js -I ../node_modules/bucklescript-tea/src-ocaml -bs-package-name melange-basic-project -bs-module-type es6 ../src/long_click.cmj -o src/long_click.bs.js)
 (run mkdir -p node_modules/bucklescript-tea/src-ocaml)
 (run cp %{sources-1} node_modules/bucklescript-tea/src-ocaml) (system "rm -f node_modules/bucklescript-tea/src-ocaml/*.{ast,cm*,d}")
  (run rm -f node_modules/bucklescript-tea/src-ocaml/tea.bs.js)
@@ -960,6 +960,6 @@
 (run cp %{sources-2} node_modules/reason-promise/src/js) (system "rm -f node_modules/reason-promise/src/js/*.{ast,cm*,d}")
  (run rm -f node_modules/reason-promise/src/js/promise.bs.js)
  (run melc -I ../node_modules/reason-promise/src/js  -bs-package-name reason-promise -bs-module-type es6 ../node_modules/reason-promise/src/js/promise.cmj -o node_modules/reason-promise/src/js/promise.bs.js)
-(run cp -f ../bsconfig.json .) ))) (deps (:sources-0 (glob_files ./*))
+(run cp -f ../bsconfig.json .) ))) (deps (:sources-0 (glob_files src/*))
 (:sources-1 (glob_files node_modules/bucklescript-tea/src-ocaml/*))
 (:sources-2 (glob_files node_modules/reason-promise/src/js/*))))

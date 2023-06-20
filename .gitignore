@@ -1,10 +1,12 @@
 *.swp
 *-swp
-.idea
-_build
+.idea/
+_build/
 .merlin
-releases
+releases/
 .DS_Store
 *.zip
 *.bs.js
 *.prod.js
+_opam/
+web-ext-artifacts/

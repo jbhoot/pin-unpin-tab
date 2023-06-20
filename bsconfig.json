@@ -3,7 +3,7 @@
     "name": "melange-basic-project",
     "version": "0.0.1",
     "sources": {
-      "dir" : "."
+      "dir" : "src"
     },
     "package-specs": {
       "module": "es6",
