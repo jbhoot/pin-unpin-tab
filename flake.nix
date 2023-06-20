@@ -32,7 +32,6 @@
 
             pkgs.entr
             pkgs.nodejs
-            pkgs.yarn
           ];
 
           shellHook = ''
