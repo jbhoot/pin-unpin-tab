@@ -5,7 +5,7 @@ end
 
 module Int = struct
   let parse str =
-    let regex = [%re "/^[-+]?(\d+)$/"] in
+    let regex = [%bs.re "/^[-+]?(\d+)$/"] in
     match Js.Re.test_ regex str with
     | true -> (
       let v = Number.make_int str in

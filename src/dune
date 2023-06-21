@@ -1,0 +1,7 @@
+(melange.emit
+ (target output)
+ (libraries bucklescript_tea reason_promise)
+ (modules :standard)
+ (preprocess
+  (pps melange.ppx))
+ (module_systems es6))
