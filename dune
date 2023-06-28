@@ -1,4 +1,4 @@
-;; we start by ignoring node_modules. if you need to consume an OCaml 
+;; we start by ignoring node_modules. if you need to consume an OCaml
 ;; project from `node_modules`, this should work:
 ;; - remove the `dirs` stanza below
 ;; - add a `(subdir node_modules (dirs only_your_package))`
@@ -6,18 +6,8 @@
 
 (subdir
  node_modules
- (vendored_dirs bucklescript-tea reason-promise)
- (dirs bucklescript-tea reason-promise)
- (subdir
-  bucklescript-tea
-  (subdir
-   src-ocaml
-   (library
-    (name bucklescript_tea)
-    (wrapped false)
-    (modes melange)
-    (preprocess
-     (pps melange.ppx)))))
+ (vendored_dirs reason-promise)
+ (dirs reason-promise)
  (subdir
   reason-promise
   (subdir

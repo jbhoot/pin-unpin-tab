@@ -73,6 +73,12 @@ input[type='text'] {
     padding-left: 0.25rem;
 }
 
+input[type='text']:disabled {
+    border: 2px solid gray;
+    color: gray;
+    background-color: #e0e0e0;
+}
+
 button[type='submit'] {
     background-color: green;
     color: white;
@@ -118,7 +124,20 @@ button[type='submit'] {
     margin-left: var(--s3);
 }
 
+[aria-invalid=true] {
+    background-color: lightpink;
+}
+
+[aria-invalid=false] ~ [id^='error-'] {
+    display: none;
+}
+
+[aria-invalid=true] ~ [id^='error-'] {
+    color: red;
+    font-size: 1.2rem;
+}
+
 /* Specific */
-input[name='Long_click_toggle_time'] {
+input[name='longClickToggleTime'] {
     width: 5ch;
 }

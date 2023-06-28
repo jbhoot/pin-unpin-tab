@@ -1,6 +1,6 @@
 (melange.emit
  (target output)
- (libraries bucklescript_tea reason_promise)
+ (libraries reason_promise)
  (modules :standard)
  (preprocess
   (pps melange.ppx))

@@ -1,12 +1,36 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <title> Preferences for Pin Unpin Tab </title>
-        <link rel="stylesheet" href="./style.css">
-    </head>
-    <body>
-        <div id='root' class="box"></div>
-        <script src='./prefs.prod.js'> </script>
-    </body>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <title> Preferences for Pin Unpin Tab </title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<div id='root' class="box">
+    <form name="PreferencesForm" novalidate class="stack">
+        <h1>Preferences</h1>
+        <div class="cluster">
+            <input type="checkbox" id="longClickToggle" name="longClickToggle" value="longClickToggle"/>
+            <label for="longClickToggle">
+                <span>Hold down the left click to pin/unpin a tab</span>
+                <span>You can hold down the left click anywhere on the page,
+                        except on the interactive components, such as a textbox, scrollbar, etc.</span>
+            </label>
+        </div>
+        <div class="stack-small indented">
+            <label for="longClickToggleTime">
+                <span>Hold-down time in milliseconds</span>
+                <span>Minimum: 800 ms</span>
+                <span>Recommended: 1000 ms</span>
+            </label>
+            <input type="text" id="longClickToggleTime" name="longClickToggleTime">
+            <p id="error-longClickToggleTime">Error: invalid value</p>
+        </div>
+    </form>
+</div>
+<script src='./prefs.prod.js'></script>
+</body>
+
 </html>
