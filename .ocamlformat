@@ -18,3 +18,4 @@ cases-exp-indent=2
 break-cases=all
 indicate-nested-or-patterns=unsafe-no
 parse-docstrings=true
+break-infix=wrap-or-vertical
