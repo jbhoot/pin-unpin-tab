@@ -19,7 +19,7 @@ module Stream = struct
   (* one from_event_change binding for each of input, select, textarea *)
   external from_event_change :
        InputElement.t
-    -> [ `change ]
+    -> (_[@bs.as "change"])
     -> ([ `change ], InputElement.t, InputElement.t) Generic_ev.t t
     = "fromEvent"
     [@@bs.module "rxjs"]
@@ -27,9 +27,8 @@ module Stream = struct
   (* one from_event_change binding for each of input, select, textarea *)
   external from_event_input :
        InputElement.t
-    -> [ `input ]
-    -> ([ `input ], InputElement.t, InputElement.t) Generic_ev.t t
-    = "fromEvent"
+    -> (_[@bs.as "input"])
+    -> ([ `input ], InputElement.t, InputElement.t) Generic_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
   external subscribe : 'a t -> ('a -> unit) -> subscription = "subscribe"
