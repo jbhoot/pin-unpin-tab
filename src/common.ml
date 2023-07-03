@@ -17,7 +17,7 @@ module Storage_args = struct
     }
 
   let make_default () : t =
-    { longClickToggle = true; longClickToggleTime = 600 }
+    { longClickToggle = true; longClickToggleTime = 800 }
 end
 
 module Storage = Ffext.Browser.Storage (Storage_args)
