@@ -116,15 +116,8 @@ module Ev = struct
 
   external l :
        Document.t
-    -> [ `DOMContentLoaded ]
-    -> (([ `DOMContentLoaded ], Document.t, 't) Generic_ev.t -> unit)
-    -> unit = "addEventListener"
-    [@@bs.send]
-
-  external l2 :
-       Document.t
     -> (_[@bs.as "DOMContentLoaded"])
-    -> (('typ, 't, Document.t) Generic_ev.t -> unit)
+    -> (([ `DOMContentLoaded ], 't, Document.t) Generic_ev.t -> unit)
     -> unit = "addEventListener"
     [@@bs.send]
 
@@ -133,21 +126,21 @@ module Ev = struct
     -> ([ (* TODO: Document is always the 'ct == currentTarget. 't == target
              could be either of document or window. *)
           `DOMContentLoaded of
-          ('typ, 'ct', 't) Generic_ev.t -> unit
-        | `click of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
-        | `dblclick of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
-        | `mouseup of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
-        | `mousedown of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
-        | `mousemove of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+          ([ `DOMContentLoaded ], 'ct', 't) Generic_ev.t -> unit
+        | `click of ([ `click ], 'ct, 't) Mouse_ev.t -> unit
+        | `dblclick of ([ `dblclick ], 'ct, 't) Mouse_ev.t -> unit
+        | `mouseup of ([ `mouseup ], 'ct, 't) Mouse_ev.t -> unit
+        | `mousedown of ([ `mousedown ], 'ct, 't) Mouse_ev.t -> unit
+        | `mousemove of ([ `mousemove ], 'ct, 't) Mouse_ev.t -> unit
         | (* TODO: Both document and element types can be a 'ct ==
              currentTarget. Also figure out what the 't == `target` could be. *)
           `scroll of
-          ('typ, 'ct', 't) Generic_ev.t -> unit
+          ([ `scroll ], 'ct', 't) Generic_ev.t -> unit
         | `abort_abortsignal of
-          ('typ, AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
+          ([ `abort ], AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
           [@bs.as "abort"]
         | `abort_filereader of
-          ('typ, FileReader.t, FileReader.t) Generic_ev.t -> unit
+          ([ `abort ], FileReader.t, FileReader.t) Generic_ev.t -> unit
           [@bs.as "abort"]
         ]
        [@bs.string])
@@ -156,18 +149,19 @@ module Ev = struct
 
   external listen_with_opts :
        'ct
-    -> ([ `DOMContentLoaded of ('typ, 'ct', 't) Generic_ev.t -> unit
-        | `click of ('typ, 'ct', 't) Mouse_ev.t -> unit
-        | `dblclick of ('typ, 'ct', 't) Mouse_ev.t -> unit
-        | `mouseup of ('typ, 'ct', 't) Mouse_ev.t -> unit
-        | `mousedown of ('typ, 'ct', 't) Mouse_ev.t -> unit
-        | `mousemove of ('typ, 'ct', 't) Mouse_ev.t -> unit
-        | `scroll of ('typ, 'ct', 't) Generic_ev.t -> unit
+    -> ([ `DOMContentLoaded of
+          ([ `DOMContentLoaded ], 'ct', 't) Generic_ev.t -> unit
+        | `click of ([ `click ], 'ct', 't) Mouse_ev.t -> unit
+        | `dblclick of ([ `dblclick ], 'ct', 't) Mouse_ev.t -> unit
+        | `mouseup of ([ `mouseup ], 'ct', 't) Mouse_ev.t -> unit
+        | `mousedown of ([ `mousedown ], 'ct', 't) Mouse_ev.t -> unit
+        | `mousemove of ([ `mousemove ], 'ct', 't) Mouse_ev.t -> unit
+        | `scroll of ([ `scroll ], 'ct', 't) Generic_ev.t -> unit
         | `abort_abortsignal of
-          ('typ, AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
+          ([ `abort ], AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
           [@bs.as "abort"]
         | `abort_filereader of
-          ('typ, FileReader.t, FileReader.t) Generic_ev.t -> unit
+          ([ `abort ], FileReader.t, FileReader.t) Generic_ev.t -> unit
           [@bs.as "abort"]
         ]
        [@bs.string])
