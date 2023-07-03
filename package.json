@@ -11,7 +11,7 @@
     "rxjs": "^7.8.1"
   },
   "scripts": {
-    "build": "dune build @melange && cd ./_build/default/src/output && cp ~/projects/pin-unpin-tab/manifest.json ./ && cp -r ~/projects/pin-unpin-tab/src/icons ./src/ && cp -r ~/projects/pin-unpin-tab/src/preferences.html ./src/ && cp ~/projects/pin-unpin-tab/src/style.css ./src/ && cp ~/projects/pin-unpin-tab/src/prefs.js ./src/ && esbuild src/bg.js --bundle --outfile=src/bg.prod.js && esbuild src/long_click.js --bundle --outfile=src/long_click.prod.js && esbuild src/prefs.js --bundle --outfile=src/prefs.prod.js",
+    "build": "dune build @melange && cd ./_build/default/src/output && cp ~/projects/pin-unpin-tab/manifest.json ./ && cp -r ~/projects/pin-unpin-tab/src/icons ./src/ && cp -r ~/projects/pin-unpin-tab/src/preferences.html ./src/ && cp ~/projects/pin-unpin-tab/src/style.css ./src/ && esbuild src/bg.js --bundle --outfile=src/bg.build.js && esbuild src/long_click.js --bundle --outfile=src/long_click.build.js && esbuild src/preferences.js --bundle --outfile=src/preferences.build.js",
     "test": "npm run build && cd ./_build/default/src/output && web-ext run --browser-console --url 'https://bhoot.sh' --reload",
     "build:outdated": "mel build && esbuild src/bg.bs.js --bundle --outfile=src/bg.prod.js && esbuild src/long_click.bs.js --bundle --outfile=src/long_click.prod.js && esbuild src/prefs.bs.js --bundle --outfile=src/prefs.prod.js",
     "@comment: alternative find command which traverses everything unnecessarily": "find . -path './src/*' -not -name '*.bs.js' -not -name '*.prod.js' -o -path './bsconfig.json' -o -path './manifest.json'",

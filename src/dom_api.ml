@@ -28,6 +28,26 @@ module Element = struct
 
   external query_selector_opt : t -> string -> t option = "querySelector"
     [@@bs.send]
+
+  external set_attribute : t -> string -> string -> unit = "setAttribute"
+    [@@bs.send]
+end
+
+module InputElement = struct
+  type t
+
+  external from_element : Element.t -> t = "%identity"
+  external get_value : t -> string = "value" [@@bs.get]
+  external set_value : t -> string -> unit = "value" [@@bs.set]
+  external get_disabled : t -> bool = "disabled" [@@bs.get]
+  external set_disabled : t -> bool -> unit = "disabled" [@@bs.set]
+
+  (* todo: should these belong to a separate CheckboxElement or
+     RadioCheckboxElement? The standard clubs the properties into an
+     HTMLInputElement though.
+     https://html.spec.whatwg.org/multipage/input.html#dom-input-checked *)
+  external get_checked : t -> bool = "checked" [@@bs.get]
+  external set_checked : t -> bool -> unit = "checked" [@@bs.set]
 end
 
 module Document = struct

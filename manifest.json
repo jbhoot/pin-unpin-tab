@@ -24,7 +24,7 @@
     },
     "background": {
         "scripts": [
-            "./src/bg.prod.js"
+            "./src/bg.build.js"
         ]
     },
     "content_scripts": [
@@ -33,7 +33,7 @@
                 "<all_urls>"
             ],
             "js": [
-                "./src/long_click.prod.js"
+                "./src/long_click.build.js"
             ],
             "run_at": "document_start"
         }
