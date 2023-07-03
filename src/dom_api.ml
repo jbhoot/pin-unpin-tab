@@ -19,54 +19,71 @@ module AbortController = struct
 end
 
 module Element = struct
-  type t
+  type t = Dom.element
 
   external closest : t -> string -> t option = "closest"
     [@@bs.send] [@@bs.return nullable]
+
+  external query_selector : t -> string -> t = "querySelector" [@@bs.send]
+
+  external query_selector_opt : t -> string -> t option = "querySelector"
+    [@@bs.send]
 end
 
 module Document = struct
-  type t
+  type t = Dom.document
 
-  external get_optional_element_by_id : t -> string -> 't option
-    = "getElementById"
+  external get_element_by_id : t -> string -> Element.t = "getElementById"
     [@@bs.send]
 
-  external get_element_by_id : t -> string -> 't = "getElementById" [@@bs.send]
+  external get_element_by_id_opt : t -> string -> Element.t option
+    = "getElementById"
+    [@@bs.send] [@@bs.return nullable]
+
+  external query_selector : t -> string -> Element.t = "querySelector"
+    [@@bs.send]
+
+  external query_selector_opt : t -> string -> Element.t option
+    = "querySelector"
+    [@@bs.send] [@@bs.return nullable]
 end
 
 module Window = struct
-  type t
+  type t = Dom.window
 end
 
 module Base_ev (T : sig
-  type ('t, 'ct) t
+  type ('typ, 'ct, 't) t
 end) =
 struct
-  external target : ('t, 'ct) T.t -> 't = "target" [@@bs.get]
-  external current_target : ('t, 'ct) T.t -> 'ct = "currentTarget" [@@bs.get]
+  external type_ : ('typ, 'ct, 't) T.t -> 'typ = "type" [@@bs.get]
+
+  external current_target : ('typ, 'ct, 't) T.t -> 'ct = "currentTarget"
+    [@@bs.get]
+
+  external target : ('typ, 'ct, 't) T.t -> 't = "target" [@@bs.get]
 end
 
 module Generic_ev = struct
-  type ('t, 'ct) t
+  type ('typ, 'ct', 't) t
 
   include Base_ev (struct
-    type nonrec ('t, 'ct) t = ('t, 'ct) t
+    type nonrec ('typ, 'ct', 't) t = ('typ, 'ct', 't) t
   end)
 end
 
 module Mouse_ev = struct
-  type ('t, 'ct) t
+  type ('typ, 'ct', 't) t
 
   include Base_ev (struct
-    type nonrec ('t, 'ct) t = ('t, 'ct) t
+    type nonrec ('typ, 'ct', 't) t = ('typ, 'ct', 't) t
   end)
 
   (* todo: represent ev.button as a polymorphic variant *)
-  external button : ('t, 'ct) t -> int = "button" [@@bs.get]
-  external shift_key : ('t, 'ct) t -> bool = "shiftKey" [@@bs.get]
-  external alt_key : ('t, 'ct) t -> bool = "altKey" [@@bs.get]
-  external ctrl_key : ('t, 'ct) t -> bool = "ctrlKey" [@@bs.get]
+  external button : ('typ, 'ct', 't) t -> int = "button" [@@bs.get]
+  external shift_key : ('typ, 'ct', 't) t -> bool = "shiftKey" [@@bs.get]
+  external alt_key : ('typ, 'ct', 't) t -> bool = "altKey" [@@bs.get]
+  external ctrl_key : ('typ, 'ct', 't) t -> bool = "ctrlKey" [@@bs.get]
 end
 
 module Ev = struct
@@ -77,41 +94,63 @@ module Ev = struct
     ; signal : AbortSignal.t option
     }
 
+  external l :
+       Document.t
+    -> [ `DOMContentLoaded ]
+    -> (([ `DOMContentLoaded ], Document.t, 't) Generic_ev.t -> unit)
+    -> unit = "addEventListener"
+    [@@bs.send]
+
+  external l2 :
+       Document.t
+    -> (_[@bs.as "DOMContentLoaded"])
+    -> (('typ, 't, Document.t) Generic_ev.t -> unit)
+    -> unit = "addEventListener"
+    [@@bs.send]
+
   external listen :
        'ct
-    -> ([ `DOMContentLoaded of ('t, 'ct) Generic_ev.t -> unit
-        | `click of ('t, 'ct) Mouse_ev.t -> unit
-        | `dblclick of ('t, 'ct) Mouse_ev.t -> unit
-        | `mouseup of ('t, 'ct) Mouse_ev.t -> unit
-        | `mousedown of ('t, 'ct) Mouse_ev.t -> unit
-        | `mousemove of ('t, 'ct) Mouse_ev.t -> unit
-        | `scroll of ('t, 'ct) Generic_ev.t -> unit
+    -> ([ (* TODO: Document is always the 'ct == currentTarget. 't == target
+             could be either of document or window. *)
+          `DOMContentLoaded of
+          ('typ, 'ct', 't) Generic_ev.t -> unit
+        | `click of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+        | `dblclick of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+        | `mouseup of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+        | `mousedown of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+        | `mousemove of ('typ, 'ct, Dom.element) Mouse_ev.t -> unit
+        | (* TODO: Both document and element types can be a 'ct ==
+             currentTarget. Also figure out what the 't == `target` could be. *)
+          `scroll of
+          ('typ, 'ct', 't) Generic_ev.t -> unit
         | `abort_abortsignal of
-          (AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
-          [@as "abort"]
-        | `abort_filereader of (FileReader.t, FileReader.t) Generic_ev.t -> unit
-          [@as "abort"]
+          ('typ, AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
+          [@bs.as "abort"]
+        | `abort_filereader of
+          ('typ, FileReader.t, FileReader.t) Generic_ev.t -> unit
+          [@bs.as "abort"]
         ]
-       [@string])
+       [@bs.string])
     -> unit = "addEventListener"
     [@@bs.send]
 
   external listen_with_opts :
        'ct
-    -> ([ `DOMContentLoaded of ('t, 'ct) Generic_ev.t -> unit
-        | `click of ('t, 'ct) Mouse_ev.t -> unit
-        | `dblclick of ('t, 'ct) Mouse_ev.t -> unit
-        | `mouseup of ('t, 'ct) Mouse_ev.t -> unit
-        | `mousedown of ('t, 'ct) Mouse_ev.t -> unit
-        | `mousemove of ('t, 'ct) Mouse_ev.t -> unit
-        | `scroll of ('t, 'ct) Generic_ev.t -> unit
+    -> ([ `DOMContentLoaded of ('typ, 'ct', 't) Generic_ev.t -> unit
+        | `click of ('typ, 'ct', 't) Mouse_ev.t -> unit
+        | `dblclick of ('typ, 'ct', 't) Mouse_ev.t -> unit
+        | `mouseup of ('typ, 'ct', 't) Mouse_ev.t -> unit
+        | `mousedown of ('typ, 'ct', 't) Mouse_ev.t -> unit
+        | `mousemove of ('typ, 'ct', 't) Mouse_ev.t -> unit
+        | `scroll of ('typ, 'ct', 't) Generic_ev.t -> unit
         | `abort_abortsignal of
-          (AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
-          [@as "abort"]
-        | `abort_filereader of (FileReader.t, FileReader.t) Generic_ev.t -> unit
-          [@as "abort"]
+          ('typ, AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit
+          [@bs.as "abort"]
+        | `abort_filereader of
+          ('typ, FileReader.t, FileReader.t) Generic_ev.t -> unit
+          [@bs.as "abort"]
         ]
-       [@string])
+       [@bs.string])
     -> opts
     -> unit = "addEventListener"
     [@@bs.send]
