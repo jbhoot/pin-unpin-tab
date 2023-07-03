@@ -2,9 +2,7 @@ open Dom_api
 
 module Stream = struct
   type 'a t
-  type observer
   type subscription
-  type evtype
 
   (* TODO: Not sure if ('a , string) Promise.Js.t is a correct type binding.
      `string` is contentious. *)
