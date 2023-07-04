@@ -1,25 +1,5 @@
 open Dom_api
 
-let set_abortable_timeout callback time long_click_abort_signal =
-  let controller_to_cancel_abort_listener = AbortController.make () in
-  let timer_id =
-    set_timeout
-      (fun () ->
-        callback ();
-        AbortController.abort controller_to_cancel_abort_listener None)
-      time
-  in
-  Ev.on_abort long_click_abort_signal
-    (fun _ -> clear_timeout timer_id)
-    ~opts:
-      (Some
-         { signal =
-             Some (AbortController.signal controller_to_cancel_abort_listener)
-         ; once = Some true
-         ; capture = None
-         ; passive = None
-         })
-
 let clicked_only_left_button ev =
   ev |> Mouse_ev.button == 0
   && ev |> Mouse_ev.shift_key |> not
@@ -54,6 +34,26 @@ let clicked_on_passive_ele ele =
          match Dom_api.Element.closest ele selector with
          | Some _ -> false
          | None -> true)
+
+let set_abortable_timeout callback time long_click_abort_signal =
+  let controller_to_cancel_abort_listener = AbortController.make () in
+  let timer_id =
+    set_timeout
+      (fun () ->
+        callback ();
+        AbortController.abort controller_to_cancel_abort_listener None)
+      time
+  in
+  Ev.on_abort long_click_abort_signal
+    (fun _ -> clear_timeout timer_id)
+    ~opts:
+      (Some
+         { signal =
+             Some (AbortController.signal controller_to_cancel_abort_listener)
+         ; once = Some true
+         ; capture = None
+         ; passive = None
+         })
 
 let init (prefs : Common.Storage_args.t) =
   match prefs.longClickToggle with
