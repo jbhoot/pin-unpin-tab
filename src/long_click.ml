@@ -1,21 +1,24 @@
 open Dom_api
 
-let set_abortable_timeout callback time abort_signal =
-  let signal_aborter = AbortController.make () in
+let set_abortable_timeout callback time long_click_abort_signal =
+  let controller_to_cancel_abort_listener = AbortController.make () in
   let timer_id =
     set_timeout
       (fun () ->
-        AbortController.abort signal_aborter None;
-        callback ())
+        callback ();
+        AbortController.abort controller_to_cancel_abort_listener None)
       time
   in
-  Ev.listen_with_opts abort_signal
-    (`abort_abortsignal (fun _ -> timer_id |> clear_timeout))
-    { signal = Some (signal_aborter |> AbortController.signal)
-    ; once = Some true
-    ; capture = None
-    ; passive = None
-    }
+  Ev.on_abort long_click_abort_signal
+    (fun _ -> clear_timeout timer_id)
+    ~opts:
+      (Some
+         { signal =
+             Some (AbortController.signal controller_to_cancel_abort_listener)
+         ; once = Some true
+         ; capture = None
+         ; passive = None
+         })
 
 let clicked_only_left_button ev =
   ev |> Mouse_ev.button == 0
