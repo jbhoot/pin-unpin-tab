@@ -52,74 +52,67 @@ let clicked_on_passive_ele ele =
          | Some _ -> false
          | None -> true)
 
-let () =
-  Ev.listen document
-    (`DOMContentLoaded
-      (fun _ ->
-        let abortController = ref None in
-        let init (prefs : Common.Storage_args.t) =
-          match prefs.longClickToggle with
+let init (prefs : Common.Storage_args.t) =
+  match prefs.longClickToggle with
+  | true ->
+    let abort_controller = AbortController.make () in
+    let opts =
+      { Ev.signal = Some (AbortController.signal abort_controller)
+      ; once = Some false
+      ; capture = None
+      ; passive = None
+      }
+    in
+    Ev.listen_with_opts document
+      (`mousedown
+        (fun ev ->
+          match
+            ev |> clicked_only_left_button
+            && ev |> Mouse_ev.target |> clicked_on_passive_ele
+          with
           | true ->
             let abort_controller = AbortController.make () in
             let opts =
               { Ev.signal = Some (abort_controller |> AbortController.signal)
-              ; once = Some false
+              ; once = Some true
               ; capture = None
               ; passive = None
               }
             in
-            Ev.listen_with_opts document
-              (`mousedown
-                (fun ev ->
-                  match
-                    ev |> clicked_only_left_button
-                    && ev |> Mouse_ev.target |> clicked_on_passive_ele
-                  with
-                  | true ->
-                    let abort_controller = AbortController.make () in
-                    let opts =
-                      { Ev.signal =
-                          Some (abort_controller |> AbortController.signal)
-                      ; once = Some true
-                      ; capture = None
-                      ; passive = None
-                      }
-                    in
-                    let abort_long_click _ =
-                      AbortController.abort abort_controller None
-                    in
-                    let trigger_long_click () =
-                      Ffext.Browser.Runtime.send_message_internally "toggle"
-                      |> ignore
-                    in
-                    Ev.listen_with_opts document (`mouseup abort_long_click)
-                      opts;
-                    Ev.listen_with_opts document (`mousemove abort_long_click)
-                      opts;
-                    Ev.listen_with_opts document (`scroll abort_long_click) opts;
-                    Ev.listen_with_opts (ev |> Mouse_ev.target)
-                      (`scroll abort_long_click) opts;
-                    set_abortable_timeout trigger_long_click
-                      prefs.longClickToggleTime
-                      (abort_controller |> AbortController.signal)
-                  | false -> ()))
-              opts;
-            Some abort_controller
-          | false -> None
-        in
-        let restart () =
-          let () =
-            match !abortController with
-            | Some ac -> AbortController.abort ac None
-            | None -> ()
-          in
-          Common.Storage_args.make_default ()
-          |. Common.Storage.Local.get |. Promise.Js.toResult
-          |. Promise.get (fun res ->
-                 match res with
-                 | Ok prefs -> abortController := init prefs
-                 | Error _ ->
-                   abortController := init (Common.Storage_args.make_default ()))
-        in
-        Common.Storage.On_changed.add_listener (fun _ _ -> restart ());
-        restart ()))
+            let abort_long_click _ =
+              AbortController.abort abort_controller None
+            in
+            let trigger_long_click () =
+              Ffext.Browser.Runtime.send_message_internally "toggle" |> ignore
+            in
+            Ev.listen_with_opts document (`mouseup abort_long_click) opts;
+            Ev.listen_with_opts document (`mousemove abort_long_click) opts;
+            Ev.listen_with_opts document (`scroll abort_long_click) opts;
+            Ev.listen_with_opts (ev |> Mouse_ev.target)
+              (`scroll abort_long_click) opts;
+            set_abortable_timeout trigger_long_click prefs.longClickToggleTime
+              (AbortController.signal abort_controller)
+          | false -> ()))
+      opts;
+    Some abort_controller
+  | false -> None
+
+let () =
+  let abortController = ref None in
+  let boot () =
+    let () =
+      match !abortController with
+      | Some ac -> AbortController.abort ac None
+      | None -> ()
+    in
+    Common.Storage_args.make_default ()
+    |. Common.Storage.Local.get
+    |. Promise.Js.toResult
+    |. Promise.get (fun res ->
+           match res with
+           | Ok prefs -> abortController := init prefs
+           | Error _ ->
+             abortController := init (Common.Storage_args.make_default ()))
+  in
+  Common.Storage.On_changed.add_listener (fun _ _ -> boot ());
+  boot ()
