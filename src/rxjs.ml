@@ -31,6 +31,32 @@ module Stream = struct
     -> ([ `input ], InputElement.t, InputElement.t) Generic_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
+  external from_event_DOMContentLoaded :
+       Document.t
+    -> (_[@bs.as "DOMContentLoaded"])
+    -> ([ `DOMContentLoaded ], Document.t, Document.t) Generic_ev.t t
+    = "fromEvent"
+    [@@bs.module "rxjs"]
+
+  external from_event_pattern :
+    (('a -> 'b) -> 'h_id) -> (('a -> 'b) -> 'h_id -> unit) -> ('a -> 'r) -> 'r t
+    = "fromEventPattern"
+    [@@bs.module "rxjs"]
+
+  external from_event_pattern2 :
+       (('a -> 'b -> 'c) -> 'h_id)
+    -> (('a -> 'b -> 'c) -> 'h_id -> unit)
+    -> ('a -> 'b -> 'r)
+    -> 'r t = "fromEventPattern"
+    [@@bs.module "rxjs"]
+
+  external from_event_pattern3 :
+       (('a -> 'b -> 'c -> 'd) -> 'h_id)
+    -> (('a -> 'b -> 'c -> 'd) -> 'h_id -> unit)
+    -> ('a -> 'b -> 'c -> 'r)
+    -> 'r t = "fromEventPattern"
+    [@@bs.module "rxjs"]
+
   external subscribe : 'a t -> ('a -> unit) -> subscription = "subscribe"
     [@@bs.send]
 

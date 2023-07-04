@@ -20,7 +20,18 @@ module Browser = struct
 
   module Browser_action = struct
     module On_clicked = struct
-      external add_listener : (tab -> unit) -> unit = "addListener"
+      (* TODO: Turn modifiers into a polymorphic type *)
+      type on_click_data =
+        { modifiers : string array (* e.g,. ["Shift"] *)
+        ; button : int (* Mouse button code *)
+        }
+
+      external add_listener : (tab -> on_click_data -> unit) -> unit
+        = "addListener"
+        [@@bs.val] [@@bs.scope "browser", "browserAction", "onClicked"]
+
+      external remove_listener : (tab -> on_click_data -> unit) -> unit
+        = "removeListener"
         [@@bs.val] [@@bs.scope "browser", "browserAction", "onClicked"]
     end
   end
@@ -41,6 +52,11 @@ module Browser = struct
       external add_listener :
         ('msg -> message_sender -> ('resp_msg, string) Promise.Js.t) -> unit
         = "addListener"
+        [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
+
+      external remove_listener :
+        ('msg -> message_sender -> ('resp_msg, string) Promise.Js.t) -> unit
+        = "removeListener"
         [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
     end
   end
