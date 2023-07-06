@@ -37,91 +37,6 @@ let clicked_on_passive_ele ele =
          | Some _ -> false
          | None -> true)
 
-let set_abortable_timeout callback time long_click_abort_signal =
-  let controller_to_cancel_abort_listener = AbortController.make () in
-  let timer_id =
-    set_timeout
-      (fun () ->
-        callback ();
-        AbortController.abort controller_to_cancel_abort_listener None)
-      time
-  in
-  Ev.on_abort long_click_abort_signal
-    (fun _ -> clear_timeout timer_id)
-    ~opts:
-      (Some
-         { signal =
-             Some (AbortController.signal controller_to_cancel_abort_listener)
-         ; once = Some true
-         ; capture = None
-         ; passive = None
-         })
-
-let init (prefs : Common.Storage_args.t) =
-  match prefs.longClickToggle with
-  | true ->
-    let abort_controller = AbortController.make () in
-    let opts =
-      { Ev.signal = Some (AbortController.signal abort_controller)
-      ; once = Some false
-      ; capture = None
-      ; passive = None
-      }
-    in
-    Ev.listen_with_opts document
-      (`mousedown
-        (fun ev ->
-          match
-            ev |> clicked_only_left_button
-            && ev |> Mouse_ev.target |> clicked_on_passive_ele
-          with
-          | true ->
-            let abort_controller = AbortController.make () in
-            let opts =
-              { Ev.signal = Some (abort_controller |> AbortController.signal)
-              ; once = Some true
-              ; capture = None
-              ; passive = None
-              }
-            in
-            let abort_long_click _ =
-              AbortController.abort abort_controller None
-            in
-            let trigger_long_click () =
-              Ffext.Browser.Runtime.send_message_internally "toggle" |> ignore
-            in
-            Ev.listen_with_opts document (`mouseup abort_long_click) opts;
-            Ev.listen_with_opts document (`mousemove abort_long_click) opts;
-            Ev.listen_with_opts document (`scroll abort_long_click) opts;
-            Ev.listen_with_opts (ev |> Mouse_ev.target)
-              (`scroll abort_long_click) opts;
-            set_abortable_timeout trigger_long_click prefs.longClickToggleTime
-              (AbortController.signal abort_controller)
-          | false -> ()))
-      opts;
-    Some abort_controller
-  | false -> None
-
-let () =
-  let abortController = ref None in
-  let boot () =
-    let () =
-      match !abortController with
-      | Some ac -> AbortController.abort ac None
-      | None -> ()
-    in
-    Common.Storage_args.make_default ()
-    |. Common.Storage.Local.get
-    |. Promise.Js.toResult
-    |. Promise.get (fun res ->
-           match res with
-           | Ok prefs -> abortController := init prefs
-           | Error _ ->
-             abortController := init (Common.Storage_args.make_default ()))
-  in
-  Common.Storage.On_changed.add_listener (fun _ _ -> boot ());
-  boot ()
-
 let defaults = Storage_args.make_default ()
 let s_initial_config = defaults |. Storage.Local.get |. Stream.from_promise
 
@@ -154,32 +69,53 @@ let c_long_click_toggle_time =
   |. Stream.pipe1 (Op.map (fun (v : Storage_args.t) _ -> v.longClickToggleTime))
   |. Op.hold defaults.longClickToggleTime
 
-let s_mouse_up =
-  document
-  |. Stream.from_event_mouseup
-  |. Stream.pipe1 (Op.map (fun _v _i -> ()))
-
-let s_mouse_move =
-  document
-  |. Stream.from_event_mousemove
-  |. Stream.pipe1 (Op.map (fun _v _i -> ()))
-
-let s_abort_trigger = Op.merge2 s_mouse_up s_mouse_move
-
-let s_long_click_trigger =
+let make_long_click_trigger mousedown_ev =
+  let opts : Ev.opts option =
+    Some { once = Some true; capture = None; passive = None; signal = None }
+  in
+  let s_mouse_up =
+    document
+    |. Stream.from_event_mouseup ~opts
+    |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+  in
+  let s_mouse_move =
+    document
+    |. Stream.from_event_mousemove ~opts
+    |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+  in
+  let s_document_scroll =
+    document
+    |. Stream.from_event_scroll_d ~opts
+    |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+  in
+  let s_element_scroll =
+    mousedown_ev
+    |. Mouse_ev.target
+    |. Stream.from_event_scroll_e ~opts
+    |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+  in
+  let s_abort_trigger =
+    Op.merge4 s_mouse_up s_mouse_move s_document_scroll s_element_scroll
+  in
   Stream.timer (Cell.get_value c_long_click_toggle_time)
   |. Stream.pipe2
        (Op.tap (fun _v -> Js.Console.log "Timeout triggered"))
        (Op.take_until s_abort_trigger)
 
-let s_mousedown =
-  document
-  |. Stream.from_event_mousedown
-  |. Stream.pipe2
-       (Op.merge_map (fun _v _i -> s_long_click_trigger))
-       (Op.take_until s_long_click_false)
-
 let s_result =
-  s_long_click_true |. Stream.pipe1 (Op.merge_map (fun _v _i -> s_mousedown))
+  s_long_click_true
+  |. Stream.pipe1
+       (* (Op.tap (fun _v -> Js.Console.log "Go yo")) *)
+       (Op.merge_map (fun _v _i ->
+            document
+            |. Stream.from_event_mousedown ~opts:None
+            |. Stream.pipe4
+                 (Op.filter (fun ev _i -> clicked_only_left_button ev))
+                 (Op.filter (fun ev _i ->
+                      clicked_on_passive_ele (Mouse_ev.target ev)))
+                 (Op.merge_map (fun ev _i -> make_long_click_trigger ev))
+                 (Op.take_until s_long_click_false)))
 
-let _ = Stream.subscribe s_result (fun v -> Js.Console.log2 "Sub ev" v)
+let _ =
+  Stream.subscribe s_result (fun _v ->
+      Ffext.Browser.Runtime.send_message_internally "toggle" |> ignore)

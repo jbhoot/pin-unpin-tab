@@ -30,7 +30,7 @@ let s_long_click_toggle_input =
   document
   |. Document.get_element_by_id "longClickToggle"
   |. InputElement.from_element
-  |. Stream.from_event_change
+  |. Stream.from_event_change ~opts:None
   |. Stream.pipe1
        (Op.map (fun ev _ ->
             ev |. Generic_ev.current_target |. InputElement.get_checked))
@@ -62,7 +62,7 @@ let s_long_click_toggle_time_input =
   document
   |. Document.get_element_by_id "longClickToggleTime"
   |. InputElement.from_element
-  |. Stream.from_event_input
+  |. Stream.from_event_input ~opts:None
   |. Stream.pipe1
        (Op.map (fun ev _ ->
             ev |. Generic_ev.current_target |. InputElement.get_value))

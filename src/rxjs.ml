@@ -22,6 +22,7 @@ module Stream = struct
   external from_event_change :
        InputElement.t
     -> (_[@bs.as "change"])
+    -> opts:Ev.opts option
     -> ([ `change ], InputElement.t, InputElement.t) Generic_ev.t t
     = "fromEvent"
     [@@bs.module "rxjs"]
@@ -30,12 +31,14 @@ module Stream = struct
   external from_event_input :
        InputElement.t
     -> (_[@bs.as "input"])
+    -> opts:Ev.opts option
     -> ([ `input ], InputElement.t, InputElement.t) Generic_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
   external from_event_DOMContentLoaded :
        Document.t
     -> (_[@bs.as "DOMContentLoaded"])
+    -> opts:Ev.opts option
     -> ([ `DOMContentLoaded ], Document.t, Document.t) Generic_ev.t t
     = "fromEvent"
     [@@bs.module "rxjs"]
@@ -43,19 +46,36 @@ module Stream = struct
   external from_event_mousedown :
        Document.t
     -> (_[@bs.as "mousedown"])
+    -> opts:Ev.opts option
     -> ([ `mousedown ], Document.t, Element.t) Mouse_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
   external from_event_mouseup :
        Document.t
     -> (_[@bs.as "mouseup"])
+    -> opts:Ev.opts option
     -> ([ `mouseup ], Document.t, Element.t) Mouse_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
   external from_event_mousemove :
        Document.t
     -> (_[@bs.as "mousemove"])
+    -> opts:Ev.opts option
     -> ([ `mousemove ], Document.t, Element.t) Mouse_ev.t t = "fromEvent"
+    [@@bs.module "rxjs"]
+
+  external from_event_scroll_e :
+       Element.t
+    -> (_[@bs.as "scroll"])
+    -> opts:Ev.opts option
+    -> ([ `scroll ], Element.t, Element.t) Mouse_ev.t t = "fromEvent"
+    [@@bs.module "rxjs"]
+
+  external from_event_scroll_d :
+       Document.t
+    -> (_[@bs.as "scroll"])
+    -> opts:Ev.opts option
+    -> ([ `scroll ], Document.t, Element.t) Mouse_ev.t t = "fromEvent"
     [@@bs.module "rxjs"]
 
   external from_event_pattern :
