@@ -26,6 +26,10 @@
             # macOS framework build inputs
             CoreServices
           ]);
+
+        shellHook = ''
+          eval $(opam env)
+        '';
       };
   in {
     devShell = inputs.nixpkgs.lib.genAttrs systems createDevShell;
