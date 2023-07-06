@@ -12,7 +12,7 @@ let is_long_click_toggle_time_input_valid v =
 let s_initial_config =
   Storage_args.make_default () |. Storage.Local.get |. Stream.from_promise
 
-let s_long_click_toggle_init =
+let s_initial_long_click_toggle =
   (* TODO: Inspect why v's type isn't being inferred here. *)
   (* Probably because of the similarity in Storage_args.t and
      Storage_args.change types *)
@@ -20,7 +20,7 @@ let s_long_click_toggle_init =
   |. Stream.pipe1 (Op.map (fun (v : Storage_args.t) _ -> v.longClickToggle))
 
 let _ =
-  Stream.subscribe s_long_click_toggle_init (fun v ->
+  Stream.subscribe s_initial_long_click_toggle (fun v ->
       document
       |. Document.get_element_by_id "longClickToggle"
       |. InputElement.from_element
@@ -36,7 +36,7 @@ let s_long_click_toggle_input =
             ev |. Generic_ev.current_target |. InputElement.get_checked))
 
 let s_long_click_toggle_change =
-  Op.merge2 s_long_click_toggle_init s_long_click_toggle_input
+  Op.merge2 s_initial_long_click_toggle s_long_click_toggle_input
 
 let _ =
   Stream.subscribe s_long_click_toggle_change (fun v ->
@@ -45,14 +45,14 @@ let _ =
       |. InputElement.from_element
       |. InputElement.set_disabled (not v))
 
-let s_long_click_toggle_time_init =
+let s_initial_long_click_toggle_time =
   s_initial_config
   |. Stream.pipe1
        (Op.map (fun (v : Storage_args.t) _ ->
             Js.Int.toString v.longClickToggleTime))
 
 let _ =
-  Stream.subscribe s_long_click_toggle_time_init (fun v ->
+  Stream.subscribe s_initial_long_click_toggle_time (fun v ->
       document
       |. Document.get_element_by_id "longClickToggleTime"
       |. InputElement.from_element
@@ -68,7 +68,7 @@ let s_long_click_toggle_time_input =
             ev |. Generic_ev.current_target |. InputElement.get_value))
 
 let s_long_click_toggle_time_change =
-  Op.merge2 s_long_click_toggle_time_init s_long_click_toggle_time_input
+  Op.merge2 s_initial_long_click_toggle_time s_long_click_toggle_time_input
 
 let s_is_long_click_toggle_time_valid =
   s_long_click_toggle_time_change
