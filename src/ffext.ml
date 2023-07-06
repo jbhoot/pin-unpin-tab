@@ -91,6 +91,10 @@ module Browser = struct
       external add_listener : (Args.changes -> area_name -> unit) -> unit
         = "addListener"
         [@@bs.val] [@@bs.scope "browser", "storage", "onChanged"]
+
+      external remove_listener : (Args.changes -> area_name -> unit) -> unit
+        = "removeListener"
+        [@@bs.val] [@@bs.scope "browser", "storage", "onChanged"]
     end
   end
 end

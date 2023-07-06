@@ -1,4 +1,6 @@
 open Dom_api
+open Rxjs
+open Common
 
 let clicked_only_left_button ev =
   ev |> Mouse_ev.button == 0
@@ -119,3 +121,65 @@ let () =
   in
   Common.Storage.On_changed.add_listener (fun _ _ -> boot ());
   boot ()
+
+let defaults = Storage_args.make_default ()
+let s_initial_config = defaults |. Storage.Local.get |. Stream.from_promise
+
+let s_config_changed =
+  Stream.from_event_pattern2
+    (fun handler -> Common.Storage.On_changed.add_listener handler)
+    (fun handler _signal -> Common.Storage.On_changed.remove_listener handler)
+    (fun _changes _area_name -> ())
+  |. Stream.pipe1
+       (Op.merge_map (fun _unit _i ->
+            defaults |. Storage.Local.get |. Stream.from_promise))
+
+let s_config = Op.merge2 s_initial_config s_config_changed
+
+let s_long_click_toggle =
+  (* TODO: Inspect why v's type isn't being inferred here. *)
+  (* Probably because of the similarity in Storage_args.t and
+     Storage_args.change types *)
+  s_config
+  |. Stream.pipe1 (Op.map (fun (v : Storage_args.t) _ -> v.longClickToggle))
+
+let s_long_click_true =
+  s_long_click_toggle |. Stream.pipe1 (Op.filter (fun v _i -> v = true))
+
+let s_long_click_false =
+  s_long_click_toggle |. Stream.pipe1 (Op.filter (fun v _i -> v = false))
+
+let c_long_click_toggle_time =
+  s_config
+  |. Stream.pipe1 (Op.map (fun (v : Storage_args.t) _ -> v.longClickToggleTime))
+  |. Op.hold defaults.longClickToggleTime
+
+let s_mouse_up =
+  document
+  |. Stream.from_event_mouseup
+  |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+
+let s_mouse_move =
+  document
+  |. Stream.from_event_mousemove
+  |. Stream.pipe1 (Op.map (fun _v _i -> ()))
+
+let s_abort_trigger = Op.merge2 s_mouse_up s_mouse_move
+
+let s_long_click_trigger =
+  Stream.timer (Cell.get_value c_long_click_toggle_time)
+  |. Stream.pipe2
+       (Op.tap (fun _v -> Js.Console.log "Timeout triggered"))
+       (Op.take_until s_abort_trigger)
+
+let s_mousedown =
+  document
+  |. Stream.from_event_mousedown
+  |. Stream.pipe2
+       (Op.merge_map (fun _v _i -> s_long_click_trigger))
+       (Op.take_until s_long_click_false)
+
+let s_result =
+  s_long_click_true |. Stream.pipe1 (Op.merge_map (fun _v _i -> s_mousedown))
+
+let _ = Stream.subscribe s_result (fun v -> Js.Console.log2 "Sub ev" v)
