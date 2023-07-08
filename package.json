@@ -1,6 +1,6 @@
 {
   "name": "pin-unpin-tab",
-  "version": "4.3",
+  "version": "5.0",
   "description": "Pin or unpin a tab through the toolbar icon, or a keyboard shortcut, or a left long-click anywhere on the page.",
   "main": "src/index.js",
   "repository": "https://github.com/jayeshbhoot/pin-unpin-tab",
