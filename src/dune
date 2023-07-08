@@ -2,6 +2,7 @@
  (target output)
  (libraries reason_promise)
  (modules :standard)
+ (runtime_deps ../manifest.json ./preferences.html ./style.css (glob_files ./icons/*.*))
  (preprocess
   (pps melange.ppx))
  (module_systems es6))

@@ -11,14 +11,11 @@
     "rxjs": "^7.8.1"
   },
   "scripts": {
-    "build": "dune build @melange && cd ./_build/default/src/output && cp ~/projects/pin-unpin-tab/manifest.json ./ && cp -r ~/projects/pin-unpin-tab/src/icons ./src/ && cp -r ~/projects/pin-unpin-tab/src/preferences.html ./src/ && cp ~/projects/pin-unpin-tab/src/style.css ./src/ && esbuild src/bg.js --bundle --outfile=src/bg.build.js && esbuild src/long_click.js --bundle --outfile=src/long_click.build.js && esbuild src/preferences.js --bundle --outfile=src/preferences.build.js",
-    "test": "npm run build && cd ./_build/default/src/output && web-ext run --browser-console --url 'https://bhoot.sh' --reload",
-    "build:outdated": "mel build && esbuild src/bg.bs.js --bundle --outfile=src/bg.prod.js && esbuild src/long_click.bs.js --bundle --outfile=src/long_click.prod.js && esbuild src/prefs.bs.js --bundle --outfile=src/prefs.prod.js",
-    "@comment: alternative find command which traverses everything unnecessarily": "find . -path './src/*' -not -name '*.bs.js' -not -name '*.prod.js' -o -path './bsconfig.json' -o -path './manifest.json'",
-    "@comment:dev": "double backslashes are needed escape the backslash itself to satisfy json parsing. bash should need only a single backslash, to escape the parentheses.",
-    "dev:outdated": "find . -regextype posix-extended -regex './(.idea|_build|node_modules|_opam|.git|.direnv)' -prune -o \\( -path './src/*' -not -name '*.bs.js' -not -name '*.prod.js' -o -path './bsconfig.json' -o -path './manifest.json' \\) -print | entr -s 'npm run build'",
-    "build:ext:outdated": "npm run build && web-ext build --ignore-files=_build _opam .idea node_modules web-ext-artifacts .envrc .gitignore .merlin .ocamlformat bsconfig.json dune dune-project dune.mel flake.* package*.json src/*.ml",
-    "build:src-zip:outdated": "zip -r src-pkg.zip.tmp src/*.bs.js src/*.html src/*.css *.md manifest.json package.json && rm -rf src-pkg.zip && mv src-pkg.zip.tmp src-pkg.zip"
+    "clean": "dune clean",
+    "build": "npm run clean && dune build @melange && esbuild ./_build/default/src/output/src/{bg.js,long_click.js,preferences.js} --bundle --out-extension:.js=.build.js --outdir=./_build/default/src/output/src",
+    "test": "npm run build && web-ext run --source-dir ./_build/default/src/output --browser-console --url 'https://bhoot.sh' --reload",
+    "build:ext": "npm run build && npx web-ext build --source-dir ./_build/default/src/output --ignore-files './src/**/!(*.build).js'",
+    "build:src-zip": "zip -r src-pkg.zip.tmp manifest.json package*.json dune* *.opam *.md src/* && rm -rf src-pkg.zip && mv src-pkg.zip.tmp src-pkg.zip"
   },
   "devDependencies": {
     "esbuild": "^0.16.9",
