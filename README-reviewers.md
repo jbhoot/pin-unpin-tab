@@ -1,42 +1,36 @@
-Instructions are for macOS.
+# Guide to compile and test run the web extension
 
-## Pre-requisites
+Instructions are tested on macOS.
 
-- nodejs
-- yarn
-
-## Steps
+The following code snippet couples the description (as a bash comment) and the command of each step.
 
 ```sh
-# 0. Ensure that nodejs and yarn are installed and are in PATH.
+# 0. Install nodejs and ensure that it is in the PATH.
 
-# 1. Install opam (src: https://opam.ocaml.org/doc/Install.html)
+# 1. Install opam - OCaml's package manager.
+# src: https://opam.ocaml.org/doc/Install.html
 bash -c "sh <(curl -fsSL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)"
 
-# 2. Init opam, which will also install a default OCaml compiler (which we don't need)
-opam init
+# 2. Initialise opam
+opam init --bare
 
-# 3. Install OCaml compiler v4.14.0
-opam switch create 4.14.0
-
-# 4. Bring the current shell env in sync with opam's env
-eval $(opam env)
-
-# 5. Install build dependencies
-opam install mel reason
-
-# 6. Go to project's folder
+# 3. Go to project's folder
 cd pin-unpin-tab
 
-# 7. Install project and test dependencies
-yarn install
+# 4. Set up a switch with OCaml compiler version 4.14.1. A switch is roughly equivalent to a virtualenv in Python.
+opam switch create . 4.14.1 -y --deps-only
 
-# 8. Link a runtime lib into our project's node_modules
-ln -sfn $(opam var prefix)/lib/melange/runtime node_modules/melange
+# 5. Bring the current shell env in sync with opam's env
+eval $(opam env)
 
-# 9a. Load the extension in dev mode
-yarn test
+# 6. Install dependencies
+opam update
+opam install -y . --deps-only
+npm install
 
-# 9b. Build the extension
-yarn build:ext
+# 7a. Load the extension in dev mode
+npm run test
+
+# 7b. Build the extension
+npm run build:ext
 ```
