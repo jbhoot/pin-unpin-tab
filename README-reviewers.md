@@ -17,15 +17,14 @@ opam init --bare
 # 3. Go to project's folder
 cd pin-unpin-tab
 
-# 4. Set up a switch with OCaml compiler version 4.14.1. A switch is roughly equivalent to a virtualenv in Python.
+# 4. Set up a local opam switch with OCaml compiler version 4.14.1, and also install the project's opam dependencies.
+A switch is roughly equivalent to a virtualenv in Python.
 opam switch create . 4.14.1 -y --deps-only
 
 # 5. Bring the current shell env in sync with opam's env
 eval $(opam env)
 
-# 6. Install dependencies
-opam update
-opam install -y . --deps-only
+# 6. Install npm dependencies
 npm install
 
 # 7a. Load the extension in dev mode
