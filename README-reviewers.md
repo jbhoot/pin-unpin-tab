@@ -25,7 +25,7 @@ opam switch create . 4.14.1 -y --deps-only
 eval $(opam env)
 
 # 6. Install npm dependencies
-npm install
+npm ci
 
 # 7a. Load the extension in dev mode
 npm run test
