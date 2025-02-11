@@ -18,7 +18,7 @@
     "build:src-zip": "zip -r src-pkg.zip.tmp manifest.json package*.json dune* *.opam *.md src/* && rm -rf src-pkg.zip && mv src-pkg.zip.tmp src-pkg.zip"
   },
   "devDependencies": {
-    "esbuild": "^0.16.9",
+    "esbuild": "^0.25.0",
     "web-ext": "^7.6.2"
   }
 }
