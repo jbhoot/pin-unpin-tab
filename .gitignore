@@ -12,4 +12,7 @@ _opam/
 web-ext-artifacts/
 dune.lock/
 dev-tools.locks/
+
+# ignore emacs backup files
 **/#*#
+**/.#*
