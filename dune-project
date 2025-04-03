@@ -18,7 +18,7 @@
  (depends
   (melange
    (>= 1.0.0))
-  reason ; because of .re files in bs-tea
+  reason ; reason-promise needs it
   ocaml-lsp-server
   utop
   ocamlformat))
