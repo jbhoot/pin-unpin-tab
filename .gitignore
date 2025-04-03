@@ -10,3 +10,6 @@ releases/
 *.prod.js
 _opam/
 web-ext-artifacts/
+dune.lock/
+dev-tools.locks/
+**/#*#

@@ -17,7 +17,7 @@
  ; (depends (melange (>= 1.0.0)) (ocaml-lsp-server :with-dev-setup) (utop :with-dev-setup) (ocamlformat :with-dev-setup)))
  (depends
   (melange
-   (>= 1.0.0))
+   (and (>= 1.0.0)  (<= 1.0.0)) )
   reason ; reason-promise needs it
   ocaml-lsp-server
   utop

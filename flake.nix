@@ -17,7 +17,6 @@
           [
             pkgs.entr
             pkgs.nodejs
-            pkgs.opam
           ]
           # solution to "fatal error: 'CoreServices/CoreServices.h' file not found"
           # https://github.com/commercialhaskell/stack/issues/1698#issuecomment-178098712
@@ -26,10 +25,6 @@
             # macOS framework build inputs
             CoreServices
           ]);
-
-        shellHook = ''
-          eval $(opam env)
-        '';
       };
   in {
     devShell = inputs.nixpkgs.lib.genAttrs systems createDevShell;
