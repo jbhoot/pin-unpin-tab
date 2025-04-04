@@ -9,11 +9,9 @@ homepage: "https://github.com/jyshb/pin-unpin-tab"
 bug-reports: "https://github.com/jyshb/pin-unpin-tab/issues"
 depends: [
   "dune" {>= "3.8"}
-  "melange" {>= "1.0.0" & <= "1.0.0"}
+  "melange" {= "1.0.0"}
   "reason"
-  "ocaml-lsp-server"
   "utop"
-  "ocamlformat"
   "odoc" {with-doc}
 ]
 build: [

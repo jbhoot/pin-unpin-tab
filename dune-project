@@ -14,14 +14,10 @@
  (homepage "https://github.com/jyshb/pin-unpin-tab")
  (bug_reports "https://github.com/jyshb/pin-unpin-tab/issues")
  (allow_empty)
- ; (depends (melange (>= 1.0.0)) (ocaml-lsp-server :with-dev-setup) (utop :with-dev-setup) (ocamlformat :with-dev-setup)))
  (depends
-  (melange
-   (and (>= 1.0.0)  (<= 1.0.0)) )
+  (melange (= 1.0.0))
   reason ; reason-promise in package.json needs it
-  ocaml-lsp-server
-  utop
-  ocamlformat))
+  utop))
 
 (maintainers "Jayesh Bhoot")
 
