@@ -18,5 +18,6 @@
      (name reason_promise)
      (wrapped false)
      (modes melange)
+     (libraries melange.belt)
      (preprocess
       (pps melange.ppx)))))))

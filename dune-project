@@ -15,8 +15,10 @@
  (bug_reports "https://github.com/jyshb/pin-unpin-tab/issues")
  (allow_empty)
  (depends
-  (ocaml (= 5.1.0))
-  (melange (= 1.0.0))
+  (ocaml
+   (= 5.3.0))
+  (melange
+   (= 5.1.0))
   reason ; reason-promise in package.json needs it
   utop))
 

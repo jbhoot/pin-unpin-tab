@@ -3,8 +3,8 @@ module type Storage_args = sig
   type t
 
   type 'v change =
-    { old_value : 'v option [@bs.as "oldValue"]
-    ; new_value : 'v option [@bs.as "newValue"]
+    { old_value : 'v option [@mel.as "oldValue"]
+    ; new_value : 'v option [@mel.as "newValue"]
     }
 
   type changes
@@ -28,11 +28,11 @@ module Browser = struct
 
       external add_listener : (tab -> on_click_data -> unit) -> unit
         = "addListener"
-        [@@bs.val] [@@bs.scope "browser", "browserAction", "onClicked"]
+        [@@mel.scope "browser", "browserAction", "onClicked"]
 
       external remove_listener : (tab -> on_click_data -> unit) -> unit
         = "removeListener"
-        [@@bs.val] [@@bs.scope "browser", "browserAction", "onClicked"]
+        [@@mel.scope "browser", "browserAction", "onClicked"]
     end
   end
 
@@ -46,18 +46,18 @@ module Browser = struct
 
     external send_message_internally : 'msg -> ('resp_msg, string) Promise.Js.t
       = "sendMessage"
-      [@@bs.val] [@@bs.scope "browser", "runtime"]
+      [@@mel.scope "browser", "runtime"]
 
     module On_message = struct
       external add_listener :
         ('msg -> message_sender -> ('resp_msg, string) Promise.Js.t) -> unit
         = "addListener"
-        [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
+        [@@mel.scope "browser", "runtime", "onMessage"]
 
       external remove_listener :
         ('msg -> message_sender -> ('resp_msg, string) Promise.Js.t) -> unit
         = "removeListener"
-        [@@bs.val] [@@bs.scope "browser", "runtime", "onMessage"]
+        [@@mel.scope "browser", "runtime", "onMessage"]
     end
   end
 
@@ -66,7 +66,7 @@ module Browser = struct
 
     external update : tab_id -> update_properties -> (tab, string) Promise.Js.t
       = "update"
-      [@@bs.val] [@@bs.scope "browser", "tabs"]
+      [@@mel.scope "browser", "tabs"]
   end
 
   module Storage (Args : Storage_args) = struct
@@ -81,20 +81,20 @@ module Browser = struct
 
     module Local = struct
       external get : t -> (t, string) Promise.Js.t = "get"
-        [@@bs.val] [@@bs.scope "browser", "storage", "local"]
+        [@@mel.scope "browser", "storage", "local"]
 
       external set : t -> (unit, string) Promise.Js.t = "set"
-        [@@bs.val] [@@bs.scope "browser", "storage", "local"]
+        [@@mel.scope "browser", "storage", "local"]
     end
 
     module On_changed = struct
       external add_listener : (Args.changes -> area_name -> unit) -> unit
         = "addListener"
-        [@@bs.val] [@@bs.scope "browser", "storage", "onChanged"]
+        [@@mel.scope "browser", "storage", "onChanged"]
 
       external remove_listener : (Args.changes -> area_name -> unit) -> unit
         = "removeListener"
-        [@@bs.val] [@@bs.scope "browser", "storage", "onChanged"]
+        [@@mel.scope "browser", "storage", "onChanged"]
     end
   end
 end

@@ -7,7 +7,7 @@
   "author": "Jayesh Bhoot",
   "license": "MIT",
   "dependencies": {
-    "reason-promise": "^1.1.5",
+    "reason-promise": "github:jbhoot/promise",
     "rxjs": "^7.8.1"
   },
   "scripts": {
