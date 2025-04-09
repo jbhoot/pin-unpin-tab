@@ -1,71 +1,71 @@
 module FileReader = struct
   type t
 
-  external make : unit -> t = "FileReader" [@@bs.new]
+  external make : unit -> t = "FileReader" [@@mel.new]
 end
 
 module AbortSignal = struct
   type t
 
-  external make : unit -> t = "AbortSignal" [@@bs.new]
+  external make : unit -> t = "AbortSignal" [@@mel.new]
 end
 
 module AbortController = struct
   type t
 
-  external make : unit -> t = "AbortController" [@@bs.new]
-  external signal : t -> AbortSignal.t = "signal" [@@bs.get]
-  external abort : t -> 'reason option -> unit = "abort" [@@bs.send]
+  external make : unit -> t = "AbortController" [@@mel.new]
+  external signal : t -> AbortSignal.t = "signal" [@@mel.get]
+  external abort : t -> 'reason option -> unit = "abort" [@@mel.send]
 end
 
 module Element = struct
   type t = Dom.element
 
   external closest : t -> string -> t option = "closest"
-    [@@bs.send] [@@bs.return nullable]
+    [@@mel.send] [@@mel.return nullable]
 
-  external query_selector : t -> string -> t = "querySelector" [@@bs.send]
+  external query_selector : t -> string -> t = "querySelector" [@@mel.send]
 
   external query_selector_opt : t -> string -> t option = "querySelector"
-    [@@bs.send]
+    [@@mel.send]
 
   external set_attribute : t -> string -> string -> unit = "setAttribute"
-    [@@bs.send]
+    [@@mel.send]
 end
 
 module InputElement = struct
   type t
 
   external from_element : Element.t -> t = "%identity"
-  external get_value : t -> string = "value" [@@bs.get]
-  external set_value : t -> string -> unit = "value" [@@bs.set]
-  external get_disabled : t -> bool = "disabled" [@@bs.get]
-  external set_disabled : t -> bool -> unit = "disabled" [@@bs.set]
+  external get_value : t -> string = "value" [@@mel.get]
+  external set_value : t -> string -> unit = "value" [@@mel.set]
+  external get_disabled : t -> bool = "disabled" [@@mel.get]
+  external set_disabled : t -> bool -> unit = "disabled" [@@mel.set]
 
   (* todo: should these belong to a separate CheckboxElement or
      RadioCheckboxElement? The standard clubs the properties into an
      HTMLInputElement though.
      https://html.spec.whatwg.org/multipage/input.html#dom-input-checked *)
-  external get_checked : t -> bool = "checked" [@@bs.get]
-  external set_checked : t -> bool -> unit = "checked" [@@bs.set]
+  external get_checked : t -> bool = "checked" [@@mel.get]
+  external set_checked : t -> bool -> unit = "checked" [@@mel.set]
 end
 
 module Document = struct
   type t = Dom.document
 
   external get_element_by_id : t -> string -> Element.t = "getElementById"
-    [@@bs.send]
+    [@@mel.send]
 
   external get_element_by_id_opt : t -> string -> Element.t option
     = "getElementById"
-    [@@bs.send] [@@bs.return nullable]
+    [@@mel.send] [@@mel.return nullable]
 
   external query_selector : t -> string -> Element.t = "querySelector"
-    [@@bs.send]
+    [@@mel.send]
 
   external query_selector_opt : t -> string -> Element.t option
     = "querySelector"
-    [@@bs.send] [@@bs.return nullable]
+    [@@mel.send] [@@mel.return nullable]
 end
 
 module Window = struct
@@ -76,12 +76,12 @@ module Base_ev (T : sig
   type ('typ, 'ct, 't) t
 end) =
 struct
-  external type_ : ('typ, 'ct, 't) T.t -> 'typ = "type" [@@bs.get]
+  external type_ : ('typ, 'ct, 't) T.t -> 'typ = "type" [@@mel.get]
 
   external current_target : ('typ, 'ct, 't) T.t -> 'ct = "currentTarget"
-    [@@bs.get]
+    [@@mel.get]
 
-  external target : ('typ, 'ct, 't) T.t -> 't = "target" [@@bs.get]
+  external target : ('typ, 'ct, 't) T.t -> 't = "target" [@@mel.get]
 end
 
 module Generic_ev = struct
@@ -100,10 +100,10 @@ module Mouse_ev = struct
   end)
 
   (* todo: represent ev.button as a polymorphic variant *)
-  external button : ('typ, 'ct', 't) t -> int = "button" [@@bs.get]
-  external shift_key : ('typ, 'ct', 't) t -> bool = "shiftKey" [@@bs.get]
-  external alt_key : ('typ, 'ct', 't) t -> bool = "altKey" [@@bs.get]
-  external ctrl_key : ('typ, 'ct', 't) t -> bool = "ctrlKey" [@@bs.get]
+  external button : ('typ, 'ct', 't) t -> int = "button" [@@mel.get]
+  external shift_key : ('typ, 'ct', 't) t -> bool = "shiftKey" [@@mel.get]
+  external alt_key : ('typ, 'ct', 't) t -> bool = "altKey" [@@mel.get]
+  external ctrl_key : ('typ, 'ct', 't) t -> bool = "ctrlKey" [@@mel.get]
 end
 
 module Ev = struct
@@ -116,14 +116,14 @@ module Ev = struct
 
   external l :
        Document.t
-    -> (_[@bs.as "DOMContentLoaded"])
+    -> (_[@mel.as "DOMContentLoaded"])
     -> (([ `DOMContentLoaded ], 't, Document.t) Generic_ev.t -> unit)
     -> unit = "addEventListener"
-    [@@bs.send]
+    [@@mel.send]
 
   (* An example against the following style: *)
   (* external listen : 'ct -> ([`abort of ([ `abort ], 'ct, 't) Generic_ev.t ->
-     unit [@bs.string]) -> unit = "addEventListener" [@@bs.send] *)
+     unit [@mel.string]) -> unit = "addEventListener" [@@mel.send] *)
   (* The above approach works when the first arg 'ct is correctly specified.
      This doesn't work when the call site is located in a function to which this
      first arg was passed as an argument. Within the function, this argument can
@@ -141,11 +141,11 @@ module Ev = struct
      with a weakly inferred 'ct. *)
   external on_abort :
        AbortSignal.t
-    -> (_[@bs.as "abort"])
+    -> (_[@mel.as "abort"])
     -> (([ `abort ], AbortSignal.t, AbortSignal.t) Generic_ev.t -> unit)
     -> opts:opts option
     -> unit = "addEventListener"
-    [@@bs.send]
+    [@@mel.send]
 
   external listen :
        'ct
@@ -163,9 +163,9 @@ module Ev = struct
           `scroll of
           ([ `scroll ], 'ct', 't) Generic_ev.t -> unit
         ]
-       [@bs.string])
+       [@mel.string])
     -> unit = "addEventListener"
-    [@@bs.send]
+    [@@mel.send]
 
   external listen_with_opts :
        'ct
@@ -178,13 +178,13 @@ module Ev = struct
         | `mousemove of ([ `mousemove ], 'ct', 't) Mouse_ev.t -> unit
         | `scroll of ([ `scroll ], 'ct', 't) Generic_ev.t -> unit
         ]
-       [@bs.string])
+       [@mel.string])
     -> opts
     -> unit = "addEventListener"
-    [@@bs.send]
+    [@@mel.send]
 end
 
-external set_timeout : (unit -> unit) -> int -> int = "setTimeout" [@@bs.val]
-external clear_timeout : int -> unit = "clearTimeout" [@@bs.val]
-external document : Document.t = "document" [@@bs.val]
-external window : Window.t = "window" [@@bs.val]
+external set_timeout : (unit -> unit) -> int -> int = "setTimeout"
+external clear_timeout : int -> unit = "clearTimeout"
+external document : Document.t = "document"
+external window : Window.t = "window"

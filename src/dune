@@ -1,8 +1,12 @@
 (melange.emit
  (target output)
- (libraries reason_promise)
+ (libraries melange.belt melange.dom reason_promise)
  (modules :standard)
- (runtime_deps ../manifest.json ./preferences.html ./style.css (glob_files ./icons/*.*))
+ (runtime_deps
+  ../manifest.json
+  ./preferences.html
+  ./style.css
+  (glob_files ./icons/*.*))
  (preprocess
   (pps melange.ppx))
  (module_systems es6))

@@ -7,8 +7,8 @@ module Storage_args = struct
     }
 
   type 'v change =
-    { old_value : 'v option [@bs.as "oldValue"]
-    ; new_value : 'v option [@bs.as "newValue"]
+    { old_value : 'v option [@mel.as "oldValue"]
+    ; new_value : 'v option [@mel.as "newValue"]
     }
 
   type changes =
