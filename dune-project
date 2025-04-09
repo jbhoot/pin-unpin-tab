@@ -17,8 +17,9 @@
  (depends
   (ocaml
    (= 5.3.0))
+  ;; 5.1.0-53 => melange v5.1.0 linked to ocaml v5.3.x
   (melange
-   (= 5.1.0))
+   (= 5.1.0-53))
   reason ; reason-promise in package.json needs it
   utop))
 
